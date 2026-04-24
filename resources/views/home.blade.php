@@ -32,6 +32,7 @@
       <img src="vegetarian.jpg" class="w-16 h-16 mb-2" alt="Vegetarian">
       <span>Vegetarian</span>
     </button>
+
   </div>
 
   <p id="savedDiet" class="text-green-600 mb-6 font-semibold"></p>
