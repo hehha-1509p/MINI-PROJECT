@@ -13,8 +13,8 @@
 
   <div class="flex justify-end items-center mb-6">
     <div class="absolute top-6 right-8 flex items-center space-x-4">
-      <a href="login.html" class="text-gray-600 hover:text-black font-medium">Log In</a>
-      <a href="register.html" class="bg-red-400 text-white px-4 py-2 rounded-xl shadow hover:bg-red-500 transition">Sign Up</a>
+      <a href="/login" class="text-gray-600 hover:text-black font-medium">Log In</a>
+      <a href="/register" class="bg-red-400 text-white px-4 py-2 rounded-xl shadow hover:bg-red-500 transition">Sign Up</a>
     </div>
   </div>
 

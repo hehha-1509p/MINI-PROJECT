@@ -1,16 +1,17 @@
 body{
     margin:0;
     font-family: 'Inter', sans-serif;
-    background:#1e1e1e;
-    color:white;
+    background:#f3f4f6;
+    color: #000000;
     display:flex;
     justify-content:center;
     align-items:center;
     min-height:100vh;
+    overflow: hidden;
 }
 
 .login-container{
-    background:#1e1e1e;
+    background:#f3f4f6;
     padding:40px;
     border-radius:10px;
     width:350px;
@@ -24,11 +25,17 @@ h2{
 .register{
     font-size:14px;
     margin-bottom:20px;
+     color: #000000;
+
 }
 
 .register a{
     color:#4da6ff;
     text-decoration:none;
+}
+
+.register a:hover {
+    text-decoration: underline; /* This makes the line appear only on hover */
 }
 
 form{
@@ -47,11 +54,11 @@ input{
     border-radius:5px;
     border:none;
     background-color:#ffffff;
-    color: white;
+    color: #000000;
 }
 
 button{
-    margin-top:20px;
+    margin-top:25px;
     padding:12px;
     border:none;
     border-radius:25px;
@@ -72,7 +79,7 @@ button:hover{
 body {
     margin: 0;
     font-family: 'Inter', sans-serif;
-    background-color: #1e1e1e;
+    background-color: #f3f4f6;
     color: white;
     display: flex;
     justify-content: center;
@@ -101,13 +108,14 @@ h2 {
     margin: 0;
     font-size: 28px;
     font-weight: 600;
+    color: #000000;
 }
 
 .login-link {
     margin-top: 5px;
     margin-bottom: 30px;
     font-size: 15px;
-    color: #e0e0e0;
+    color: #000000;
 }
 
 .login-link a,
@@ -129,14 +137,14 @@ form {
 .input-group {
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
 }
 
 label {
     margin-bottom: 8px;
     font-size: 14px;
     font-weight: 500;
-    color: #ffffff;
+    color: #000000;
 }
 
 input[type="text"],
@@ -144,9 +152,9 @@ input[type="email"],
 input[type="password"] {
     padding: 12px 15px;
     border-radius: 6px;
-    border: 1px solid #444444;
+    border: 1px solid #000000;
     background-color: transparent;
-    color: white;
+    color: #000000;
     font-size: 15px;
     width: 100%;
     box-sizing: border-box;
@@ -165,7 +173,7 @@ input:focus {
 .password-wrapper i {
     position: absolute;
     right: 15px;
-    top: 50%;
+    top: 55%;
     transform: translateY(-50%);
     color: #a0a0a0;
     cursor: pointer;
@@ -183,6 +191,7 @@ input:focus {
     margin-top: 4px;
     width: 16px;
     height: 16px;
+    flex-shrink: 0;
     accent-color: #ff6a3d;
     cursor: pointer;
 }
@@ -194,7 +203,7 @@ input:focus {
     line-height: 1.5;
     cursor: pointer;
     font-weight: normal;
-    color: #cccccc;
+    color: #000000;
 }
 
 .subtext {
@@ -234,7 +243,7 @@ a:visited {
 .diet-card {
   /* Layout */
   display: flex;
-  flex-direction: column; /* Stacks icon and text vertically */
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 
@@ -246,19 +255,18 @@ a:visited {
 
   /* Style */
   background-color: #ffffff;
-  border: 1px solid #ddd; /* Light grey border like the 1st pic */
-  border-radius: 8px;     /* Slightly rounded corners */
+  border: 1px solid #ddd;
+  border-radius: 8px;
   cursor: pointer;
   transition: border-color 0.3s;
 }
 
-/* Change border color when selected or hovered */
 .diet-card:hover, .diet-card.active {
-  border: 2px solid #e67e22; /* Orange border like the 'Anything' button */
+  border: 2px solid #e67e22;
 }
 
 .diet-card img {
-  width: 50px;  /* Adjust based on your icon size */
+  width: 50px;
   height: 50px;
   margin-bottom: 8px;
 }
@@ -267,4 +275,24 @@ a:visited {
   font-family: Arial, sans-serif;
   font-size: 14px;
   color: #333;
+}
+
+.register-container button {
+    margin-top: 0px;
+}
+
+.back-home {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    text-decoration: none;
+    color: #4da6ff; /* Matches your other blue links */
+    font-size: 15px;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.back-home:hover {
+    color: #007bff; /* Darkens slightly on hover */
+    text-decoration: underline;
 }
