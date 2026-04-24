@@ -10,11 +10,12 @@
 </head>
 
 <body>
+    <a href="home.html" class="back-home">← Back to Home</a>
 
 <div class="login-container">
 
     <h2>Log In</h2>
-    <p>Don't have an account? <a href="register.html">Register</a></p>
+    <p class="register">Don't have an account? <a href="register.html">Register</a></p>
     <form id="loginForm">
         <label>Email or Username</label>
         <input type="text" id="username" required>
