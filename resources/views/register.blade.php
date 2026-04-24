@@ -13,7 +13,7 @@
 <body>
 
     <div class="register-container">
-        
+
         <p class="login-link">Already have an account? <a href="login.html">Log In</a></p>
         <form>
             <div class="input-group">
