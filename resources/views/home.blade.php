@@ -10,14 +10,14 @@
 
 <div id="homePage" class="h-full p-6">
   <h1 class="text-4xl font-bold mb-6">NomNomNom 🍽️</h1>
-
+  
   <div class="flex justify-end items-center mb-6">
     <div class="absolute top-6 right-8 flex items-center space-x-4">
       <a href="login.html" class="text-gray-600 hover:text-black font-medium">Log In</a>
       <a href="register.html" class="bg-red-400 text-white px-4 py-2 rounded-xl shadow hover:bg-red-500 transition">Sign Up</a>
     </div>
   </div>
-
+  
   <h2 class="text-xl font-semibold mb-3 text-center">Preferred Diet</h2>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
     <button onclick="selectDiet('Anything')" class="dietBtn bg-white p-6 rounded-2xl shadow flex flex-col items-center hover:border-orange-500 border-2 border-transparent">
@@ -50,7 +50,7 @@
 <div id="calculatorPage" class="hidden py-12 flex justify-center">
   <div class="bg-white p-8 rounded-2xl shadow w-[400px]">
     <h2 class="text-2xl font-bold mb-4 text-center">Calorie Calculator</h2>
-
+    
     <form id="calorieForm">
       <input id="height" type="number" placeholder="Height (cm)" class="w-full p-2 border rounded mb-2">
       <input id="weight" type="number" placeholder="Weight (kg)" class="w-full p-2 border rounded mb-2">
@@ -114,14 +114,14 @@
     resetCalculator(); // Added to refresh when entering
     document.getElementById('homePage').classList.add('hidden');
     document.getElementById('calculatorPage').classList.remove('hidden');
-    document.getElementById('foodFilterWidget').classList.add('hidden');
+    document.getElementById('foodFilterWidget').classList.add('hidden'); 
   }
 
   function goHome() {
     resetCalculator(); // Added to refresh when leaving
     document.getElementById('calculatorPage').classList.add('hidden');
     document.getElementById('homePage').classList.remove('hidden');
-    document.getElementById('foodFilterWidget').classList.remove('hidden');
+    document.getElementById('foodFilterWidget').classList.remove('hidden'); 
   }
 
   // --- Food Filter Logic ---
@@ -137,28 +137,28 @@
       if (isDuplicate) {
         alert("You already added '" + food + "' to your filter!");
         input.value = "";
-        return;
+        return; 
       }
 
       bannedFoods.push(food);
       localStorage.setItem('bannedFoods', JSON.stringify(bannedFoods));
       renderFoods();
-
+      
       input.value = "";
       input.focus();
     }
   }
 
   function removeFood(index) {
-    bannedFoods.splice(index, 1);
-    localStorage.setItem('bannedFoods', JSON.stringify(bannedFoods));
-    renderFoods();
+    bannedFoods.splice(index, 1); 
+    localStorage.setItem('bannedFoods', JSON.stringify(bannedFoods)); 
+    renderFoods(); 
   }
 
   function renderFoods() {
     const list = document.getElementById('foodList');
     list.innerHTML = "";
-
+    
     bannedFoods.forEach((food, index) => {
       const li = document.createElement('li');
       li.className = "flex justify-between items-center bg-gray-100 p-2 rounded-lg border border-gray-200";
@@ -217,7 +217,7 @@
   }
 
   renderFoods();
-
+  
   const savedDietMemory = localStorage.getItem('diet');
   if(savedDietMemory) {
       document.getElementById('savedDiet').innerText = "Saved Diet: " + savedDietMemory;
