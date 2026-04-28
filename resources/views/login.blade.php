@@ -25,7 +25,18 @@
 
 </div>
 
-<script src="script.js"></script>
+<script>
+    document.getElementById("loginForm").addEventListener("submit", function(event){
+        const password = document.getElementById("password").value;
+        const errorMessage = document.getElementById("errorMessage");
+        const passwordPattern = 
+        /^(?=.*[0-9])(?=.*[!@#$%^&*][A-Za-z0-9!@#$%^&*]{8,}$/;
+        if(!passwordPattern.test(password)) {
+        event.preventDefault();
+        errorMessage.innerText =
+        "Password must be at least 8 characters and include a number + symbol.";
+}
+        });
 
 </body>
 </html>
