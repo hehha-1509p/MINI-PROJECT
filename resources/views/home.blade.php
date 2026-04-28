@@ -222,6 +222,35 @@
   if(savedDietMemory) {
       document.getElementById('savedDiet').innerText = "Saved Diet: " + savedDietMemory;
   }
+
+    <!-- MISSED MEAL FEATURE -->
+    <div class="mt-6 border-t pt-4">
+      <h3 class="font-bold mb-2">Missed Meal Recovery 🍱</h3>
+
+      <select id="missedMeal" class="w-full p-2 border rounded mb-2">
+        <option value="0">Select missed meal</option>
+        <option value="0.25">Breakfast</option>
+        <option value="0.35">Lunch</option>
+        <option value="0.40">Dinner</option>
+      </select>
+
+      <button onclick="recoverMeal()" class="w-full bg-orange-400 text-white py-2 rounded hover:bg-orange-500">
+        Add Missed Calories to Next Meal
+      </button>
+
+      <div id="recoveryResult" class="mt-3 text-sm text-gray-700"></div>
+    </div>
+  </div>
+
+  <button onclick="goHome()" class="mt-4 text-blue-600 underline">
+    ← Back
+  </button>
+</div>
+
+<script>
+  let bannedFoods = JSON.parse(localStorage.getItem('bannedFoods')) || [];
+
+
 </script>
 </body>
 </html>
