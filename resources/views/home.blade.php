@@ -61,14 +61,9 @@
       </select>
 
       <select id="age" class="w-full p-2 border rounded mb-2">
-        <option value="18">18</option>
-        <option value="19">19</option>
-        <option value="20">20</option>
-        <option value="21">21</option>
-        <option value="22">22</option>
-        <option value="23">23</option>
-        <option value="24">24</option>
-        <option value="25">25</option>
+        @for ($i = 18; $i <= 25; $i++)
+          <option value="{{ $i }}">{{ $i }}</option>
+        @endfor
       </select>
 
       <select id="activity" class="w-full p-2 border rounded mb-2">
