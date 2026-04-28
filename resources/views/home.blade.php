@@ -38,6 +38,9 @@
   <p id="savedDiet" class="text-green-600 mb-6 font-semibold"></p>
 
   <button onclick="openCalculator()" class="text-blue-600 underline bg-transparent border-none cursor-pointer text-lg">Calorie Calculator →</button>
+  <br>
+  <br>
+  <a href="/diet_option" class="bg-red-400 text-white px-4 py-2 rounded-xl shadow hover:bg-red-500 transition">Diet Option</a>
 </div>
 
 <div id="foodFilterWidget" class="absolute bottom-6 right-6 bg-white p-4 rounded-2xl shadow-xl w-72 border border-gray-100 flex flex-col max-h-64 z-50">
@@ -61,14 +64,9 @@
       </select>
 
       <select id="age" class="w-full p-2 border rounded mb-2">
-        <option value="18">18</option>
-        <option value="19">19</option>
-        <option value="20">20</option>
-        <option value="21">21</option>
-        <option value="22">22</option>
-        <option value="23">23</option>
-        <option value="24">24</option>
-        <option value="25">25</option>
+        @for ($i = 18; $i <= 25; $i++)
+          <option value="{{ $i }}">{{ $i }}</option>
+        @endfor
       </select>
 
       <select id="activity" class="w-full p-2 border rounded mb-2">
