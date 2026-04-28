@@ -7,15 +7,15 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <title>Register Page</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <a href="home.html" class="back-home">← Back to Home</a>
+    <a href="/" class="back-home">← Back to Home</a>
 
     <div class="register-container">
 
-        <p class="login-link">Already have an account? <a href="login.html">Log In</a></p>
+        <p class="login-link">Already have an account? <a href="/login">Log In</a></p>
         <form>
             <div class="input-group">
                 <label>Username</label>
