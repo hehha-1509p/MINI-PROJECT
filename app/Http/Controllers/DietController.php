@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 
 class DietController extends Controller
 {
+    public function diet_option()
+    {
+        return view('diet_option');
+    }
     // This function will be for the page that ONLY shows diet options
     public function index()
 {
