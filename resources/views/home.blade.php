@@ -38,6 +38,9 @@
   <p id="savedDiet" class="text-green-600 mb-6 font-semibold"></p>
 
   <button onclick="openCalculator()" class="text-blue-600 underline bg-transparent border-none cursor-pointer text-lg">Calorie Calculator →</button>
+  <br>
+  <br>
+  <a href="/diet_option" class="bg-red-400 text-white px-4 py-2 rounded-xl shadow hover:bg-red-500 transition">Diet Option</a>
 </div>
 
 <div id="foodFilterWidget" class="absolute bottom-6 right-6 bg-white p-4 rounded-2xl shadow-xl w-72 border border-gray-100 flex flex-col max-h-64 z-50">
