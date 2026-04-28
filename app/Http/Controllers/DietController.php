@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 
 class DietController extends Controller
 {
-    public function index()
+    // Rename this from 'index' to 'diet_option' to match your route!
+    public function diet_option()
     {
-        // Defining your three specific features
         $plans = [
             'fully_balanced' => [
                 'title' => 'Fully Balanced Diet',
@@ -23,11 +23,11 @@ class DietController extends Controller
             'weekend_increase' => [
                 'title' => 'Weekend Light Increase',
                 'description' => 'Strategically increase caloric intake for Saturday and Sunday.',
+                // 'now()' helper is part of Laravel's Carbon library
                 'status' => now()->isWeekend() ? 'Active Now' : 'Inactive'
             ]
         ];
 
-        // Return your existing view file
-        return view('diet_option', compact('plans'));
+       return view('diet_option', compact('dietPlans', 'isWeekend'));
     }
 }
