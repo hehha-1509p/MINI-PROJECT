@@ -219,9 +219,9 @@
   const savedDietMemory = localStorage.getItem('diet');
   if(savedDietMemory) {
       document.getElementById('savedDiet').innerText = "Saved Diet: " + savedDietMemory;
-  }
+}
 
-    <!-- MISSED MEAL FEATURE -->
+      <!-- MISSED MEAL FEATURE -->
     <div class="mt-6 border-t pt-4">
       <h3 class="font-bold mb-2">Missed Meal Recovery 🍱</h3>
 
