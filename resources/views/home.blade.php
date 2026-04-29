@@ -21,15 +21,15 @@
   <h2 class="text-xl font-semibold mb-3 text-center">Preferred Diet</h2>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
     <button onclick="selectDiet('Anything')" class="dietBtn bg-white p-6 rounded-2xl shadow flex flex-col items-center hover:border-orange-500 border-2 border-transparent">
-      <img src="anything.jpg" class="w-16 h-16 mb-2" alt="Anything">
+      <img src="anything.jpg.jpeg" class="w-16 h-16 mb-2" alt="Anything">
       <span>Anything</span>
     </button>
     <button onclick="selectDiet('Keto')" class="dietBtn bg-white p-6 rounded-2xl shadow flex flex-col items-center hover:border-orange-500 border-2 border-transparent">
-      <img src="keto.jpg" class="w-12 h-12 mb-2" alt="Keto">
+      <img src="keto.jpg.jpeg" class="w-12 h-12 mb-2" alt="Keto">
       <span>Keto</span>
     </button>
     <button onclick="selectDiet('Vegetarian')" class="dietBtn bg-white p-6 rounded-2xl shadow flex flex-col items-center hover:border-orange-500 border-2 border-transparent">
-      <img src="vegetarian.jpg" class="w-16 h-16 mb-2" alt="Vegetarian">
+      <img src="vegetarian.jpg.jpeg" class="w-16 h-16 mb-2" alt="Vegetarian">
       <span>Vegetarian</span>
     </button>
   </div>
