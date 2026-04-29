@@ -260,4 +260,14 @@
   }
 </script>
 </body>
+<body>
+
+@if(session('selectedDiet'))
+    <div class="bg-green-100 text-green-700 p-4 rounded-xl mb-5 text-center">
+        Selected Diet:
+        <strong>{{ session('selectedDiet') }}</strong>
+    </div>
+@endif
+
+<div class="max-w-4xl mx-auto">
 </html>

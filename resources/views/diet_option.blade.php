@@ -17,23 +17,31 @@
     <div class="grid gap-8">
 
         @foreach($dietPlans as $plan)
-            <div class="bg-white p-8 rounded-2xl shadow-lg border-b-4 border-blue-500 hover:scale-105 transition-transform">
-                
-                <span class="text-xs font-bold text-blue-600 uppercase bg-blue-50 px-3 py-1 rounded-full">
-                    {{ $plan['tag'] }}
-                </span>
 
-                <h2 class="font-bold text-2xl mt-4">
-                    {{ $plan['name'] }}
-                </h2>
+<form action="/save-diet" method="POST">
+    @csrf
 
-                <p class="text-gray-500 text-sm mt-3">
-                    {{ $plan['description'] }}
-                </p>
+    <input type="hidden" name="diet" value="{{ $plan['name'] }}">
 
-            </div>
-        @endforeach
+    <button type="submit"
+        class="w-full bg-white p-8 rounded-2xl shadow-lg border-b-4 border-blue-500 hover:scale-105 transition-transform text-center">
 
+        <span class="text-xs font-bold text-blue-600 uppercase bg-blue-50 px-3 py-1 rounded-full">
+            {{ $plan['tag'] }}
+        </span>
+
+        <h2 class="font-bold text-2xl mt-4">
+            {{ $plan['name'] }}
+        </h2>
+
+        <p class="text-gray-500 text-sm mt-3">
+            {{ $plan['description'] }}
+        </p>
+
+    </button>
+</form>
+
+@endforeach
     </div>
 
 </div>
