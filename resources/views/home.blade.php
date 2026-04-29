@@ -21,15 +21,15 @@
   <h2 class="text-xl font-semibold mb-3 text-center">Preferred Diet</h2>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
     <button onclick="selectDiet('Anything')" class="dietBtn bg-white p-6 rounded-2xl shadow flex flex-col items-center hover:border-orange-500 border-2 border-transparent">
-      <img src="anything.jpg" class="w-16 h-16 mb-2" alt="Anything">
+      <img src="anything.jpg.jpeg" class="w-16 h-16 mb-2" alt="Anything">
       <span>Anything</span>
     </button>
     <button onclick="selectDiet('Keto')" class="dietBtn bg-white p-6 rounded-2xl shadow flex flex-col items-center hover:border-orange-500 border-2 border-transparent">
-      <img src="keto.jpg" class="w-12 h-12 mb-2" alt="Keto">
+      <img src="keto.jpg.jpeg" class="w-12 h-12 mb-2" alt="Keto">
       <span>Keto</span>
     </button>
     <button onclick="selectDiet('Vegetarian')" class="dietBtn bg-white p-6 rounded-2xl shadow flex flex-col items-center hover:border-orange-500 border-2 border-transparent">
-      <img src="vegetarian.jpg" class="w-16 h-16 mb-2" alt="Vegetarian">
+      <img src="vegetarian.jpg.jpeg" class="w-16 h-16 mb-2" alt="Vegetarian">
       <span>Vegetarian</span>
     </button>
   </div>
@@ -257,36 +257,7 @@
   const savedDietMemory = localStorage.getItem('diet');
   if(savedDietMemory) {
       document.getElementById('savedDiet').innerText = "Saved Diet: " + savedDietMemory;
-}
-
-      <!-- MISSED MEAL FEATURE -->
-    <div class="mt-6 border-t pt-4">
-      <h3 class="font-bold mb-2">Missed Meal Recovery 🍱</h3>
-
-      <select id="missedMeal" class="w-full p-2 border rounded mb-2">
-        <option value="0">Select missed meal</option>
-        <option value="0.25">Breakfast</option>
-        <option value="0.35">Lunch</option>
-        <option value="0.40">Dinner</option>
-      </select>
-
-      <button onclick="recoverMeal()" class="w-full bg-orange-400 text-white py-2 rounded hover:bg-orange-500">
-        Add Missed Calories to Next Meal
-      </button>
-
-      <div id="recoveryResult" class="mt-3 text-sm text-gray-700"></div>
-    </div>
-  </div>
-
-  <button onclick="goHome()" class="mt-4 text-blue-600 underline">
-    ← Back
-  </button>
-</div>
-
-<script>
-  let bannedFoods = JSON.parse(localStorage.getItem('bannedFoods')) || [];
-
-
+  }
 </script>
 </body>
 </html>
