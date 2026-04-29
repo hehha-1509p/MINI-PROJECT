@@ -6,28 +6,23 @@ use Illuminate\Http\Request;
 
 class DietController extends Controller
 {
-    // Rename this from 'index' to 'diet_option' to match your route!
     public function diet_option()
     {
-        $plans = [
-            'fully_balanced' => [
-                'title' => 'Fully Balanced Diet',
-                'description' => 'A consistent daily intake of proteins, carbs, and fats.',
-                'status' => 'Stable'
+        $dietPlans = [
+            [
+                'name' => '7 Days Balanced Diet',
+                'description' => 'Maintain a consistent and balanced intake every day with proper nutrients.',
+                'tag' => 'Consistency',
+                'color' => 'green',
             ],
-            'weekday_balanced' => [
-                'title' => 'Weekday Balanced Diet',
-                'description' => 'Strict nutrition tracking from Monday to Friday.',
-                'status' => 'Weekday Only'
+            [
+                'name' => 'Weekday Balanced + Weekend Flex',
+                'description' => 'Eat balanced on weekdays and allow slightly higher intake on weekends to stay sustainable.',
+                'tag' => 'Flexible',
+                'color' => 'blue',
             ],
-            'weekend_increase' => [
-                'title' => 'Weekend Light Increase',
-                'description' => 'Strategically increase caloric intake for Saturday and Sunday.',
-                // 'now()' helper is part of Laravel's Carbon library
-                'status' => now()->isWeekend() ? 'Active Now' : 'Inactive'
-            ]
         ];
 
-       return view('diet_option', compact('dietPlans', 'isWeekend'));
+        return view('diet_option', compact('dietPlans'));
     }
 }
