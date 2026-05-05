@@ -25,4 +25,14 @@ class DietController extends Controller
 
         return view('diet_option', compact('dietPlans'));
     }
+
+    // ADD THIS PART
+    public function saveDiet(Request $request)
+    {
+        session([
+            'selectedDiet' => $request->diet
+        ]);
+
+        return redirect('/');
+    }
 }
