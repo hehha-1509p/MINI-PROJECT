@@ -36,3 +36,4 @@ class DietController extends Controller
         return redirect('/');
     }
 }
+
