@@ -2,19 +2,221 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Diet Options</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+<div class="max-w-2xl w-full text-center">
+
+    <h1 class="text-3xl font-bold mb-10 text-gray-800">
+        Diet Options
+    </h1>
+
+    <!-- DIET OPTIONS CENTERED -->
+    <div class="grid gap-8">
+
+        @foreach($dietPlans as $plan)
+
+<form action="/save-diet" method="POST">
+    @csrf
+
+    <input type="hidden" name="diet" value="{{ $plan['name'] }}">
+
+    <button type="submit"
+        class="w-full bg-white p-8 rounded-2xl shadow-lg border-b-4 border-blue-500 hover:scale-105 transition-transform text-center">
+
+        <span class="text-xs font-bold text-blue-600 uppercase bg-blue-50 px-3 py-1 rounded-full">
+            {{ $plan['tag'] }}
+        </span>
+
+        <h2 class="font-bold text-2xl mt-4">
+            {{ $plan['name'] }}
+        </h2>
+
+        <p class="text-gray-500 text-sm mt-3">
+            {{ $plan['description'] }}
+        </p>
+
+    </button>
+</form>
+
+@endforeach
+    </div>
+
+</div>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <title>Register Page</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .register-container {
+            width: 420px;
+            padding: 40px;
+        }
+
+        .login-link {
+            margin-top: 5px;
+            margin-bottom: 30px;
+            font-size: 15px;
+            color: #000000;
+        }
+
+        .login-link a,
+        .checkbox-group a {
+            color: #4da6ff;
+            text-decoration: none;
+        }
+
+        .login-link a:hover,
+        .checkbox-group a:hover {
+            text-decoration: underline;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+
+        label {
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #000000;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            padding: 12px 15px;
+            border-radius: 6px;
+            border: 1px solid #000000;
+            background-color: #ffffff;
+            color: #000000;
+            font-size: 15px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #888888;
+        }
+
+        .password-wrapper {
+            position: relative;
+            display: flex;
+        }
+
+        .password-wrapper i {
+            position: absolute;
+            right: 15px;
+            top: 55%;
+            transform: translateY(-50%);
+            color: #a0a0a0;
+            cursor: pointer;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-top: 4px;
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+            accent-color: #ff6a3d;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            line-height: 1.5;
+            cursor: pointer;
+            font-weight: normal;
+            color: #000000;
+        }
+
+        .subtext {
+            font-size: 13px;
+            color: #888888;
+            font-style: italic;
+            margin-top: 4px;
+        }
+
+        button {
+            padding: 14px;
+            border: none;
+            border-radius: 25px;
+            background-color: #ff6a3d;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            transition: opacity 0.2s;
+            margin-top: 0px;
+        }
+
+        button:hover { opacity: 0.85; }
+
+        .back-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-decoration: none;
+            color: #4da6ff;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .back-home:hover {
+            color: #007bff;
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <a href="/" class="back-home">← Back to Home</a>
-
     <div class="register-container">
-
         <p class="login-link">Already have an account? <a href="/login">Log In</a></p>
         <form>
             <div class="input-group">
@@ -34,7 +236,6 @@
                     <i class="fa-regular fa-eye" id="togglePassword"></i>
                 </div>
             </div>
-
 
             <div class="checkbox-group" style="margin-top: 20px;">
                 <input type="checkbox" id="tos">
@@ -56,7 +257,6 @@
             </button>
         </form>
     </div>
-
 </body>
 
 <script>
@@ -91,3 +291,4 @@
     togglePassword.addEventListener('touchend', hidePassword);
     togglePassword.addEventListener('touchcancel', hidePassword);
 </script>
+</html>
