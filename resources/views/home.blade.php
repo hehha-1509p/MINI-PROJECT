@@ -10,26 +10,26 @@
 
 <div id="homePage" class="h-full p-6">
   <h1 class="text-4xl font-bold mb-6">NomNomNom 🍽️</h1>
-  
+
   <div class="flex justify-end items-center mb-6">
     <div class="absolute top-6 right-8 flex items-center space-x-4">
-      <a href="login.html" class="text-gray-600 hover:text-black font-medium">Log In</a>
-      <a href="register.html" class="bg-red-400 text-white px-4 py-2 rounded-xl shadow hover:bg-red-500 transition">Sign Up</a>
+      <a href="/login" class="text-gray-600 hover:text-black font-medium">Log In</a>
+      <a href="/register" class="bg-red-400 text-white px-4 py-2 rounded-xl shadow hover:bg-red-500 transition">Sign Up</a>
     </div>
   </div>
-  
+
   <h2 class="text-xl font-semibold mb-3 text-center">Preferred Diet</h2>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
     <button onclick="selectDiet('Anything')" class="dietBtn bg-white p-6 rounded-2xl shadow flex flex-col items-center hover:border-orange-500 border-2 border-transparent">
-      <img src="anything.jpg.jpeg" class="w-16 h-16 mb-2" alt="Anything">
+      <img src="{{ asset('css/images/anything.jpeg') }}" class="w-16 h-16 mb-2" alt="Anything">
       <span>Anything</span>
     </button>
     <button onclick="selectDiet('Keto')" class="dietBtn bg-white p-6 rounded-2xl shadow flex flex-col items-center hover:border-orange-500 border-2 border-transparent">
-      <img src="keto.jpg.jpeg" class="w-12 h-12 mb-2" alt="Keto">
+      <img src="{{ asset('css/images/keto.jpeg') }}" class="w-16 h-16 mb-2" alt="Keto">
       <span>Keto</span>
     </button>
     <button onclick="selectDiet('Vegetarian')" class="dietBtn bg-white p-6 rounded-2xl shadow flex flex-col items-center hover:border-orange-500 border-2 border-transparent">
-      <img src="vegetarian.jpg.jpeg" class="w-16 h-16 mb-2" alt="Vegetarian">
+      <img src="{{ asset('css/images/vegeterian.jpeg') }}" class="w-16 h-16 mb-2" alt="Vegetarian">
       <span>Vegetarian</span>
     </button>
   </div>
@@ -55,7 +55,7 @@
   </div>
 
   <div class="grid grid-cols-2 gap-4">
-      
+
       <div class="mb-2">
         <h4 class="font-bold">Meat 🍖</h4>
         <label><input type="checkbox" value="Chicken" class="food-checkbox"> Chicken</label><br>
@@ -123,7 +123,7 @@
 <div id="calculatorPage" class="hidden py-12 flex justify-center">
   <div class="bg-white p-8 rounded-2xl shadow w-[400px]">
     <h2 class="text-2xl font-bold mb-4 text-center">Calorie Calculator</h2>
-    
+
     <form id="calorieForm">
       <input id="height" type="number" placeholder="Height (cm)" max="250" class="w-full p-2 border rounded mb-2">
       <input id="weight" type="number" placeholder="Weight (kg)" max="250" class="w-full p-2 border rounded mb-2">
@@ -177,18 +177,18 @@
 
   // --- Page Navigation ---
   function openCalculator() {
-    resetCalculator(); 
+    resetCalculator();
     document.getElementById('homePage').classList.add('hidden');
     document.getElementById('calculatorPage').classList.remove('hidden');
-    document.getElementById('foodFilterWidget').classList.add('hidden'); 
+    document.getElementById('foodFilterWidget').classList.add('hidden');
     window.scrollTo(0, 0);
   }
 
   function goHome() {
-    resetCalculator(); 
+    resetCalculator();
     document.getElementById('calculatorPage').classList.add('hidden');
     document.getElementById('homePage').classList.remove('hidden');
-    document.getElementById('foodFilterWidget').classList.remove('hidden'); 
+    document.getElementById('foodFilterWidget').classList.remove('hidden');
     window.scrollTo(0, 0);
   }
 
@@ -253,7 +253,7 @@
     `;
     resultDiv.classList.remove('hidden');
   }
-  
+
   const savedDietMemory = localStorage.getItem('diet');
   if(savedDietMemory) {
       document.getElementById('savedDiet').innerText = "Saved Diet: " + savedDietMemory;
