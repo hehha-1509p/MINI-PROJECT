@@ -127,9 +127,9 @@
 <!-- Changed width to stretch automatically by anchoring both left and right sides -->
 <div id="daysWidget" class="absolute top-[550px] left-8 right-[450px] w-auto bg-white p-6 rounded-2xl shadow-xl z-50">
   <h3 class="text-xl font-semibold mb-4">Meal Plan Days 📅</h3>
-  
+
   <div class="grid grid-cols-3 gap-4">
-    
+
     <!-- Top Row -->
     <div class="bg-gray-50 hover:bg-gray-200 border border-gray-300 rounded-xl aspect-square flex items-center justify-center text-xl font-medium cursor-pointer transition">
       Monday
@@ -140,7 +140,7 @@
     <div class="bg-gray-50 hover:bg-gray-200 border border-gray-300 rounded-xl aspect-square flex items-center justify-center text-xl font-medium cursor-pointer transition">
       Wednesday
     </div>
-    
+
     <!-- Middle Row -->
     <div class="bg-gray-50 hover:bg-gray-200 border border-gray-300 rounded-xl aspect-square flex items-center justify-center text-xl font-medium cursor-pointer transition">
       Thursday
@@ -151,12 +151,12 @@
     <div class="bg-gray-50 hover:bg-gray-200 border border-gray-300 rounded-xl aspect-square flex items-center justify-center text-xl font-medium cursor-pointer transition">
       Saturday
     </div>
-    
+
     <!-- Bottom Row (Centered) -->
     <div class="col-start-2 bg-gray-50 hover:bg-gray-200 border border-gray-300 rounded-xl aspect-square flex items-center justify-center text-xl font-medium cursor-pointer transition">
       Sunday
     </div>
-    
+
   </div>
 </div>
 
@@ -232,7 +232,7 @@
     document.getElementById('foodFilterWidget').classList.remove('hidden');
     window.scrollTo(0, 0);
   }
-  
+
   // --- NEW Food Filter Logic (Checkboxes) ---
   function selectAllFoods() {
     const checkboxes = document.querySelectorAll('.food-checkbox');

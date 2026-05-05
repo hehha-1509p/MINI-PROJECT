@@ -119,7 +119,6 @@
 
         <button type="submit">Log In</button>
     </form>
-
 </div>
 
 <script src="script.js"></script>
