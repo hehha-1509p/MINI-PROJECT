@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 font-sans min-h-[200vh] relative">
+<body class="bg-gray-100 font-sans min-h-[240vh] relative">
 
 <div id="homePage" class="h-full p-6">
   <h1 class="text-4xl font-bold mb-6">NomNomNom 🍽️</h1>
@@ -18,31 +18,34 @@
     </div>
   </div>
 
+  {{-- Preferred Diet --}}
   <h2 class="text-xl font-semibold mb-3 text-center">Preferred Diet</h2>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
     <button onclick="selectDiet('Anything')" class="dietBtn bg-white p-6 rounded-2xl shadow flex flex-col items-center hover:border-orange-500 border-2 border-transparent">
-      <img src="{{ asset('css/images/anything.jpeg') }}" class="w-16 h-16 mb-2" alt="Anything">
+      <img src="{{ asset('images/anything.jpeg') }}" class="w-16 h-16 mb-2" alt="Anything">
       <span>Anything</span>
     </button>
     <button onclick="selectDiet('Keto')" class="dietBtn bg-white p-6 rounded-2xl shadow flex flex-col items-center hover:border-orange-500 border-2 border-transparent">
-      <img src="{{ asset('css/images/keto.jpeg') }}" class="w-16 h-16 mb-2" alt="Keto">
+      <img src="{{ asset('images/keto.jpeg') }}" class="w-16 h-16 mb-2" alt="Keto">
       <span>Keto</span>
     </button>
     <button onclick="selectDiet('Vegetarian')" class="dietBtn bg-white p-6 rounded-2xl shadow flex flex-col items-center hover:border-orange-500 border-2 border-transparent">
-      <img src="{{ asset('css/images/vegeterian.jpeg') }}" class="w-16 h-16 mb-2" alt="Vegetarian">
+      <img src="{{ asset('images/vegeterian.jpeg') }}" class="w-16 h-16 mb-2" alt="Vegetarian">
       <span>Vegetarian</span>
     </button>
   </div>
 
   <p id="savedDiet" class="text-green-600 mb-6 font-semibold"></p>
 
+  {{-- Calculator and button to diet_option --}}
   <button onclick="openCalculator()" class="text-blue-600 underline bg-transparent border-none cursor-pointer text-lg">Calorie Calculator →</button>
   <br>
   <br>
   <a href="/diet_option" class="bg-red-400 text-white px-4 py-2 rounded-xl shadow hover:bg-red-500 transition">Diet Option</a>
 </div>
 
-<div id="foodFilterWidget" class="absolute top-110 right-8 bg-white p-4 rounded-2xl shadow-xl w-96 z-50">
+{{-- Food Filter --}}
+<div id="foodFilterWidget" class="absolute top-[550px] right-8 bg-white p-4 rounded-2xl shadow-xl w-96 z-50">
   <h3 class="font-semibold mb-3">Food Filter 🚫</h3>
 
   <div class="flex gap-2 mb-4">
@@ -54,8 +57,8 @@
     </button>
   </div>
 
+  {{-- Food Filter --}}
   <div class="grid grid-cols-2 gap-4">
-
       <div class="mb-2">
         <h4 class="font-bold">Meat 🍖</h4>
         <label><input type="checkbox" value="Chicken" class="food-checkbox"> Chicken</label><br>
@@ -120,6 +123,44 @@
   </div>
 </div>
 
+{{-- 7 Days Widget --}}
+<!-- Changed width to stretch automatically by anchoring both left and right sides -->
+<div id="daysWidget" class="absolute top-[550px] left-8 right-[450px] w-auto bg-white p-6 rounded-2xl shadow-xl z-50">
+  <h3 class="text-xl font-semibold mb-4">Meal Plan Days 📅</h3>
+
+  <div class="grid grid-cols-3 gap-4">
+
+    <!-- Top Row -->
+    <div class="bg-gray-50 hover:bg-gray-200 border border-gray-300 rounded-xl aspect-square flex items-center justify-center text-xl font-medium cursor-pointer transition">
+      Monday
+    </div>
+    <div class="bg-gray-50 hover:bg-gray-200 border border-gray-300 rounded-xl aspect-square flex items-center justify-center text-xl font-medium cursor-pointer transition">
+      Tuesday
+    </div>
+    <div class="bg-gray-50 hover:bg-gray-200 border border-gray-300 rounded-xl aspect-square flex items-center justify-center text-xl font-medium cursor-pointer transition">
+      Wednesday
+    </div>
+
+    <!-- Middle Row -->
+    <div class="bg-gray-50 hover:bg-gray-200 border border-gray-300 rounded-xl aspect-square flex items-center justify-center text-xl font-medium cursor-pointer transition">
+      Thursday
+    </div>
+    <div class="bg-gray-50 hover:bg-gray-200 border border-gray-300 rounded-xl aspect-square flex items-center justify-center text-xl font-medium cursor-pointer transition">
+      Friday
+    </div>
+    <div class="bg-gray-50 hover:bg-gray-200 border border-gray-300 rounded-xl aspect-square flex items-center justify-center text-xl font-medium cursor-pointer transition">
+      Saturday
+    </div>
+
+    <!-- Bottom Row (Centered) -->
+    <div class="col-start-2 bg-gray-50 hover:bg-gray-200 border border-gray-300 rounded-xl aspect-square flex items-center justify-center text-xl font-medium cursor-pointer transition">
+      Sunday
+    </div>
+
+  </div>
+</div>
+
+{{-- Calorie Calculator --}}
 <div id="calculatorPage" class="hidden py-12 flex justify-center">
   <div class="bg-white p-8 rounded-2xl shadow w-[400px]">
     <h2 class="text-2xl font-bold mb-4 text-center">Calorie Calculator</h2>
@@ -267,7 +308,5 @@
         <strong>{{ session('selectedDiet') }}</strong>
     </div>
 @endif
-
 <div class="max-w-4xl mx-auto">
 </html>
-
