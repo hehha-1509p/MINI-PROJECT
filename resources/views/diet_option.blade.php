@@ -1,37 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Diet option</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <title>Diet Options</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50 p-8">
-    <div class="max-w-4xl mx-auto">
-        <h1 class="text-3xl font-bold text-center mb-10">Choose Your Diet Plan</h1>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
 
-        <div class="grid md:grid-cols-3 gap-6">
-            @foreach($dietPlans as $plan)
-                <div class="bg-white p-6 rounded-xl shadow-lg border-b-4 border-{{ $plan['color'] }}-500">
-                    <span class="text-xs font-bold uppercase text-{{ $plan['color'] }}-600 bg-{{ $plan['color'] }}-100 px-2 py-1 rounded">
-                        {{ $plan['tag'] }}
-                    </span>
-                    
-                    <h2 class="text-xl font-bold mt-4">{{ $plan['name'] }}</h2>
-                    <p class="text-gray-600 mt-2 text-sm">{{ $plan['description'] }}</p>
+<div class="max-w-2xl w-full text-center">
 
-                    @if($plan['name'] == 'Weekend Light Increase' && $isWeekend)
-                        <div class="mt-4 p-2 bg-green-100 text-green-700 text-xs font-bold rounded text-center">
-                            🚀 Boosted Intake Active Today!
-                        </div>
-                    @endif
+    <h1 class="text-3xl font-bold mb-10 text-gray-800">
+        Diet Options
+    </h1>
 
-                    <button class="w-full mt-6 bg-gray-800 text-white py-2 rounded-lg hover:bg-black transition">
-                        Select Plan
-                    </button>
-                </div>
-            @endforeach
-        </div>
+    <!-- DIET OPTIONS CENTERED -->
+    <div class="grid gap-8">
+
+        @foreach($dietPlans as $plan)
+
+<form action="/save-diet" method="POST">
+    @csrf
+
+    <input type="hidden" name="diet" value="{{ $plan['name'] }}">
+
+    <button type="submit"
+        class="w-full bg-white p-8 rounded-2xl shadow-lg border-b-4 border-blue-500 hover:scale-105 transition-transform text-center">
+
+        <span class="text-xs font-bold text-blue-600 uppercase bg-blue-50 px-3 py-1 rounded-full">
+            {{ $plan['tag'] }}
+        </span>
+
+        <h2 class="font-bold text-2xl mt-4">
+            {{ $plan['name'] }}
+        </h2>
+
+        <p class="text-gray-500 text-sm mt-3">
+            {{ $plan['description'] }}
+        </p>
+
+    </button>
+</form>
+
+@endforeach
     </div>
+
+</div>
+
 </body>
 </html>

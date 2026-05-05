@@ -19,3 +19,4 @@ Route::get('/', [UserController::class, 'home']);
 Route::get('/login', [UserController::class, 'login']);
 Route::get('/register', [UserController::class, 'register']);
 Route::get('/diet_option', [DietController::class, 'diet_option']);
+Route::post('/save-diet', [DietController::class, 'saveDiet']);
