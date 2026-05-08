@@ -27,9 +27,9 @@
             <h2 class="text-3xl font-bold text-gray-800">
                 Meal Plan for <span class="text-blue-600">{{ $day }}</span>
             </h2>
-            <p class="text-gray-500 mt-1">
+            {{-- <p class="text-gray-500 mt-1">
                 Randomly generated from your database
-            </p>
+            </p> --}}
         </div>
 
         {{-- Food Grid --}}
@@ -46,22 +46,11 @@
                     <p class="text-gray-500 text-sm mb-4">
                         {{ $food->description ?? 'No description available' }}
                     </p>
-
-                    {{-- Tags / Badge --}}
-                    <div class="flex gap-2 flex-wrap">
-                        <span class="bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full">
-                            Random Pick
-                        </span>
-
-                        <span class="bg-blue-100 text-blue-600 text-xs px-3 py-1 rounded-full">
-                            Healthy Option
-                        </span>
-                    </div>
                 </div>
             @endforeach
         </div>
 
-        {{-- Action Buttons --}}
+        {{-- Buttons --}}
         <div class="mt-10 flex justify-center gap-4">
 
             <a href="/generate/{{ $day }}"
