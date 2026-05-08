@@ -35,5 +35,10 @@ class DietController extends Controller
 
         return redirect('/');
     }
+
+    public function generate()
+    {
+        return view('generation');
+    }
 }
 
