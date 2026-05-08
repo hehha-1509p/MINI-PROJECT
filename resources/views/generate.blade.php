@@ -39,12 +39,12 @@
 
                     {{-- Food Name --}}
                     <h3 class="text-xl font-semibold text-gray-800 mb-2">
-                        {{ $food->name ?? 'Food Item' }}
+                        {{ $food->item_name ?? 'Food Item' }}
                     </h3>
 
                     {{-- Description --}}
                     <p class="text-gray-500 text-sm mb-4">
-                        {{ $food->description ?? 'No description available' }}
+                        {{ $food->notes ?? 'No description available' }}
                     </p>
                 </div>
             @endforeach
