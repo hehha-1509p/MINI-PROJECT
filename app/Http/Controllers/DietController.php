@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MenuItem;
 use Illuminate\Http\Request;
 
 class DietController extends Controller
@@ -36,9 +37,15 @@ class DietController extends Controller
         return redirect('/');
     }
 
-    public function generate()
+    // Food Generation
+    public function generate($day)
     {
-        return view('generation');
+        $foods = MenuItem::inRandomOrder()->limit(5)->get();
+
+        return view('generate', [
+            'day' => $day,
+            'foods' => $foods
+        ]);
     }
 }
 
