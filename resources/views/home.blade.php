@@ -42,7 +42,6 @@
   <br>
   <br>
   <a href="/diet_option" class="bg-red-400 text-white px-4 py-2 rounded-xl shadow hover:bg-red-500 transition">Diet Option</a>
-</div>
 
 {{-- Food Filter --}}
 <div id="foodFilterWidget" class="absolute top-[550px] right-8 bg-white p-4 rounded-2xl shadow-xl w-96 z-50">
@@ -124,12 +123,11 @@
 </div>
 
 {{-- 7 Days Widget --}}
-<!-- Changed width to stretch automatically by anchoring both left and right sides -->
 <div id="daysWidget" class="absolute top-[550px] left-8 right-[450px] w-auto bg-white p-6 rounded-2xl shadow-xl z-50">
   <h3 class="text-xl font-semibold mb-4">Meal Plan Days 📅</h3>
-
+  
   <div class="grid grid-cols-3 gap-4">
-
+    
     <!-- Top Row -->
     <div class="bg-gray-50 hover:bg-gray-200 border border-gray-300 rounded-xl aspect-square flex items-center justify-center text-xl font-medium cursor-pointer transition">
       Monday
@@ -140,7 +138,7 @@
     <div class="bg-gray-50 hover:bg-gray-200 border border-gray-300 rounded-xl aspect-square flex items-center justify-center text-xl font-medium cursor-pointer transition">
       Wednesday
     </div>
-
+    
     <!-- Middle Row -->
     <div class="bg-gray-50 hover:bg-gray-200 border border-gray-300 rounded-xl aspect-square flex items-center justify-center text-xl font-medium cursor-pointer transition">
       Thursday
@@ -151,13 +149,15 @@
     <div class="bg-gray-50 hover:bg-gray-200 border border-gray-300 rounded-xl aspect-square flex items-center justify-center text-xl font-medium cursor-pointer transition">
       Saturday
     </div>
-
+    
     <!-- Bottom Row (Centered) -->
     <div class="col-start-2 bg-gray-50 hover:bg-gray-200 border border-gray-300 rounded-xl aspect-square flex items-center justify-center text-xl font-medium cursor-pointer transition">
       Sunday
     </div>
-
+    
   </div>
+</div>
+
 </div>
 
 {{-- Calorie Calculator --}}
@@ -165,9 +165,10 @@
   <div class="bg-white p-8 rounded-2xl shadow w-[400px]">
     <h2 class="text-2xl font-bold mb-4 text-center">Calorie Calculator</h2>
 
-    <form id="calorieForm">
-      <input id="height" type="number" placeholder="Height (cm)" max="250" class="w-full p-2 border rounded mb-2">
-      <input id="weight" type="number" placeholder="Weight (kg)" max="250" class="w-full p-2 border rounded mb-2">
+    <form id="calorieForm" onsubmit="event.preventDefault(); calculateCalories();">
+      <!-- Added min, max, and required attributes to enforce rules in HTML -->
+      <input id="height" type="number" placeholder="Height (cm)" min="120" max="250" required class="w-full p-2 border rounded mb-2">
+      <input id="weight" type="number" placeholder="Weight (kg)" min="25" max="250" required class="w-full p-2 border rounded mb-2">
 
       <select id="sex" class="w-full p-2 border rounded mb-2">
         <option>Male</option>
@@ -192,7 +193,8 @@
         <option value="gain">Gain Weight</option>
       </select>
 
-      <button type="button" onclick="calculateCalories()" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition font-bold">Calculate</button>
+      <!-- Changed from type="button" to type="submit" and removed the onclick -->
+      <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition font-bold">Calculate</button>
     </form>
 
     <div id="result" class="mt-4 p-4 bg-gray-50 rounded text-gray-800 text-lg empty:hidden"></div>
@@ -232,7 +234,7 @@
     document.getElementById('foodFilterWidget').classList.remove('hidden');
     window.scrollTo(0, 0);
   }
-
+  
   // --- NEW Food Filter Logic (Checkboxes) ---
   function selectAllFoods() {
     const checkboxes = document.querySelectorAll('.food-checkbox');
