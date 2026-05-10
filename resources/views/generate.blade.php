@@ -27,27 +27,44 @@
             <h2 class="text-3xl font-bold text-gray-800">
                 Meal Plan for <span class="text-blue-600">{{ $day }}</span>
             </h2>
-            {{-- <p class="text-gray-500 mt-1">
-                Randomly generated from your database
-            </p> --}}
         </div>
 
-        {{-- Food Grid --}}
+        {{-- Calories --}}
+        <div class="text-center mb-6">
+            <h3 class="text-lg font-semibold text-green-600">
+                Daily Calories: {{ $calories }} kcal
+            </h3>
+        </div>
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            @foreach($foods as $food)
-                <div class="bg-white rounded-2xl shadow hover:shadow-lg transition p-5">
 
-                    {{-- Food Name --}}
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">
-                        {{ $food->item_name ?? 'Food Item' }}
-                    </h3>
+            {{-- Breakfast --}}
+            <div class="bg-white p-5 rounded-xl shadow">
+                <h2 class="font-bold text-xl mb-2">Breakfast</h2>
+                <h3>{{ $breakfast->item_name ?? 'No food found' }}</h3>
+                <p class="text-sm text-gray-500">
+                    {{ $breakfast->notes ?? '' }}
+                </p>
+            </div>
 
-                    {{-- Description --}}
-                    <p class="text-gray-500 text-sm mb-4">
-                        {{ $food->notes ?? 'No description available' }}
-                    </p>
-                </div>
-            @endforeach
+            {{-- Lunch --}}
+            <div class="bg-white p-5 rounded-xl shadow">
+                <h2 class="font-bold text-xl mb-2">Lunch</h2>
+                <h3>{{ $lunch->item_name ?? 'No food found' }}</h3>
+                <p class="text-sm text-gray-500">
+                    {{ $lunch->notes ?? '' }}
+                </p>
+            </div>
+
+            {{-- Dinner --}}
+            <div class="bg-white p-5 rounded-xl shadow">
+                <h2 class="font-bold text-xl mb-2">Dinner</h2>
+                <h3>{{ $dinner->item_name ?? 'No food found' }}</h3>
+                <p class="text-sm text-gray-500">
+                    {{ $dinner->notes ?? '' }}
+                </p>
+            </div>
+
         </div>
 
         {{-- Buttons --}}
