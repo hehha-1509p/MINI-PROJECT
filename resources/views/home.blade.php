@@ -9,18 +9,7 @@
 <body class="bg-gray-100 font-sans min-h-[240vh] relative">
 
 <div id="homePage" class="h-full p-6">
-    @if(session('error'))
-        <div class="bg-red-100 text-red-700 p-3 rounded mb-4 text-center">
-            {{ session('error') }}
-        </div>
-    @endif
-
-    @if(session('success'))
-        <div class="bg-green-100 text-green-700 p-3 rounded mb-4 text-center">
-            {{ session('success') }}
-        </div>
-    @endif
-    <h1 class="text-4xl font-bold mb-6">NomNomNom 🍽️</h1>
+  <h1 class="text-4xl font-bold mb-6">NomNomNom 🍽️</h1>
 
     <div class="flex justify-end items-center mb-6">
         <div class="absolute top-6 right-8 flex items-center space-x-4">
@@ -48,11 +37,11 @@
 
     <p id="savedDiet" class="text-green-600 mb-6 font-semibold"></p>
 
-    {{-- Calculator and button to diet_option --}}
-    <button onclick="openCalculator()" class="text-blue-600 underline bg-transparent border-none cursor-pointer text-lg">Calorie Calculator →</button>
-    <br>
-    <br>
-    <a href="/diet_option" class="bg-red-400 text-white px-4 py-2 rounded-xl shadow hover:bg-red-500 transition">Diet Option</a>
+{{-- Calculator and button to diet_option --}}
+<button onclick="openCalculator()" class="text-blue-600 underline bg-transparent border-none cursor-pointer text-lg">Calorie Calculator →</button>
+<br>
+<br>
+<a href="/diet_option" class="bg-red-400 text-white px-4 py-2 rounded-xl shadow hover:bg-red-500 transition">Diet Option</a>
 
 {{-- Food Filter --}}
 <div id="foodFilterWidget" class="absolute top-[550px] right-8 bg-white p-4 rounded-2xl shadow-xl w-96 z-50">
@@ -129,7 +118,7 @@
             <label><input type="checkbox" value="Gluten-Free" class="food-checkbox"> Gluten-Free</label>
             <label><input type="checkbox" value="Nut-Free" class="food-checkbox"> Nut-Free</label>
         </div>
-     </div>
+    </div>
 </div>
 
 {{-- 7 Days Widget --}}

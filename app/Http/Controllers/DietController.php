@@ -60,7 +60,7 @@ class DietController extends Controller
             'calories' => round($calories)
         ]);
 
-        return redirect('/'); // back to homepage
+        return redirect('/')->with('success', 'Calories calculated successfully!');
     }
 
     public function generate($day)
