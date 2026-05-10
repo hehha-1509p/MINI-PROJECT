@@ -44,93 +44,92 @@
             <img src="{{ asset('images/vegeterian.jpeg') }}" class="w-16 h-16 mb-2" alt="Vegetarian">
             <span>Vegetarian</span>
         </button>
-  </div>
+    </div>
 
-  <p id="savedDiet" class="text-green-600 mb-6 font-semibold"></p>
+    <p id="savedDiet" class="text-green-600 mb-6 font-semibold"></p>
 
-  {{-- Calculator and button to diet_option --}}
-  <button onclick="openCalculator()" class="text-blue-600 underline bg-transparent border-none cursor-pointer text-lg">Calorie Calculator →</button>
-  <br>
-  <br>
-  <a href="/diet_option" class="bg-red-400 text-white px-4 py-2 rounded-xl shadow hover:bg-red-500 transition">Diet Option</a>
+    {{-- Calculator and button to diet_option --}}
+    <button onclick="openCalculator()" class="text-blue-600 underline bg-transparent border-none cursor-pointer text-lg">Calorie Calculator →</button>
+    <br>
+    <br>
+    <a href="/diet_option" class="bg-red-400 text-white px-4 py-2 rounded-xl shadow hover:bg-red-500 transition">Diet Option</a>
 
 {{-- Food Filter --}}
 <div id="foodFilterWidget" class="absolute top-[550px] right-8 bg-white p-4 rounded-2xl shadow-xl w-96 z-50">
-  <h3 class="font-semibold mb-3">Food Filter 🚫</h3>
+    <h3 class="font-semibold mb-3">Food Filter 🚫</h3>
 
-  <div class="flex gap-2 mb-4">
-    <button onclick="selectAllFoods()" class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 transition">
-      Select All
-    </button>
-    <button onclick="unselectAllFoods()" class="bg-gray-400 text-white px-3 py-1 rounded text-sm hover:bg-gray-500 transition">
-      Unselect All
-    </button>
-  </div>
-
-  {{-- Food Filter --}}
-  <div class="grid grid-cols-2 gap-4">
-      <div class="mb-2">
-        <h4 class="font-bold">Meat 🍖</h4>
-        <label><input type="checkbox" value="Chicken" class="food-checkbox"> Chicken</label><br>
-        <label><input type="checkbox" value="Beef" class="food-checkbox"> Beef</label><br>
-        <label><input type="checkbox" value="Lamb" class="food-checkbox"> Lamb</label><br>
-        <label><input type="checkbox" value="Pork" class="food-checkbox"> Pork</label><br>
-        <label><input type="checkbox" value="Turkey" class="food-checkbox"> Turkey</label>
-      </div>
-
-      <div class="mb-2">
-        <h4 class="font-bold">Seafood 🦐</h4>
-        <label><input type="checkbox" value="Fish" class="food-checkbox"> Fish</label><br>
-        <label><input type="checkbox" value="Prawn" class="food-checkbox"> Prawn</label><br>
-        <label><input type="checkbox" value="Crab" class="food-checkbox"> Crab</label><br>
-        <label><input type="checkbox" value="Squid" class="food-checkbox"> Squid</label><br>
-        <label><input type="checkbox" value="Shellfish" class="food-checkbox"> Shellfish</label>
-      </div>
-
-      <div class="mb-2">
-        <h4 class="font-bold">Vegetables 🥦</h4>
-        <label><input type="checkbox" value="Broccoli" class="food-checkbox"> Broccoli</label><br>
-        <label><input type="checkbox" value="Carrot" class="food-checkbox"> Carrot</label><br>
-        <label><input type="checkbox" value="Spinach" class="food-checkbox"> Spinach</label><br>
-        <label><input type="checkbox" value="Mushroom" class="food-checkbox"> Mushroom</label><br>
-        <label><input type="checkbox" value="Onion" class="food-checkbox"> Onion</label>
-      </div>
-
-      <div class="mb-2">
-        <h4 class="font-bold">Carbs 🍞</h4>
-        <label><input type="checkbox" value="Rice" class="food-checkbox"> Rice</label><br>
-        <label><input type="checkbox" value="Bread" class="food-checkbox"> Bread</label><br>
-        <label><input type="checkbox" value="Pasta" class="food-checkbox"> Pasta</label><br>
-        <label><input type="checkbox" value="Potato" class="food-checkbox"> Potato</label><br>
-        <label><input type="checkbox" value="Noodles" class="food-checkbox"> Noodles</label>
-      </div>
-
-      <div class="mb-2">
-        <h4 class="font-bold">Dairy 🧀</h4>
-        <label><input type="checkbox" value="Milk" class="food-checkbox"> Milk</label><br>
-        <label><input type="checkbox" value="Cheese" class="food-checkbox"> Cheese</label><br>
-        <label><input type="checkbox" value="Yogurt" class="food-checkbox"> Yogurt</label><br>
-        <label><input type="checkbox" value="Butter" class="food-checkbox"> Butter</label>
-      </div>
-
-      <div class="mb-2">
-        <h4 class="font-bold">Nuts 🥜</h4>
-        <label><input type="checkbox" value="Peanuts" class="food-checkbox"> Peanuts</label><br>
-        <label><input type="checkbox" value="Almonds" class="food-checkbox"> Almonds</label><br>
-        <label><input type="checkbox" value="Walnuts" class="food-checkbox"> Walnuts</label>
-      </div>
-
-  </div>
-
-  <div class="mt-2 pt-3 border-t border-gray-200">
-    <h4 class="font-bold mb-1">Preferences & Allergies ☪️</h4>
-    <div class="grid grid-cols-2 gap-x-4">
-        <label><input type="checkbox" value="Halal Only" class="food-checkbox"> Halal Only</label>
-        <label><input type="checkbox" value="Vegan" class="food-checkbox"> Vegan</label>
-        <label><input type="checkbox" value="Gluten-Free" class="food-checkbox"> Gluten-Free</label>
-        <label><input type="checkbox" value="Nut-Free" class="food-checkbox"> Nut-Free</label>
+    <div class="flex gap-2 mb-4">
+        <button onclick="selectAllFoods()" class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 transition">
+            Select All
+        </button>
+        <button onclick="unselectAllFoods()" class="bg-gray-400 text-white px-3 py-1 rounded text-sm hover:bg-gray-500 transition">
+            Unselect All
+        </button>
     </div>
-  </div>
+
+    {{-- Food Filter --}}
+    <div class="grid grid-cols-2 gap-4">
+        <div class="mb-2">
+            <h4 class="font-bold">Meat 🍖</h4>
+            <label><input type="checkbox" value="Chicken" class="food-checkbox"> Chicken</label><br>
+            <label><input type="checkbox" value="Beef" class="food-checkbox"> Beef</label><br>
+            <label><input type="checkbox" value="Lamb" class="food-checkbox"> Lamb</label><br>
+            <label><input type="checkbox" value="Pork" class="food-checkbox"> Pork</label><br>
+            <label><input type="checkbox" value="Turkey" class="food-checkbox"> Turkey</label>
+        </div>
+
+        <div class="mb-2">
+            <h4 class="font-bold">Seafood 🦐</h4>
+            <label><input type="checkbox" value="Fish" class="food-checkbox"> Fish</label><br>
+            <label><input type="checkbox" value="Prawn" class="food-checkbox"> Prawn</label><br>
+            <label><input type="checkbox" value="Crab" class="food-checkbox"> Crab</label><br>
+            <label><input type="checkbox" value="Squid" class="food-checkbox"> Squid</label><br>
+            <label><input type="checkbox" value="Shellfish" class="food-checkbox"> Shellfish</label>
+        </div>
+
+        <div class="mb-2">
+            <h4 class="font-bold">Vegetables 🥦</h4>
+            <label><input type="checkbox" value="Broccoli" class="food-checkbox"> Broccoli</label><br>
+            <label><input type="checkbox" value="Carrot" class="food-checkbox"> Carrot</label><br>
+            <label><input type="checkbox" value="Spinach" class="food-checkbox"> Spinach</label><br>
+            <label><input type="checkbox" value="Mushroom" class="food-checkbox"> Mushroom</label><br>
+            <label><input type="checkbox" value="Onion" class="food-checkbox"> Onion</label>
+        </div>
+
+        <div class="mb-2">
+            <h4 class="font-bold">Carbs 🍞</h4>
+            <label><input type="checkbox" value="Rice" class="food-checkbox"> Rice</label><br>
+            <label><input type="checkbox" value="Bread" class="food-checkbox"> Bread</label><br>
+            <label><input type="checkbox" value="Pasta" class="food-checkbox"> Pasta</label><br>
+            <label><input type="checkbox" value="Potato" class="food-checkbox"> Potato</label><br>
+            <label><input type="checkbox" value="Noodles" class="food-checkbox"> Noodles</label>
+        </div>
+
+        <div class="mb-2">
+            <h4 class="font-bold">Dairy 🧀</h4>
+            <label><input type="checkbox" value="Milk" class="food-checkbox"> Milk</label><br>
+            <label><input type="checkbox" value="Cheese" class="food-checkbox"> Cheese</label><br>
+            <label><input type="checkbox" value="Yogurt" class="food-checkbox"> Yogurt</label><br>
+            <label><input type="checkbox" value="Butter" class="food-checkbox"> Butter</label>
+        </div>
+
+        <div class="mb-2">
+            <h4 class="font-bold">Nuts 🥜</h4>
+            <label><input type="checkbox" value="Peanuts" class="food-checkbox"> Peanuts</label><br>
+            <label><input type="checkbox" value="Almonds" class="food-checkbox"> Almonds</label><br>
+            <label><input type="checkbox" value="Walnuts" class="food-checkbox"> Walnuts</label>
+        </div>
+    </div>
+
+    <div class="mt-2 pt-3 border-t border-gray-200">
+        <h4 class="font-bold mb-1">Preferences & Allergies ☪️</h4>
+        <div class="grid grid-cols-2 gap-x-4">
+            <label><input type="checkbox" value="Halal Only" class="food-checkbox"> Halal Only</label>
+            <label><input type="checkbox" value="Vegan" class="food-checkbox"> Vegan</label>
+            <label><input type="checkbox" value="Gluten-Free" class="food-checkbox"> Gluten-Free</label>
+            <label><input type="checkbox" value="Nut-Free" class="food-checkbox"> Nut-Free</label>
+        </div>
+     </div>
 </div>
 
 {{-- 7 Days Widget --}}
