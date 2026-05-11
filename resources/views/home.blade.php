@@ -161,45 +161,51 @@
 
 {{-- Calorie Calculator --}}
 <div id="calculatorPage" class="hidden py-12 flex justify-center">
-  <div class="bg-white p-8 rounded-2xl shadow w-[400px]">
-    <h2 class="text-2xl font-bold mb-4 text-center">Calorie Calculator</h2>
+    <div class="bg-white p-8 rounded-2xl shadow w-[400px]">
+        <h2 class="text-2xl font-bold mb-4 text-center">Calorie Calculator</h2>
 
-    <form id="calorieForm" onsubmit="event.preventDefault(); calculateCalories();">
-      <!-- Added min, max, and required attributes to enforce rules in HTML -->
-      <input id="height" type="number" placeholder="Height (cm)" min="120" max="250" required class="w-full p-2 border rounded mb-2">
-      <input id="weight" type="number" placeholder="Weight (kg)" min="25" max="250" required class="w-full p-2 border rounded mb-2">
+        {{-- <form id="calorieForm" onsubmit="event.preventDefault(); calculateCalories();"> --}}
+        <form id="calorieForm" method="POST" action="/save-calorie">
+            @csrf
+            <!-- Added min, max, and required attributes to enforce rules in HTML -->
+            <input name="height" id="height" type="number" placeholder="Height (cm)" min="120" max="250" required class="w-full p-2 border rounded mb-2">
+            <input name="weight" id="weight" type="number" placeholder="Weight (kg)" min="25" max="250" required class="w-full p-2 border rounded mb-2">
 
-      <select id="sex" class="w-full p-2 border rounded mb-2">
-        <option>Male</option>
-        <option>Female</option>
-      </select>
+            <select name="sex" id="sex" class="w-full p-2 border rounded mb-2">
+                <option>Male</option>
+                <option>Female</option>
+            </select>
 
-      <select id="age" class="w-full p-2 border rounded mb-2">
-        @for ($i = 18; $i <= 25; $i++)
-          <option value="{{ $i }}">{{ $i }}</option>
-        @endfor
-      </select>
+            <select name="age" id="age" class="w-full p-2 border rounded mb-2">
+                @for ($i = 18; $i <= 25; $i++)
+                <option value="{{ $i }}">{{ $i }}</option>
+                @endfor
+            </select>
 
-      <select id="activity" class="w-full p-2 border rounded mb-2">
-        <option value="1.2">No Exercise</option>
-        <option value="1.375">Light Exercise</option>
-        <option value="1.725">Heavy Exercise</option>
-      </select>
+            <select name="activity" id="activity" class="w-full p-2 border rounded mb-2">
+                <option value="1.2">No Exercise</option>
+                <option value="1.375">Light Exercise</option>
+                <option value="1.725">Heavy Exercise</option>
+            </select>
 
-      <select id="goal" class="w-full p-2 border rounded mb-4">
-        <option value="maintain">Maintain Weight</option>
-        <option value="lose">Lose Weight</option>
-        <option value="gain">Gain Weight</option>
-      </select>
+            <select name="goal" id="goal" class="w-full p-2 border rounded mb-4">
+                <option value="maintain">Maintain Weight</option>
+                <option value="lose">Lose Weight</option>
+                <option value="gain">Gain Weight</option>
+            </select>
 
-      <!-- Changed from type="button" to type="submit" and removed the onclick -->
-      <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition font-bold">Calculate</button>
-    </form>
+            <!-- Changed from type="button" to type="submit" and removed the onclick -->
+            <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition font-bold">Calculate</button>
+        </form>
+        @if(session('calories'))
+            <div class="mt-4 p-4 bg-green-100 text-green-700 rounded-xl text-center">
+                Daily Calories: <b>{{ session('calories') }} kcal</b>
+            </div>
+        @endif
+        <div id="result" class="mt-4 p-4 bg-gray-50 rounded text-gray-800 text-lg empty:hidden"></div>
 
-    <div id="result" class="mt-4 p-4 bg-gray-50 rounded text-gray-800 text-lg empty:hidden"></div>
-
-    <button onclick="goHome()" class="mt-4 text-blue-600 underline bg-transparent border-none cursor-pointer block">← Back to Home Page</button>
-  </div>
+        <button onclick="goHome()" class="mt-4 text-blue-600 underline bg-transparent border-none cursor-pointer block">← Back to Home Page</button>
+    </div>
 </div>
 
 <script>
