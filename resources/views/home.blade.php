@@ -11,201 +11,354 @@
 <div id="homePage" class="h-full p-6">
   <h1 class="text-4xl font-bold mb-6">NomNomNom 🍽️</h1>
 
-    <div class="flex justify-end items-center mb-6">
-        <div class="absolute top-6 right-8 flex items-center space-x-4">
-            <a href="/login" class="text-gray-600 hover:text-black font-medium">Log In</a>
-            <a href="/register" class="bg-red-400 text-white px-4 py-2 rounded-xl shadow hover:bg-red-500 transition">Sign Up</a>
-        </div>
+  <div class="flex justify-end items-center mb-6">
+    <div class="absolute top-6 right-8 flex items-center space-x-4">
+      <a href="/login" class="text-gray-600 hover:text-black font-medium">Log In</a>
+      <a href="/register" class="bg-red-400 text-white px-4 py-2 rounded-xl shadow hover:bg-red-500 transition">Sign Up</a>
     </div>
+  </div>
 
-    {{-- Preferred Diet --}}
-    <h2 class="text-xl font-semibold mb-3 text-center">Preferred Diet</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <button onclick="selectDiet('Anything')" class="dietBtn bg-white p-6 rounded-2xl shadow flex flex-col items-center hover:border-orange-500 border-2 border-transparent">
-            <img src="{{ asset('images/anything.jpeg') }}" class="w-16 h-16 mb-2" alt="Anything">
-            <span>Anything</span>
-        </button>
-        <button onclick="selectDiet('Keto')" class="dietBtn bg-white p-6 rounded-2xl shadow flex flex-col items-center hover:border-orange-500 border-2 border-transparent">
-            <img src="{{ asset('images/keto.jpeg') }}" class="w-16 h-16 mb-2" alt="Keto">
-            <span>Keto</span>
-        </button>
-        <button onclick="selectDiet('Vegetarian')" class="dietBtn bg-white p-6 rounded-2xl shadow flex flex-col items-center hover:border-orange-500 border-2 border-transparent">
-            <img src="{{ asset('images/vegeterian.jpeg') }}" class="w-16 h-16 mb-2" alt="Vegetarian">
-            <span>Vegetarian</span>
-        </button>
+  {{-- Preferred Diet --}}
+  <h2 class="text-xl font-semibold mb-3 text-center">Preferred Diet</h2>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+    <button onclick="selectDiet('Anything')" class="dietBtn bg-white p-6 rounded-2xl shadow flex flex-col items-center hover:border-orange-500 border-2 border-transparent">
+      <img src="{{ asset('images/anything.jpeg') }}" class="w-16 h-16 mb-2" alt="Anything">
+      <span>Anything</span>
+    </button>
+    <button onclick="selectDiet('Keto')" class="dietBtn bg-white p-6 rounded-2xl shadow flex flex-col items-center hover:border-orange-500 border-2 border-transparent">
+      <img src="{{ asset('images/keto.jpeg') }}" class="w-16 h-16 mb-2" alt="Keto">
+      <span>Keto</span>
+    </button>
+    <button onclick="selectDiet('Vegetarian')" class="dietBtn bg-white p-6 rounded-2xl shadow flex flex-col items-center hover:border-orange-500 border-2 border-transparent">
+      <img src="{{ asset('images/vegeterian.jpeg') }}" class="w-16 h-16 mb-2" alt="Vegetarian">
+      <span>Vegetarian</span>
+    </button>
+  </div>
+
+  <p id="savedDiet" class="text-green-600 mb-6 font-semibold"></p>
+
+  @if(session('macroData'))
+  <div class="mb-6 p-4 bg-blue-50 rounded-2xl border border-blue-100">
+    <h3 class="font-bold text-blue-800 mb-1">Your Daily Targets:</h3>
+    <p class="text-lg">Daily Calories: <b class="text-blue-600">{{ session('macroData')['kcal'] }} kcal</b></p>
+    <div class="flex gap-4 text-sm font-medium text-gray-700">
+      <span>Protein: {{ session('macroData')['protein'] }}g</span>
+      <span>Fat: {{ session('macroData')['fat'] }}g</span>
+      <span>Carbs: {{ session('macroData')['carbs'] }}g</span>
     </div>
-
-    <p id="savedDiet" class="text-green-600 mb-6 font-semibold"></p>
-
-{{-- Calculator and button to diet_option --}}
-<button onclick="openCalculator()" class="text-blue-600 underline bg-transparent border-none cursor-pointer text-lg">Calorie Calculator →</button>
-<br>
-<br>
-<a href="/diet_option" class="bg-red-400 text-white px-4 py-2 rounded-xl shadow hover:bg-red-500 transition">Diet Option</a>
+  </div>
+  @endif
+  {{-- Calculator and button to diet_option --}}
+  <button onclick="openCalculator()" class="text-blue-600 underline bg-transparent border-none cursor-pointer text-lg">Calorie Calculator →</button>
+  <br>
+  <br>
+  <a href="/diet_option" class="bg-red-400 text-white px-4 py-2 rounded-xl shadow hover:bg-red-500 transition">Diet Option</a>
 
 {{-- Food Filter --}}
 <div id="foodFilterWidget" class="absolute top-[550px] right-8 bg-white p-4 rounded-2xl shadow-xl w-96 z-50">
-    <h3 class="font-semibold mb-3">Food Filter 🚫</h3>
+  <h3 class="font-semibold">Food Filter</h3><span class="subtext mb-3">(Randomly choose 21 if select all)</span><br>
 
-    <div class="flex gap-2 mb-4">
-        <button onclick="selectAllFoods()" class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 transition">
-            Select All
-        </button>
-        <button onclick="unselectAllFoods()" class="bg-gray-400 text-white px-3 py-1 rounded text-sm hover:bg-gray-500 transition">
-            Unselect All
-        </button>
+  <div class="flex gap-2 mb-4">
+    <button onclick="selectRandomFoods()" class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 transition">
+      Select All
+    </button>
+    <button onclick="unselectAllFoods()" class="bg-gray-400 text-white px-3 py-1 rounded text-sm hover:bg-gray-500 transition">
+      Unselect All
+    </button>
+  </div>
+
+  {{-- Food Filter --}}
+  <div class="grid grid-cols-2 gap-4">
+      <div class="mb-2">
+        <h4 class="font-bold">Meat 🍖</h4>
+        <label><input type="checkbox" value="Chicken" class="food-checkbox"> Chicken</label><br>
+        <label><input type="checkbox" value="Beef" class="food-checkbox"> Beef</label><br>
+        <label><input type="checkbox" value="Lamb" class="food-checkbox"> Lamb</label><br>
+        <label><input type="checkbox" value="Pork" class="food-checkbox"> Pork</label><br>
+        <label><input type="checkbox" value="Turkey" class="food-checkbox"> Turkey</label>
+      </div>
+
+      <div class="mb-2">
+        <h4 class="font-bold">Seafood 🦐</h4>
+        <label><input type="checkbox" value="Fish" class="food-checkbox"> Fish</label><br>
+        <label><input type="checkbox" value="Prawn" class="food-checkbox"> Prawn</label><br>
+        <label><input type="checkbox" value="Crab" class="food-checkbox"> Crab</label><br>
+        <label><input type="checkbox" value="Squid" class="food-checkbox"> Squid</label><br>
+        <label><input type="checkbox" value="Shellfish" class="food-checkbox"> Shellfish</label>
+      </div>
+
+      <div class="mb-2">
+        <h4 class="font-bold">Vegetables 🥦</h4>
+        <label><input type="checkbox" value="Broccoli" class="food-checkbox"> Broccoli</label><br>
+        <label><input type="checkbox" value="Carrot" class="food-checkbox"> Carrot</label><br>
+        <label><input type="checkbox" value="Spinach" class="food-checkbox"> Spinach</label><br>
+        <label><input type="checkbox" value="Mushroom" class="food-checkbox"> Mushroom</label><br>
+        <label><input type="checkbox" value="Onion" class="food-checkbox"> Onion</label>
+      </div>
+
+      <div class="mb-2">
+        <h4 class="font-bold">Carbs 🍞</h4>
+        <label><input type="checkbox" value="Rice" class="food-checkbox"> Rice</label><br>
+        <label><input type="checkbox" value="Bread" class="food-checkbox"> Bread</label><br>
+        <label><input type="checkbox" value="Pasta" class="food-checkbox"> Pasta</label><br>
+        <label><input type="checkbox" value="Potato" class="food-checkbox"> Potato</label><br>
+        <label><input type="checkbox" value="Noodles" class="food-checkbox"> Noodles</label>
+      </div>
+
+      <div class="mb-2">
+        <h4 class="font-bold">Dairy 🧀</h4>
+        <label><input type="checkbox" value="Milk" class="food-checkbox"> Milk</label><br>
+        <label><input type="checkbox" value="Cheese" class="food-checkbox"> Cheese</label><br>
+        <label><input type="checkbox" value="Yogurt" class="food-checkbox"> Yogurt</label><br>
+        <label><input type="checkbox" value="Butter" class="food-checkbox"> Butter</label>
+      </div>
+
+      <div class="mb-2">
+        <h4 class="font-bold">Nuts 🥜</h4>
+        <label><input type="checkbox" value="Peanuts" class="food-checkbox"> Peanuts</label><br>
+        <label><input type="checkbox" value="Almonds" class="food-checkbox"> Almonds</label><br>
+        <label><input type="checkbox" value="Walnuts" class="food-checkbox"> Walnuts</label>
+      </div>
+
+  </div>
+
+  <div class="mt-2 pt-3 border-t border-gray-200">
+    <h4 class="font-bold mb-1">Preferences & Allergies ☪️</h4>
+    <div class="grid grid-cols-2 gap-x-4">
+        <label><input type="checkbox" value="Halal Only" class="food-checkbox"> Halal Only</label>
+        <label><input type="checkbox" value="Vegan" class="food-checkbox"> Vegan</label>
+        <label><input type="checkbox" value="Gluten-Free" class="food-checkbox"> Gluten-Free</label>
+        <label><input type="checkbox" value="Nut-Free" class="food-checkbox"> Nut-Free</label>
     </div>
-
-    {{-- Food Filter --}}
-    <div class="grid grid-cols-2 gap-4">
-        <div class="mb-2">
-            <h4 class="font-bold">Meat 🍖</h4>
-            <label><input type="checkbox" value="Chicken" class="food-checkbox"> Chicken</label><br>
-            <label><input type="checkbox" value="Beef" class="food-checkbox"> Beef</label><br>
-            <label><input type="checkbox" value="Lamb" class="food-checkbox"> Lamb</label><br>
-            <label><input type="checkbox" value="Pork" class="food-checkbox"> Pork</label><br>
-            <label><input type="checkbox" value="Turkey" class="food-checkbox"> Turkey</label>
-        </div>
-
-        <div class="mb-2">
-            <h4 class="font-bold">Seafood 🦐</h4>
-            <label><input type="checkbox" value="Fish" class="food-checkbox"> Fish</label><br>
-            <label><input type="checkbox" value="Prawn" class="food-checkbox"> Prawn</label><br>
-            <label><input type="checkbox" value="Crab" class="food-checkbox"> Crab</label><br>
-            <label><input type="checkbox" value="Squid" class="food-checkbox"> Squid</label><br>
-            <label><input type="checkbox" value="Shellfish" class="food-checkbox"> Shellfish</label>
-        </div>
-
-        <div class="mb-2">
-            <h4 class="font-bold">Vegetables 🥦</h4>
-            <label><input type="checkbox" value="Broccoli" class="food-checkbox"> Broccoli</label><br>
-            <label><input type="checkbox" value="Carrot" class="food-checkbox"> Carrot</label><br>
-            <label><input type="checkbox" value="Spinach" class="food-checkbox"> Spinach</label><br>
-            <label><input type="checkbox" value="Mushroom" class="food-checkbox"> Mushroom</label><br>
-            <label><input type="checkbox" value="Onion" class="food-checkbox"> Onion</label>
-        </div>
-
-        <div class="mb-2">
-            <h4 class="font-bold">Carbs 🍞</h4>
-            <label><input type="checkbox" value="Rice" class="food-checkbox"> Rice</label><br>
-            <label><input type="checkbox" value="Bread" class="food-checkbox"> Bread</label><br>
-            <label><input type="checkbox" value="Pasta" class="food-checkbox"> Pasta</label><br>
-            <label><input type="checkbox" value="Potato" class="food-checkbox"> Potato</label><br>
-            <label><input type="checkbox" value="Noodles" class="food-checkbox"> Noodles</label>
-        </div>
-
-        <div class="mb-2">
-            <h4 class="font-bold">Dairy 🧀</h4>
-            <label><input type="checkbox" value="Milk" class="food-checkbox"> Milk</label><br>
-            <label><input type="checkbox" value="Cheese" class="food-checkbox"> Cheese</label><br>
-            <label><input type="checkbox" value="Yogurt" class="food-checkbox"> Yogurt</label><br>
-            <label><input type="checkbox" value="Butter" class="food-checkbox"> Butter</label>
-        </div>
-
-        <div class="mb-2">
-            <h4 class="font-bold">Nuts 🥜</h4>
-            <label><input type="checkbox" value="Peanuts" class="food-checkbox"> Peanuts</label><br>
-            <label><input type="checkbox" value="Almonds" class="food-checkbox"> Almonds</label><br>
-            <label><input type="checkbox" value="Walnuts" class="food-checkbox"> Walnuts</label>
-        </div>
-    </div>
-
-    <div class="mt-2 pt-3 border-t border-gray-200">
-        <h4 class="font-bold mb-1">Preferences & Allergies ☪️</h4>
-        <div class="grid grid-cols-2 gap-x-4">
-            <label><input type="checkbox" value="Halal Only" class="food-checkbox"> Halal Only</label>
-            <label><input type="checkbox" value="Vegan" class="food-checkbox"> Vegan</label>
-            <label><input type="checkbox" value="Gluten-Free" class="food-checkbox"> Gluten-Free</label>
-            <label><input type="checkbox" value="Nut-Free" class="food-checkbox"> Nut-Free</label>
-        </div>
-    </div>
+  </div>
 </div>
 
 {{-- 7 Days Widget --}}
 <div id="daysWidget" class="absolute top-[550px] left-8 right-[450px] w-auto bg-white p-6 rounded-2xl shadow-xl z-50">
   <h3 class="text-xl font-semibold mb-4">Meal Plan Days 📅</h3>
 
-  <div class="grid grid-cols-3 gap-4">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
-    <!-- Top Row -->
-    <a href="{{ url('/generate/Monday') }}" class="bg-gray-50 hover:bg-gray-200 border border-gray-300 rounded-xl aspect-square flex items-center justify-center text-xl font-medium cursor-pointer transition">
-      Monday
-    </a>
-    <a href="{{ url('/generate/Tuesday') }}" class="bg-gray-50 hover:bg-gray-200 border border-gray-300 rounded-xl aspect-square flex items-center justify-center text-xl font-medium cursor-pointer transition">
-      Tuesday
-    </a>
-    <a href="{{ url('/generate/Wednesday') }}" class="bg-gray-50 hover:bg-gray-200 border border-gray-300 rounded-xl aspect-square flex items-center justify-center text-xl font-medium cursor-pointer transition">
-      Wednesday
-    </a>
+    <!-- Monday -->
+    <div class="bg-gray-50 border border-gray-300 rounded-xl p-4 flex flex-col transition h-full">
+      <h4 class="text-lg font-bold text-center mb-2 border-b pb-1">Monday</h4>
 
-    <!-- Middle Row -->
-    <a href="{{ url('/generate/Thursday') }}" class="bg-gray-50 hover:bg-gray-200 border border-gray-300 rounded-xl aspect-square flex items-center justify-center text-xl font-medium cursor-pointer transition">
-      Thursday
-    </a>
-    <a href="{{ url('/generate/Friday') }}" class="bg-gray-50 hover:bg-gray-200 border border-gray-300 rounded-xl aspect-square flex items-center justify-center text-xl font-medium cursor-pointer transition">
-      Friday
-    </a>
-    <a href="{{ url('/generate/Saturday') }}" class="bg-gray-50 hover:bg-gray-200 border border-gray-300 rounded-xl aspect-square flex items-center justify-center text-xl font-medium cursor-pointer transition">
-      Saturday
-    </a>
+      <div id="meals-Monday" class="flex-grow flex flex-col gap-2 mb-3 text-sm">
+        <div class="bg-white p-2 rounded border border-gray-200">
+            <span class="text-xs text-gray-500 font-bold block">Breakfast</span>
+            <span id="mon-breakfast" class="text-gray-800 italic">Awaiting plan...</span>
+        </div>
+        <div class="bg-white p-2 rounded border border-gray-200">
+            <span class="text-xs text-gray-500 font-bold block">Lunch</span>
+            <span id="mon-lunch" class="text-gray-800 italic">Awaiting plan...</span>
+        </div>
+        <div class="bg-white p-2 rounded border border-gray-200">
+            <span class="text-xs text-gray-500 font-bold block">Dinner</span>
+            <span id="mon-dinner" class="text-gray-800 italic">Awaiting plan...</span>
+        </div>
+      </div>
 
-    <!-- Bottom Row (Centered) -->
-    <a href="{{ url('/generate/Sunday') }}" class="col-start-2 bg-gray-50 hover:bg-gray-200 border border-gray-300 rounded-xl aspect-square flex items-center justify-center text-xl font-medium cursor-pointer transition">
-      Sunday
-    </a>
+      <div class="flex gap-2 mt-auto">
+        <button onclick="regenerateDay('Monday')" class="flex-1 bg-blue-500 text-white text-xs py-2 rounded hover:bg-blue-600 transition font-semibold">Regenerate</button>
+        <button onclick="viewIngredients('Monday')" class="flex-1 bg-orange-400 text-white text-xs py-2 rounded hover:bg-orange-500 transition font-semibold">Ingredients</button>
+      </div>
+    </div>
+
+    <!-- Tuesday -->
+    <div class="bg-gray-50 border border-gray-300 rounded-xl p-4 flex flex-col transition h-full">
+      <h4 class="text-lg font-bold text-center mb-2 border-b pb-1">Tuesday</h4>
+
+      <div id="meals-Tuesday" class="flex-grow flex flex-col gap-2 mb-3 text-sm">
+        <div class="bg-white p-2 rounded border border-gray-200">
+            <span class="text-xs text-gray-500 font-bold block">Breakfast</span>
+            <span id="tue-breakfast" class="text-gray-800 italic">Awaiting plan...</span>
+        </div>
+        <div class="bg-white p-2 rounded border border-gray-200">
+            <span class="text-xs text-gray-500 font-bold block">Lunch</span>
+            <span id="tue-lunch" class="text-gray-800 italic">Awaiting plan...</span>
+        </div>
+        <div class="bg-white p-2 rounded border border-gray-200">
+            <span class="text-xs text-gray-500 font-bold block">Dinner</span>
+            <span id="tue-dinner" class="text-gray-800 italic">Awaiting plan...</span>
+        </div>
+      </div>
+
+      <div class="flex gap-2 mt-auto">
+        <button onclick="regenerateDay('Tuesday')" class="flex-1 bg-blue-500 text-white text-xs py-2 rounded hover:bg-blue-600 transition font-semibold">Regenerate</button>
+        <button onclick="viewIngredients('Tuesday')" class="flex-1 bg-orange-400 text-white text-xs py-2 rounded hover:bg-orange-500 transition font-semibold">Ingredients</button>
+      </div>
+    </div>
+
+    <!-- Wednesday -->
+    <div class="bg-gray-50 border border-gray-300 rounded-xl p-4 flex flex-col transition h-full">
+      <h4 class="text-lg font-bold text-center mb-2 border-b pb-1">Wednesday</h4>
+
+      <div id="meals-Wednesday" class="flex-grow flex flex-col gap-2 mb-3 text-sm">
+        <div class="bg-white p-2 rounded border border-gray-200">
+            <span class="text-xs text-gray-500 font-bold block">Breakfast</span>
+            <span id="wed-breakfast" class="text-gray-800 italic">Awaiting plan...</span>
+        </div>
+        <div class="bg-white p-2 rounded border border-gray-200">
+            <span class="text-xs text-gray-500 font-bold block">Lunch</span>
+            <span id="wed-lunch" class="text-gray-800 italic">Awaiting plan...</span>
+        </div>
+        <div class="bg-white p-2 rounded border border-gray-200">
+            <span class="text-xs text-gray-500 font-bold block">Dinner</span>
+            <span id="wed-dinner" class="text-gray-800 italic">Awaiting plan...</span>
+        </div>
+      </div>
+
+      <div class="flex gap-2 mt-auto">
+        <button onclick="regenerateDay('Wednesday')" class="flex-1 bg-blue-500 text-white text-xs py-2 rounded hover:bg-blue-600 transition font-semibold">Regenerate</button>
+        <button onclick="viewIngredients('Wednesday')" class="flex-1 bg-orange-400 text-white text-xs py-2 rounded hover:bg-orange-500 transition font-semibold">Ingredients</button>
+      </div>
+    </div>
+
+    <!-- Thursday -->
+    <div class="bg-gray-50 border border-gray-300 rounded-xl p-4 flex flex-col transition h-full">
+      <h4 class="text-lg font-bold text-center mb-2 border-b pb-1">Thursday</h4>
+
+      <div id="meals-Thursday" class="flex-grow flex flex-col gap-2 mb-3 text-sm">
+        <div class="bg-white p-2 rounded border border-gray-200">
+            <span class="text-xs text-gray-500 font-bold block">Breakfast</span>
+            <span id="thu-breakfast" class="text-gray-800 italic">Awaiting plan...</span>
+        </div>
+        <div class="bg-white p-2 rounded border border-gray-200">
+            <span class="text-xs text-gray-500 font-bold block">Lunch</span>
+            <span id="thu-lunch" class="text-gray-800 italic">Awaiting plan...</span>
+        </div>
+        <div class="bg-white p-2 rounded border border-gray-200">
+            <span class="text-xs text-gray-500 font-bold block">Dinner</span>
+            <span id="thu-dinner" class="text-gray-800 italic">Awaiting plan...</span>
+        </div>
+      </div>
+
+      <div class="flex gap-2 mt-auto">
+        <button onclick="regenerateDay('Thursday')" class="flex-1 bg-blue-500 text-white text-xs py-2 rounded hover:bg-blue-600 transition font-semibold">Regenerate</button>
+        <button onclick="viewIngredients('Thursday')" class="flex-1 bg-orange-400 text-white text-xs py-2 rounded hover:bg-orange-500 transition font-semibold">Ingredients</button>
+      </div>
+    </div>
+
+    <!-- Friday -->
+    <div class="bg-gray-50 border border-gray-300 rounded-xl p-4 flex flex-col transition h-full">
+      <h4 class="text-lg font-bold text-center mb-2 border-b pb-1">Friday</h4>
+
+      <div id="meals-Friday" class="flex-grow flex flex-col gap-2 mb-3 text-sm">
+        <div class="bg-white p-2 rounded border border-gray-200">
+            <span class="text-xs text-gray-500 font-bold block">Breakfast</span>
+            <span id="fri-breakfast" class="text-gray-800 italic">Awaiting plan...</span>
+        </div>
+        <div class="bg-white p-2 rounded border border-gray-200">
+            <span class="text-xs text-gray-500 font-bold block">Lunch</span>
+            <span id="fri-lunch" class="text-gray-800 italic">Awaiting plan...</span>
+        </div>
+        <div class="bg-white p-2 rounded border border-gray-200">
+            <span class="text-xs text-gray-500 font-bold block">Dinner</span>
+            <span id="fri-dinner" class="text-gray-800 italic">Awaiting plan...</span>
+        </div>
+      </div>
+
+      <div class="flex gap-2 mt-auto">
+        <button onclick="regenerateDay('Friday')" class="flex-1 bg-blue-500 text-white text-xs py-2 rounded hover:bg-blue-600 transition font-semibold">Regenerate</button>
+        <button onclick="viewIngredients('Friday')" class="flex-1 bg-orange-400 text-white text-xs py-2 rounded hover:bg-orange-500 transition font-semibold">Ingredients</button>
+      </div>
+    </div>
+
+    <!-- Saturday -->
+    <div class="bg-gray-50 border border-gray-300 rounded-xl p-4 flex flex-col transition h-full">
+      <h4 class="text-lg font-bold text-center mb-2 border-b pb-1">Saturday</h4>
+
+      <div id="meals-Saturday" class="flex-grow flex flex-col gap-2 mb-3 text-sm">
+        <div class="bg-white p-2 rounded border border-gray-200">
+            <span class="text-xs text-gray-500 font-bold block">Breakfast</span>
+            <span id="sat-breakfast" class="text-gray-800 italic">Awaiting plan...</span>
+        </div>
+        <div class="bg-white p-2 rounded border border-gray-200">
+            <span class="text-xs text-gray-500 font-bold block">Lunch</span>
+            <span id="sat-lunch" class="text-gray-800 italic">Awaiting plan...</span>
+        </div>
+        <div class="bg-white p-2 rounded border border-gray-200">
+            <span class="text-xs text-gray-500 font-bold block">Dinner</span>
+            <span id="sat-dinner" class="text-gray-800 italic">Awaiting plan...</span>
+        </div>
+      </div>
+
+      <div class="flex gap-2 mt-auto">
+        <button onclick="regenerateDay('Saturday')" class="flex-1 bg-blue-500 text-white text-xs py-2 rounded hover:bg-blue-600 transition font-semibold">Regenerate</button>
+        <button onclick="viewIngredients('Saturday')" class="flex-1 bg-orange-400 text-white text-xs py-2 rounded hover:bg-orange-500 transition font-semibold">Ingredients</button>
+      </div>
+    </div>
+
+    <!-- Sunday (Centered in the bottom row if on medium screens) -->
+    <div class="md:col-start-2 bg-gray-50 border border-gray-300 rounded-xl p-4 flex flex-col transition h-full">
+      <h4 class="text-lg font-bold text-center mb-2 border-b pb-1">Sunday</h4>
+
+      <div id="meals-Sunday" class="flex-grow flex flex-col gap-2 mb-3 text-sm">
+        <div class="bg-white p-2 rounded border border-gray-200">
+            <span class="text-xs text-gray-500 font-bold block">Breakfast</span>
+            <span id="sun-breakfast" class="text-gray-800 italic">Awaiting plan...</span>
+        </div>
+        <div class="bg-white p-2 rounded border border-gray-200">
+            <span class="text-xs text-gray-500 font-bold block">Lunch</span>
+            <span id="sun-lunch" class="text-gray-800 italic">Awaiting plan...</span>
+        </div>
+        <div class="bg-white p-2 rounded border border-gray-200">
+            <span class="text-xs text-gray-500 font-bold block">Dinner</span>
+            <span id="sun-dinner" class="text-gray-800 italic">Awaiting plan...</span>
+        </div>
+      </div>
+
+      <div class="flex gap-2 mt-auto">
+        <button onclick="regenerateDay('Sunday')" class="flex-1 bg-blue-500 text-white text-xs py-2 rounded hover:bg-blue-600 transition font-semibold">Regenerate</button>
+        <button onclick="viewIngredients('Sunday')" class="flex-1 bg-orange-400 text-white text-xs py-2 rounded hover:bg-orange-500 transition font-semibold">Ingredients</button>
+      </div>
+    </div>
 
   </div>
 </div>
-
 </div>
 
 {{-- Calorie Calculator --}}
 <div id="calculatorPage" class="hidden py-12 flex justify-center">
-    <div class="bg-white p-8 rounded-2xl shadow w-[400px]">
-        <h2 class="text-2xl font-bold mb-4 text-center">Calorie Calculator</h2>
+  <div class="bg-white p-8 rounded-2xl shadow w-[400px]">
+    <h2 class="text-2xl font-bold mb-4 text-center">Calorie Calculator</h2>
 
-        {{-- <form id="calorieForm" onsubmit="event.preventDefault(); calculateCalories();"> --}}
-        <form id="calorieForm" method="POST" action="/save-calorie">
-            @csrf
-            <!-- Added min, max, and required attributes to enforce rules in HTML -->
-            <input name="height" id="height" type="number" placeholder="Height (cm)" min="120" max="250" required class="w-full p-2 border rounded mb-2">
-            <input name="weight" id="weight" type="number" placeholder="Weight (kg)" min="25" max="250" required class="w-full p-2 border rounded mb-2">
+    <form id="calorieForm" onsubmit="event.preventDefault(); calculateCalories();">
+      <!-- Added min, max, and required attributes to enforce rules in HTML -->
+      <input id="height" type="number" placeholder="Height (cm)" min="120" max="250" required class="w-full p-2 border rounded mb-2">
+      <input id="weight" type="number" placeholder="Weight (kg)" min="25" max="250" required class="w-full p-2 border rounded mb-2">
 
-            <select name="sex" id="sex" class="w-full p-2 border rounded mb-2">
-                <option>Male</option>
-                <option>Female</option>
-            </select>
+      <select id="sex" class="w-full p-2 border rounded mb-2">
+        <option>Male</option>
+        <option>Female</option>
+      </select>
 
-            <select name="age" id="age" class="w-full p-2 border rounded mb-2">
-                @for ($i = 18; $i <= 25; $i++)
-                <option value="{{ $i }}">{{ $i }}</option>
-                @endfor
-            </select>
+      <select id="age" class="w-full p-2 border rounded mb-2">
+        @for ($i = 18; $i <= 25; $i++)
+          <option value="{{ $i }}">{{ $i }}</option>
+        @endfor
+      </select>
 
-            <select name="activity" id="activity" class="w-full p-2 border rounded mb-2">
-                <option value="1.2">No Exercise</option>
-                <option value="1.375">Light Exercise</option>
-                <option value="1.725">Heavy Exercise</option>
-            </select>
+      <select id="activity" class="w-full p-2 border rounded mb-2">
+        <option value="1.2">No Exercise</option>
+        <option value="1.375">Light Exercise</option>
+        <option value="1.725">Heavy Exercise</option>
+      </select>
 
-            <select name="goal" id="goal" class="w-full p-2 border rounded mb-4">
-                <option value="maintain">Maintain Weight</option>
-                <option value="lose">Lose Weight</option>
-                <option value="gain">Gain Weight</option>
-            </select>
+      <select id="goal" class="w-full p-2 border rounded mb-4">
+        <option value="maintain">Maintain Weight</option>
+        <option value="lose">Lose Weight</option>
+        <option value="gain">Gain Weight</option>
+      </select>
 
-            <!-- Changed from type="button" to type="submit" and removed the onclick -->
-            <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition font-bold">Calculate</button>
-        </form>
-        @if(session('calories'))
-            <div class="mt-4 p-4 bg-green-100 text-green-700 rounded-xl text-center">
-                Daily Calories: <b>{{ session('calories') }} kcal</b>
-            </div>
-        @endif
-        <div id="result" class="mt-4 p-4 bg-gray-50 rounded text-gray-800 text-lg empty:hidden"></div>
+      <!-- Changed from type="button" to type="submit" and removed the onclick -->
+      <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition font-bold">Calculate</button>
+    </form>
 
-        <button onclick="goHome()" class="mt-4 text-blue-600 underline bg-transparent border-none cursor-pointer block">← Back to Home Page</button>
-    </div>
+    <div id="result" class="mt-4 p-4 bg-gray-50 rounded text-gray-800 text-lg empty:hidden"></div>
+
+    <button onclick="goHome()" class="mt-4 text-blue-600 underline bg-transparent border-none cursor-pointer block">← Back to Home Page</button>
+  </div>
 </div>
 
 <script>
@@ -241,9 +394,36 @@
   }
 
   // --- NEW Food Filter Logic (Checkboxes) ---
-  function selectAllFoods() {
-    const checkboxes = document.querySelectorAll('.food-checkbox');
-    checkboxes.forEach(cb => cb.checked = true);
+  const MAX_FOOD_OPTIONS = 21;
+
+  // Enforce Max Checkboxes Limit on manual clicks
+  document.querySelectorAll('.food-checkbox').forEach(cb => {
+    cb.addEventListener('change', (e) => {
+      const checkedCount = document.querySelectorAll('.food-checkbox:checked').length;
+      if (checkedCount > MAX_FOOD_OPTIONS) {
+        e.target.checked = false; // Undo the selection
+        alert(`You can only select up to ${MAX_FOOD_OPTIONS} options. Please leave at least 10 options unselected.`);
+      }
+    });
+  });
+
+  function selectRandomFoods() {
+    // Get all checkboxes into an array
+    const checkboxes = Array.from(document.querySelectorAll('.food-checkbox'));
+
+    // Uncheck all first to reset
+    checkboxes.forEach(cb => cb.checked = false);
+
+    // Randomly shuffle the array (Fisher-Yates algorithm)
+    for (let i = checkboxes.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [checkboxes[i], checkboxes[j]] = [checkboxes[j], checkboxes[i]];
+    }
+
+    // Select the first 21 options from the randomized array
+    for (let i = 0; i < MAX_FOOD_OPTIONS && i < checkboxes.length; i++) {
+        checkboxes[i].checked = true;
+    }
   }
 
   function unselectAllFoods() {
@@ -310,7 +490,7 @@
 </body>
 
 @if(session('selectedDiet'))
-    <div class="bg-green-100 text-green-700 p-4 rounded-xl mb-5 text-center">
+    <div class="bg-green-100 text-green-700 absolute top-[500px] p-4 rounded-xl mb-5 text-center">
         Selected Diet:
         <strong>{{ session('selectedDiet') }}</strong>
     </div>
