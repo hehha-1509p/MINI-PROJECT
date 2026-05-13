@@ -68,7 +68,8 @@
 
 {{-- Food Filter --}}
 <div id="foodFilterWidget" class="absolute top-[570px] right-8 bg-white p-4 rounded-2xl shadow-xl w-96 z-50">
-  <h3 class="font-semibold">Food Filter</h3><span class="subtext mb-3">(Randomly choose 21 if select all)</span><br>
+    <h3 class="font-semibold leading-tight">Food Filter</h3>
+    <span class="text-sm text-gray-600 block mb-3 -mt-1">(Randomly choose 21 if select all)</span>
 
   <div class="flex gap-2 mb-4">
     <button onclick="selectRandomFoods()" class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 transition">
@@ -83,53 +84,53 @@
   <div class="grid grid-cols-2 gap-4">
       <div class="mb-2">
         <h4 class="font-bold">Meat 🍖</h4>
-        <label><input type="checkbox" value="Chicken" class="food-checkbox"> Chicken</label><br>
-        <label><input type="checkbox" value="Beef" class="food-checkbox"> Beef</label><br>
-        <label><input type="checkbox" value="Lamb" class="food-checkbox"> Lamb</label><br>
-        <label><input type="checkbox" value="Pork" class="food-checkbox"> Pork</label><br>
-        <label><input type="checkbox" value="Turkey" class="food-checkbox"> Turkey</label>
+        <label><input type="checkbox" value="Chicken" class="food-checkbox" data-category="Meat"> Chicken</label><br>
+        <label><input type="checkbox" value="Beef" class="food-checkbox" data-category="Meat"> Beef</label><br>
+        <label><input type="checkbox" value="Lamb" class="food-checkbox" data-category="Meat"> Lamb</label><br>
+        <label><input type="checkbox" value="Pork" class="food-checkbox" data-category="Meat"> Pork</label><br>
+        <label><input type="checkbox" value="Turkey" class="food-checkbox" data-category="Meat"> Turkey</label>
       </div>
 
       <div class="mb-2">
         <h4 class="font-bold">Seafood 🦐</h4>
-        <label><input type="checkbox" value="Fish" class="food-checkbox"> Fish</label><br>
-        <label><input type="checkbox" value="Prawn" class="food-checkbox"> Prawn</label><br>
-        <label><input type="checkbox" value="Crab" class="food-checkbox"> Crab</label><br>
-        <label><input type="checkbox" value="Squid" class="food-checkbox"> Squid</label><br>
-        <label><input type="checkbox" value="Shellfish" class="food-checkbox"> Shellfish</label>
+        <label><input type="checkbox" value="Fish" class="food-checkbox" data-category="Seafood"> Fish</label><br>
+        <label><input type="checkbox" value="Prawn" class="food-checkbox" data-category="Seafood"> Prawn</label><br>
+        <label><input type="checkbox" value="Crab" class="food-checkbox" data-category="Seafood"> Crab</label><br>
+        <label><input type="checkbox" value="Squid" class="food-checkbox" data-category="Seafood"> Squid</label><br>
+        <label><input type="checkbox" value="Shellfish" class="food-checkbox" data-category="Seafood"> Shellfish</label>
       </div>
 
       <div class="mb-2">
         <h4 class="font-bold">Vegetables 🥦</h4>
-        <label><input type="checkbox" value="Broccoli" class="food-checkbox"> Broccoli</label><br>
-        <label><input type="checkbox" value="Carrot" class="food-checkbox"> Carrot</label><br>
-        <label><input type="checkbox" value="Spinach" class="food-checkbox"> Spinach</label><br>
-        <label><input type="checkbox" value="Mushroom" class="food-checkbox"> Mushroom</label><br>
-        <label><input type="checkbox" value="Onion" class="food-checkbox"> Onion</label>
+        <label><input type="checkbox" value="Broccoli" class="food-checkbox" data-category="Vegetables"> Broccoli</label><br>
+        <label><input type="checkbox" value="Carrot" class="food-checkbox" data-category="Vegetables"> Carrot</label><br>
+        <label><input type="checkbox" value="Spinach" class="food-checkbox" data-category="Vegetables"> Spinach</label><br>
+        <label><input type="checkbox" value="Mushroom" class="food-checkbox" data-category="Vegetables"> Mushroom</label><br>
+        <label><input type="checkbox" value="Onion" class="food-checkbox" data-category="Vegetables"> Onion</label>
       </div>
 
       <div class="mb-2">
         <h4 class="font-bold">Carbs 🍞</h4>
-        <label><input type="checkbox" value="Rice" class="food-checkbox"> Rice</label><br>
-        <label><input type="checkbox" value="Bread" class="food-checkbox"> Bread</label><br>
-        <label><input type="checkbox" value="Pasta" class="food-checkbox"> Pasta</label><br>
-        <label><input type="checkbox" value="Potato" class="food-checkbox"> Potato</label><br>
-        <label><input type="checkbox" value="Noodles" class="food-checkbox"> Noodles</label>
+        <label><input type="checkbox" value="Rice" class="food-checkbox" data-category="Carbs"> Rice</label><br>
+        <label><input type="checkbox" value="Bread" class="food-checkbox" data-category="Carbs"> Bread</label><br>
+        <label><input type="checkbox" value="Pasta" class="food-checkbox" data-category="Carbs"> Pasta</label><br>
+        <label><input type="checkbox" value="Potato" class="food-checkbox" data-category="Carbs"> Potato</label><br>
+        <label><input type="checkbox" value="Noodles" class="food-checkbox" data-category="Carbs"> Noodles</label>
       </div>
 
       <div class="mb-2">
         <h4 class="font-bold">Dairy 🧀</h4>
-        <label><input type="checkbox" value="Milk" class="food-checkbox"> Milk</label><br>
-        <label><input type="checkbox" value="Cheese" class="food-checkbox"> Cheese</label><br>
-        <label><input type="checkbox" value="Yogurt" class="food-checkbox"> Yogurt</label><br>
-        <label><input type="checkbox" value="Butter" class="food-checkbox"> Butter</label>
+        <label><input type="checkbox" value="Milk" class="food-checkbox" data-category="Dairy"> Milk</label><br>
+        <label><input type="checkbox" value="Cheese" class="food-checkbox" data-category="Dairy"> Cheese</label><br>
+        <label><input type="checkbox" value="Yogurt" class="food-checkbox" data-category="Dairy"> Yogurt</label><br>
+        <label><input type="checkbox" value="Butter" class="food-checkbox" data-category="Dairy"> Butter</label>
       </div>
 
       <div class="mb-2">
         <h4 class="font-bold">Nuts 🥜</h4>
-        <label><input type="checkbox" value="Peanuts" class="food-checkbox"> Peanuts</label><br>
-        <label><input type="checkbox" value="Almonds" class="food-checkbox"> Almonds</label><br>
-        <label><input type="checkbox" value="Walnuts" class="food-checkbox"> Walnuts</label>
+        <label><input type="checkbox" value="Peanuts" class="food-checkbox" data-category="Nuts"> Peanuts</label><br>
+        <label><input type="checkbox" value="Almonds" class="food-checkbox" data-category="Nuts"> Almonds</label><br>
+        <label><input type="checkbox" value="Walnuts" class="food-checkbox" data-category="Nuts"> Walnuts</label>
       </div>
 
   </div>
@@ -384,160 +385,175 @@
 </div>
 
 <script>
-  // --- Diet Selection ---
-  function selectDiet(diet) {
-    localStorage.setItem('diet', diet);
-    document.getElementById('savedDiet').innerText = "Saved Diet: " + diet;
-  }
+document.addEventListener("DOMContentLoaded", function () {
 
-  // --- REFRESH LOGIC ---
-  function resetCalculator() {
-    // I removed the form reset so height and weight remain!
-
-    // This still clears the results box so it's fresh when you reopen
-    const resultDiv = document.getElementById('result');
-    resultDiv.innerHTML = "";
-    resultDiv.classList.add('hidden');
-  }
-
-  // --- NEW: Load Data onto Home Page ---
-  function loadMacroData() {
-    const savedData = localStorage.getItem('macroData');
-    if (savedData) {
-      const parsedData = JSON.parse(savedData); // Convert string back to an object
-
-      // Inject the data into the home page HTML
-      document.getElementById('displayKcal').innerText = parsedData.kcal + ' kcal';
-      document.getElementById('displayProtein').innerText = parsedData.protein;
-      document.getElementById('displayFat').innerText = parsedData.fat;
-      document.getElementById('displayCarbs').innerText = parsedData.carbs;
-
-      // Unhide the results container
-      document.getElementById('homeMacroResults').classList.remove('hidden');
+    // --- Diet Selection ---
+    function selectDiet(diet) {
+        localStorage.setItem('diet', diet);
+        document.getElementById('savedDiet').innerText = "Saved Diet: " + diet;
+        applyDietFilter(diet);
     }
-  }
 
-  // --- Page Navigation ---
-  function openCalculator() {
-    resetCalculator();
-    document.getElementById('homePage').classList.add('hidden');
-    document.getElementById('calculatorPage').classList.remove('hidden');
-    document.getElementById('foodFilterWidget').classList.add('hidden');
-    window.scrollTo(0, 0);
-  }
+    // --- Macro Display ---
+    function loadMacroData() {
+        const savedData = localStorage.getItem('macroData');
+        if (savedData) {
+            const parsedData = JSON.parse(savedData);
 
-  function goHome() {
-    resetCalculator();
-    document.getElementById('calculatorPage').classList.add('hidden');
-    document.getElementById('homePage').classList.remove('hidden');
-    document.getElementById('foodFilterWidget').classList.remove('hidden');
+            document.getElementById('displayKcal').innerText = parsedData.kcal + ' kcal';
+            document.getElementById('displayProtein').innerText = parsedData.protein;
+            document.getElementById('displayFat').innerText = parsedData.fat;
+            document.getElementById('displayCarbs').innerText = parsedData.carbs;
 
-    // UPDATE: Refresh the home page data when navigating back
-    loadMacroData();
-    window.scrollTo(0, 0);
-  }
+            document.getElementById('homeMacroResults').classList.remove('hidden');
+        }
+    }
 
-  // --- Food Filter Logic (Checkboxes) ---
-  const MAX_FOOD_OPTIONS = 21;
+    // --- Page Navigation ---
+    function resetCalculator() {
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = "";
+        resultDiv.classList.add('hidden');
+    }
 
-  document.querySelectorAll('.food-checkbox').forEach(cb => {
-    cb.addEventListener('change', (e) => {
-      const checkedCount = document.querySelectorAll('.food-checkbox:checked').length;
-      if (checkedCount > MAX_FOOD_OPTIONS) {
-        e.target.checked = false;
-        alert(`You can only select up to ${MAX_FOOD_OPTIONS} options. Please leave at least 10 options unselected.`);
-      }
+    function openCalculator() {
+        resetCalculator();
+        document.getElementById('homePage').classList.add('hidden');
+        document.getElementById('calculatorPage').classList.remove('hidden');
+        document.getElementById('foodFilterWidget').classList.add('hidden');
+        window.scrollTo(0, 0);
+    }
+
+    function goHome() {
+        resetCalculator();
+        document.getElementById('calculatorPage').classList.add('hidden');
+        document.getElementById('homePage').classList.remove('hidden');
+        document.getElementById('foodFilterWidget').classList.remove('hidden');
+
+        loadMacroData();
+        window.scrollTo(0, 0);
+    }
+
+    // --- FOOD LIMIT ---
+    const MAX_FOOD_OPTIONS = 21;
+
+    document.querySelectorAll('.food-checkbox').forEach(cb => {
+        cb.addEventListener('change', (e) => {
+            const checkedCount = document.querySelectorAll('.food-checkbox:checked').length;
+            if (checkedCount > MAX_FOOD_OPTIONS) {
+                e.target.checked = false;
+                alert(`You can only select up to ${MAX_FOOD_OPTIONS} options.`);
+            }
+        });
     });
-  });
 
-  function selectRandomFoods() {
-    const checkboxes = Array.from(document.querySelectorAll('.food-checkbox'));
-    checkboxes.forEach(cb => cb.checked = false);
+    function selectRandomFoods() {
+        const checkboxes = Array.from(document.querySelectorAll('.food-checkbox'));
+        checkboxes.forEach(cb => cb.checked = false);
 
-    for (let i = checkboxes.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [checkboxes[i], checkboxes[j]] = [checkboxes[j], checkboxes[i]];
+        for (let i = checkboxes.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [checkboxes[i], checkboxes[j]] = [checkboxes[j], checkboxes[i]];
+        }
+
+        for (let i = 0; i < MAX_FOOD_OPTIONS && i < checkboxes.length; i++) {
+            checkboxes[i].checked = true;
+        }
     }
 
-    for (let i = 0; i < MAX_FOOD_OPTIONS && i < checkboxes.length; i++) {
-        checkboxes[i].checked = true;
-    }
-  }
-
-  function unselectAllFoods() {
-    const checkboxes = document.querySelectorAll('.food-checkbox');
-    checkboxes.forEach(cb => cb.checked = false);
-  }
-
-  // --- Calorie Calculator Logic ---
-  function calculateCalories() {
-    const weight = parseFloat(document.getElementById('weight').value);
-    const height = parseFloat(document.getElementById('height').value);
-    const age = parseFloat(document.getElementById('age').value);
-    const activity = parseFloat(document.getElementById('activity').value);
-    const sex = document.getElementById('sex').value;
-    const goal = document.getElementById('goal').value;
-
-    if (!weight || !height) {
-      alert("Please enter both height and weight!");
-      return;
+    function unselectAllFoods() {
+        document.querySelectorAll('.food-checkbox').forEach(cb => cb.checked = false);
     }
 
-    if (height > 250) {
-      alert("Please enter a height of 250 cm or less.");
-      return;
+    // --- CALORIES ---
+    function calculateCalories() {
+        const weight = parseFloat(document.getElementById('weight').value);
+        const height = parseFloat(document.getElementById('height').value);
+        const age = parseFloat(document.getElementById('age').value);
+        const activity = parseFloat(document.getElementById('activity').value);
+        const sex = document.getElementById('sex').value;
+        const goal = document.getElementById('goal').value;
+
+        if (!weight || !height) return alert("Enter height & weight");
+
+        let bmr = (sex === 'Male')
+            ? 10 * weight + 6.25 * height - 5 * age + 5
+            : 10 * weight + 6.25 * height - 5 * age - 161;
+
+        let calories = bmr * activity;
+
+        if (goal === 'lose') calories -= 300;
+        if (goal === 'gain') calories += 300;
+
+        const protein = (calories * 0.3) / 4;
+        const fat = (calories * 0.25) / 9;
+        const carbs = (calories * 0.45) / 4;
+
+        const macroData = {
+            kcal: calories.toFixed(0),
+            protein: protein.toFixed(0) + 'g',
+            fat: fat.toFixed(0) + 'g',
+            carbs: carbs.toFixed(0) + 'g'
+        };
+
+        localStorage.setItem('macroData', JSON.stringify(macroData));
+
+        document.getElementById('result').innerHTML =
+            `Daily Calories: <b>${calories.toFixed(0)} kcal</b><br>
+             Protein: <b>${protein.toFixed(0)}g</b><br>
+             Fat: <b>${fat.toFixed(0)}g</b><br>
+             Carbs: <b>${carbs.toFixed(0)}g</b>`;
+
+        document.getElementById('result').classList.remove('hidden');
     }
 
-    if (weight > 250) {
-      alert("Please enter a weight of 250 kg or less.");
-      return;
-    }
-
-    let bmr;
-    if (sex === 'Male') {
-      bmr = 10 * weight + 6.25 * height - 5 * age + 5;
-    } else {
-      bmr = 10 * weight + 6.25 * height - 5 * age - 161;
-    }
-
-    let calories = bmr * activity;
-
-    if (goal === 'lose') calories -= 300;
-    if (goal === 'gain') calories += 300;
-
-    const protein = (calories * 0.3) / 4;
-    const fat = (calories * 0.25) / 9;
-    const carbs = (calories * 0.45) / 4;
-
-    // --- NEW: Save the data to localStorage ---
-    const macroData = {
-      kcal: calories.toFixed(0),
-      protein: protein.toFixed(0) + 'g',
-      fat: fat.toFixed(0) + 'g',
-      carbs: carbs.toFixed(0) + 'g'
+    // --- DIET FILTER MAP (IMPORTANT: must be BEFORE usage) ---
+    const dietBlockMap = {
+        Anything: [],
+        Keto: ["Meat", "Seafood", "Carbs"],
+        Vegetarian: ["Vegetables", "Dairy", "Nuts"]
     };
-    // Convert object to string because localStorage only stores strings
-    localStorage.setItem('macroData', JSON.stringify(macroData));
 
-    // Display result on the calculator page
-    const resultDiv = document.getElementById('result');
-    resultDiv.innerHTML = `
-      Daily Calories: <b class="text-blue-600">${calories.toFixed(0)} kcal</b><br>
-      Protein: <b>${protein.toFixed(0)}g</b><br>
-      Fat: <b>${fat.toFixed(0)}g</b><br>
-      Carbs: <b>${carbs.toFixed(0)}g</b>
-    `;
-    resultDiv.classList.remove('hidden');
-  }
+    function applyDietFilter(diet) {
+        const blockedCategories = dietBlockMap[diet] || [];
 
-  // --- Initialization on Page Load ---
-  const savedDietMemory = localStorage.getItem('diet');
-  if(savedDietMemory) {
-      document.getElementById('savedDiet').innerText = "Saved Diet: " + savedDietMemory;
-  }
+        document.querySelectorAll('.food-checkbox').forEach(cb => {
+            const category = cb.dataset.category;
 
-  // NEW: Run this when the page first loads to show existing data
-  loadMacroData();
+            // ALWAYS reset first
+            cb.checked = false;
+
+            // Special case: Anything → do nothing else (stay all unchecked)
+            if (diet === "Anything") return;
+
+            // Other diets → tick allowed categories
+            if (!blockedCategories.includes(category)) {
+                cb.checked = true;
+            }
+        });
+    }
+
+    // --- INIT ---
+    const savedDietMemory = localStorage.getItem('diet');
+
+    if (savedDietMemory) {
+        document.getElementById('savedDiet').innerText =
+            "Saved Diet: " + savedDietMemory;
+
+        applyDietFilter(savedDietMemory);
+    }
+
+    loadMacroData();
+
+    // expose functions globally (IMPORTANT for onclick buttons)
+    window.selectDiet = selectDiet;
+    window.openCalculator = openCalculator;
+    window.goHome = goHome;
+    window.calculateCalories = calculateCalories;
+    window.selectRandomFoods = selectRandomFoods;
+    window.unselectAllFoods = unselectAllFoods;
+
+});
 </script>
 </body>
 
