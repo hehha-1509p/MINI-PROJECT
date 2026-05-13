@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 font-sans min-h-[240vh] relative">
+<body class="bg-gray-100 font-sans min-h-[280vh] relative">
 
 <div id="homePage" class="h-full p-6">
   <h1 class="text-4xl font-bold mb-6">NomNomNom 🍽️</h1>
@@ -35,27 +35,39 @@
     </button>
   </div>
 
-  <p id="savedDiet" class="text-green-600 mb-6 font-semibold"></p>
+  {{-- NEW: Split Layout Container (No shared background box) --}}
+  <div class="flex flex-col md:flex-row justify-between items-start mb-8 gap-6 w-full">
 
-  @if(session('macroData'))
-  <div class="mb-6 p-4 bg-blue-50 rounded-2xl border border-blue-100">
-    <h3 class="font-bold text-blue-800 mb-1">Your Daily Targets:</h3>
-    <p class="text-lg">Daily Calories: <b class="text-blue-600">{{ session('macroData')['kcal'] }} kcal</b></p>
-    <div class="flex gap-4 text-sm font-medium text-gray-700">
-      <span>Protein: {{ session('macroData')['protein'] }}g</span>
-      <span>Fat: {{ session('macroData')['fat'] }}g</span>
-      <span>Carbs: {{ session('macroData')['carbs'] }}g</span>
+    {{-- Left Column: Saved Diet & Action Buttons --}}
+    <div class="flex flex-col gap-4 mt-2">
+      <p id="savedDiet" class="text-green-600 font-semibold text-lg m-0"></p>
+
+      <button onclick="openCalculator()" class="text-blue-600 underline text-left cursor-pointer hover:text-blue-800 transition">Calorie Calculator →</button>
+
+      <a href="/diet_option" class="bg-red-400 text-white px-6 py-2 rounded-xl shadow hover:bg-red-500 transition font-semibold w-max text-center">Diet Option</a>
+    </div>
+
+    {{-- Right Column: Frontend Macro Display (Standalone Box) --}}
+    <div id="homeMacroResults" class="hidden p-5 bg-blue-50 rounded-2xl border border-blue-100 shadow-sm min-w-[300px]">
+      <h3 class="font-bold text-blue-800 mb-3">Your Daily Targets:</h3>
+      <p class="text-lg mb-3">Calories: <b id="displayKcal" class="text-blue-600"></b></p>
+      <div class="flex justify-between gap-4 text-sm font-medium text-gray-700">
+        <span>Pro: <span id="displayProtein"></span></span>
+        <span>Fat: <span id="displayFat"></span></span>
+        <span>Carb: <span id="displayCarbs"></span></span>
+      </div>
     </div>
   </div>
-  @endif
-  {{-- Calculator and button to diet_option --}}
-  <button onclick="openCalculator()" class="text-blue-600 underline bg-transparent border-none cursor-pointer text-lg">Calorie Calculator →</button>
-  <br>
-  <br>
-  <a href="/diet_option" class="bg-red-400 text-white px-4 py-2 rounded-xl shadow hover:bg-red-500 transition">Diet Option</a>
+
+  @if(session('selectedDiet'))
+    <div class="bg-green-100 text-green-700 p-4 rounded-xl mb-5 text-center">
+        Selected Diet:
+        <strong>{{ session('selectedDiet') }}</strong>
+    </div>
+@endif
 
 {{-- Food Filter --}}
-<div id="foodFilterWidget" class="absolute top-[550px] right-8 bg-white p-4 rounded-2xl shadow-xl w-96 z-50">
+<div id="foodFilterWidget" class="absolute top-[570px] right-8 bg-white p-4 rounded-2xl shadow-xl w-96 z-50">
   <h3 class="font-semibold">Food Filter</h3><span class="subtext mb-3">(Randomly choose 21 if select all)</span><br>
 
   <div class="flex gap-2 mb-4">
@@ -134,7 +146,7 @@
 </div>
 
 {{-- 7 Days Widget --}}
-<div id="daysWidget" class="absolute top-[550px] left-8 right-[450px] w-auto bg-white p-6 rounded-2xl shadow-xl z-50">
+<div id="daysWidget" class="absolute top-[570px] left-8 right-[450px] w-auto bg-white p-6 rounded-2xl shadow-xl z-50">
   <h3 class="text-xl font-semibold mb-4">Meal Plan Days 📅</h3>
 
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -313,9 +325,19 @@
         <button onclick="viewIngredients('Sunday')" class="flex-1 bg-orange-400 text-white text-xs py-2 rounded hover:bg-orange-500 transition font-semibold">Ingredients</button>
       </div>
     </div>
-
   </div>
 </div>
+
+{{-- Frontend Macro Display --}}
+  <div id="homeMacroResults" class="hidden mb-6 p-4 bg-blue-50 rounded-2xl border border-blue-100">
+    <h3 class="font-bold text-blue-800 mb-1">Your Daily Targets:</h3>
+    <p class="text-lg">Daily Calories: <b id="displayKcal" class="text-blue-600"></b></p>
+    <div class="flex gap-4 text-sm font-medium text-gray-700">
+      <span>Protein: <span id="displayProtein"></span></span>
+      <span>Fat: <span id="displayFat"></span></span>
+      <span>Carbs: <span id="displayCarbs"></span></span>
+    </div>
+  </div>
 </div>
 
 {{-- Calorie Calculator --}}
@@ -370,10 +392,29 @@
 
   // --- REFRESH LOGIC ---
   function resetCalculator() {
-    document.getElementById('calorieForm').reset();
+    // I removed the form reset so height and weight remain!
+
+    // This still clears the results box so it's fresh when you reopen
     const resultDiv = document.getElementById('result');
     resultDiv.innerHTML = "";
     resultDiv.classList.add('hidden');
+  }
+
+  // --- NEW: Load Data onto Home Page ---
+  function loadMacroData() {
+    const savedData = localStorage.getItem('macroData');
+    if (savedData) {
+      const parsedData = JSON.parse(savedData); // Convert string back to an object
+
+      // Inject the data into the home page HTML
+      document.getElementById('displayKcal').innerText = parsedData.kcal + ' kcal';
+      document.getElementById('displayProtein').innerText = parsedData.protein;
+      document.getElementById('displayFat').innerText = parsedData.fat;
+      document.getElementById('displayCarbs').innerText = parsedData.carbs;
+
+      // Unhide the results container
+      document.getElementById('homeMacroResults').classList.remove('hidden');
+    }
   }
 
   // --- Page Navigation ---
@@ -390,37 +431,34 @@
     document.getElementById('calculatorPage').classList.add('hidden');
     document.getElementById('homePage').classList.remove('hidden');
     document.getElementById('foodFilterWidget').classList.remove('hidden');
+
+    // UPDATE: Refresh the home page data when navigating back
+    loadMacroData();
     window.scrollTo(0, 0);
   }
 
-  // --- NEW Food Filter Logic (Checkboxes) ---
+  // --- Food Filter Logic (Checkboxes) ---
   const MAX_FOOD_OPTIONS = 21;
 
-  // Enforce Max Checkboxes Limit on manual clicks
   document.querySelectorAll('.food-checkbox').forEach(cb => {
     cb.addEventListener('change', (e) => {
       const checkedCount = document.querySelectorAll('.food-checkbox:checked').length;
       if (checkedCount > MAX_FOOD_OPTIONS) {
-        e.target.checked = false; // Undo the selection
+        e.target.checked = false;
         alert(`You can only select up to ${MAX_FOOD_OPTIONS} options. Please leave at least 10 options unselected.`);
       }
     });
   });
 
   function selectRandomFoods() {
-    // Get all checkboxes into an array
     const checkboxes = Array.from(document.querySelectorAll('.food-checkbox'));
-
-    // Uncheck all first to reset
     checkboxes.forEach(cb => cb.checked = false);
 
-    // Randomly shuffle the array (Fisher-Yates algorithm)
     for (let i = checkboxes.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [checkboxes[i], checkboxes[j]] = [checkboxes[j], checkboxes[i]];
     }
 
-    // Select the first 21 options from the randomized array
     for (let i = 0; i < MAX_FOOD_OPTIONS && i < checkboxes.length; i++) {
         checkboxes[i].checked = true;
     }
@@ -445,7 +483,6 @@
       return;
     }
 
-    // --- NEW VALIDATION: Check if height or weight exceeds 250 ---
     if (height > 250) {
       alert("Please enter a height of 250 cm or less.");
       return;
@@ -472,6 +509,17 @@
     const fat = (calories * 0.25) / 9;
     const carbs = (calories * 0.45) / 4;
 
+    // --- NEW: Save the data to localStorage ---
+    const macroData = {
+      kcal: calories.toFixed(0),
+      protein: protein.toFixed(0) + 'g',
+      fat: fat.toFixed(0) + 'g',
+      carbs: carbs.toFixed(0) + 'g'
+    };
+    // Convert object to string because localStorage only stores strings
+    localStorage.setItem('macroData', JSON.stringify(macroData));
+
+    // Display result on the calculator page
     const resultDiv = document.getElementById('result');
     resultDiv.innerHTML = `
       Daily Calories: <b class="text-blue-600">${calories.toFixed(0)} kcal</b><br>
@@ -482,18 +530,16 @@
     resultDiv.classList.remove('hidden');
   }
 
+  // --- Initialization on Page Load ---
   const savedDietMemory = localStorage.getItem('diet');
   if(savedDietMemory) {
       document.getElementById('savedDiet').innerText = "Saved Diet: " + savedDietMemory;
   }
+
+  // NEW: Run this when the page first loads to show existing data
+  loadMacroData();
 </script>
 </body>
 
-@if(session('selectedDiet'))
-    <div class="bg-green-100 text-green-700 absolute top-[500px] p-4 rounded-xl mb-5 text-center">
-        Selected Diet:
-        <strong>{{ session('selectedDiet') }}</strong>
-    </div>
-@endif
 <div class="max-w-4xl mx-auto">
 </html>
