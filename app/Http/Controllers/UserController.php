@@ -20,5 +20,4 @@ class UserController extends Controller
     {
         return view('register');
     }
-
 }
