@@ -40,11 +40,12 @@ class DietController extends Controller
     // Save Diet
     public function saveCalorie(Request $request)
     {
-        $height = $request->height;
+        $sex = $request->sex;
         $weight = $request->weight;
+        $height = $request->height;
         $age = $request->age;
         $activity = $request->activity;
-        $sex = $request->sex;
+        $goal = $request->goal;
 
         // BMR
         if ($sex == 'Male') {
@@ -54,6 +55,20 @@ class DietController extends Controller
         }
 
         $calories = $bmr * $activity;
+
+        // Adjust based on goal
+        if ($goal === 'lose') {
+            $calories -= 300;
+        }
+
+        if ($goal === 'gain') {
+            $calories += 300;
+        }
+
+        // Macronutrients
+        $protein = ($calories * 0.3) / 4;
+        $fat = ($calories * 0.25) / 9;
+        $carbs = ($calories * 0.45) / 4;
 
         // SAVE SESSION
         session([
@@ -104,4 +119,3 @@ class DietController extends Controller
         ));
     }
 }
-
