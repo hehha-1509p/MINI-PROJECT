@@ -8,11 +8,6 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
 */
 
 Route::get('/', [UserController::class, 'home']);
@@ -20,4 +15,14 @@ Route::get('/login', [UserController::class, 'login']);
 Route::get('/register', [UserController::class, 'register']);
 Route::get('/diet_option', [DietController::class, 'diet_option']);
 Route::post('/save-diet', [DietController::class, 'saveDiet']);
-Route::get('/generate/{day}', [DietController::class, 'generate']);
+Route::post('/save-calories', [DietController::class, 'saveCalories']);
+Route::post('/regenerate-day', [DietController::class, 'regenerateDay']); // NEW
+Route::post('/regenerate-meal', [DietController::class, 'regenerateMeal']);
+Route::post('/get-ingredients', [DietController::class, 'getIngredients']); // NEW
+Route::post('/save-food-filters', [DietController::class, 'saveFoodFilters']); // NEW
+Route::post('/save-preferred-diet', [DietController::class, 'savePreferredDiet']);
+Route::get('/ingredients', function () {
+    $day = session('viewing_ingredients_day', 'Monday');
+    $meals = session('meal_plan', [])[$day] ?? [];
+    return view('ingredients', compact('meals', 'day'));
+});
