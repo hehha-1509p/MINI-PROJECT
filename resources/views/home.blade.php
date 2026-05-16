@@ -132,16 +132,15 @@
         <label><input type="checkbox" value="Almonds" class="food-checkbox" data-category="Nuts"> Almonds</label><br>
         <label><input type="checkbox" value="Walnuts" class="food-checkbox" data-category="Nuts"> Walnuts</label>
       </div>
-
-  </div>
+    </div>
 
   <div class="mt-2 pt-3 border-t border-gray-200">
     <h4 class="font-bold mb-1">Preferences & Allergies ☪️</h4>
     <div class="grid grid-cols-2 gap-x-4">
-        <label><input type="checkbox" value="Halal Only" class="food-checkbox"> Halal Only</label>
-        <label><input type="checkbox" value="Vegan" class="food-checkbox"> Vegan</label>
-        <label><input type="checkbox" value="Gluten-Free" class="food-checkbox"> Gluten-Free</label>
-        <label><input type="checkbox" value="Nut-Free" class="food-checkbox"> Nut-Free</label>
+        <label><input type="checkbox" value="Halal Only" class="preference-checkbox"> Halal Only</label>
+        <label><input type="checkbox" value="Vegan" class="preference-checkbox"> Vegan</label>
+        <label><input type="checkbox" value="Gluten-Free" class="preference-checkbox"> Gluten-Free</label>
+        <label><input type="checkbox" value="Nut-Free" class="preference-checkbox"> Nut-Free</label>
     </div>
   </div>
 </div>
@@ -404,7 +403,6 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('displayProtein').innerText = parsedData.protein;
             document.getElementById('displayFat').innerText = parsedData.fat;
             document.getElementById('displayCarbs').innerText = parsedData.carbs;
-
             document.getElementById('homeMacroResults').classList.remove('hidden');
         }
     }
@@ -553,9 +551,17 @@ document.addEventListener("DOMContentLoaded", function () {
     window.selectRandomFoods = selectRandomFoods;
     window.unselectAllFoods = unselectAllFoods;
 
+    function applyWeekendFlex(baseCalories) {
+    const weekdayReduction = 200;
+    const weekendIncrease = 500;
+
+        return {
+            weekdayCalories: baseCalories - weekdayReduction,
+            weekendCalories: baseCalories + weekendIncrease
+        };
+    }
+
 });
 </script>
 </body>
-
-<div class="max-w-4xl mx-auto">
 </html>
