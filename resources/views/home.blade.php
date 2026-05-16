@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>NomNomNom Meal Planner</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 font-sans min-h-[280vh] relative">
@@ -155,20 +156,26 @@
     <div class="bg-gray-50 border border-gray-300 rounded-xl p-4 flex flex-col transition h-full">
       <h4 class="text-lg font-bold text-center mb-2 border-b pb-1">Monday</h4>
 
-      <div id="meals-Monday" class="flex-grow flex flex-col gap-2 mb-3 text-sm">
-        <div class="bg-white p-2 rounded border border-gray-200">
-            <span class="text-xs text-gray-500 font-bold block">Breakfast</span>
-            <span id="mon-breakfast" class="text-gray-800 italic">Awaiting plan...</span>
+        <div id="meals-Monday" class="flex-grow flex flex-col gap-2 mb-3 text-sm">
+            <div class="bg-white p-2 rounded border border-gray-200">
+                <span class="text-xs text-gray-500 font-bold block">Breakfast</span>
+                <span class="text-gray-800">
+                    {{ $meals['Monday']['breakfast']->item_name ?? 'No meal' }}
+                </span>
+            </div>
+            <div class="bg-white p-2 rounded border border-gray-200">
+                <span class="text-xs text-gray-500 font-bold block">Lunch</span>
+                <span class="text-gray-800">
+                    {{ $meals['Monday']['lunch']->item_name ?? 'No meal' }}
+                </span>
+            </div>
+            <div class="bg-white p-2 rounded border border-gray-200">
+                <span class="text-xs text-gray-500 font-bold block">Dinner</span>
+                <span class="text-gray-800">
+                    {{ $meals['Monday']['dinner']->item_name ?? 'No meal' }}
+                </span>
+            </div>
         </div>
-        <div class="bg-white p-2 rounded border border-gray-200">
-            <span class="text-xs text-gray-500 font-bold block">Lunch</span>
-            <span id="mon-lunch" class="text-gray-800 italic">Awaiting plan...</span>
-        </div>
-        <div class="bg-white p-2 rounded border border-gray-200">
-            <span class="text-xs text-gray-500 font-bold block">Dinner</span>
-            <span id="mon-dinner" class="text-gray-800 italic">Awaiting plan...</span>
-        </div>
-      </div>
 
       <div class="flex gap-2 mt-auto">
         <button onclick="regenerateDay('Monday')" class="flex-1 bg-blue-500 text-white text-xs py-2 rounded hover:bg-blue-600 transition font-semibold">Regenerate</button>
@@ -180,20 +187,26 @@
     <div class="bg-gray-50 border border-gray-300 rounded-xl p-4 flex flex-col transition h-full">
       <h4 class="text-lg font-bold text-center mb-2 border-b pb-1">Tuesday</h4>
 
-      <div id="meals-Tuesday" class="flex-grow flex flex-col gap-2 mb-3 text-sm">
-        <div class="bg-white p-2 rounded border border-gray-200">
-            <span class="text-xs text-gray-500 font-bold block">Breakfast</span>
-            <span id="tue-breakfast" class="text-gray-800 italic">Awaiting plan...</span>
+        <div id="meals-Tuesday" class="flex-grow flex flex-col gap-2 mb-3 text-sm">
+            <div class="bg-white p-2 rounded border border-gray-200">
+                <span class="text-xs text-gray-500 font-bold block">Breakfast</span>
+                <span class="text-gray-800">
+                    {{ $meals['Tuesday']['breakfast']->item_name ?? 'No meal' }}
+                </span>
+            </div>
+            <div class="bg-white p-2 rounded border border-gray-200">
+                <span class="text-xs text-gray-500 font-bold block">Lunch</span>
+                <span class="text-gray-800">
+                    {{ $meals['Tuesday']['lunch']->item_name ?? 'No meal' }}
+                </span>
+            </div>
+            <div class="bg-white p-2 rounded border border-gray-200">
+                <span class="text-xs text-gray-500 font-bold block">Dinner</span>
+                <span class="text-gray-800">
+                    {{ $meals['Tuesday']['dinner']->item_name ?? 'No meal' }}
+                </span>
+            </div>
         </div>
-        <div class="bg-white p-2 rounded border border-gray-200">
-            <span class="text-xs text-gray-500 font-bold block">Lunch</span>
-            <span id="tue-lunch" class="text-gray-800 italic">Awaiting plan...</span>
-        </div>
-        <div class="bg-white p-2 rounded border border-gray-200">
-            <span class="text-xs text-gray-500 font-bold block">Dinner</span>
-            <span id="tue-dinner" class="text-gray-800 italic">Awaiting plan...</span>
-        </div>
-      </div>
 
       <div class="flex gap-2 mt-auto">
         <button onclick="regenerateDay('Tuesday')" class="flex-1 bg-blue-500 text-white text-xs py-2 rounded hover:bg-blue-600 transition font-semibold">Regenerate</button>
@@ -205,20 +218,26 @@
     <div class="bg-gray-50 border border-gray-300 rounded-xl p-4 flex flex-col transition h-full">
       <h4 class="text-lg font-bold text-center mb-2 border-b pb-1">Wednesday</h4>
 
-      <div id="meals-Wednesday" class="flex-grow flex flex-col gap-2 mb-3 text-sm">
-        <div class="bg-white p-2 rounded border border-gray-200">
-            <span class="text-xs text-gray-500 font-bold block">Breakfast</span>
-            <span id="wed-breakfast" class="text-gray-800 italic">Awaiting plan...</span>
+        <div id="meals-Wednesday" class="flex-grow flex flex-col gap-2 mb-3 text-sm">
+            <div class="bg-white p-2 rounded border border-gray-200">
+                <span class="text-xs text-gray-500 font-bold block">Breakfast</span>
+                <span class="text-gray-800">
+                    {{ $meals['Wednesday']['breakfast']->item_name ?? 'No meal' }}
+                </span>
+            </div>
+            <div class="bg-white p-2 rounded border border-gray-200">
+                <span class="text-xs text-gray-500 font-bold block">Lunch</span>
+                <span class="text-gray-800">
+                    {{ $meals['Wednesday']['lunch']->item_name ?? 'No meal' }}
+                </span>
+            </div>
+            <div class="bg-white p-2 rounded border border-gray-200">
+                <span class="text-xs text-gray-500 font-bold block">Dinner</span>
+                <span class="text-gray-800">
+                    {{ $meals['Wednesday']['dinner']->item_name ?? 'No meal' }}
+                </span>
+            </div>
         </div>
-        <div class="bg-white p-2 rounded border border-gray-200">
-            <span class="text-xs text-gray-500 font-bold block">Lunch</span>
-            <span id="wed-lunch" class="text-gray-800 italic">Awaiting plan...</span>
-        </div>
-        <div class="bg-white p-2 rounded border border-gray-200">
-            <span class="text-xs text-gray-500 font-bold block">Dinner</span>
-            <span id="wed-dinner" class="text-gray-800 italic">Awaiting plan...</span>
-        </div>
-      </div>
 
       <div class="flex gap-2 mt-auto">
         <button onclick="regenerateDay('Wednesday')" class="flex-1 bg-blue-500 text-white text-xs py-2 rounded hover:bg-blue-600 transition font-semibold">Regenerate</button>
@@ -230,20 +249,26 @@
     <div class="bg-gray-50 border border-gray-300 rounded-xl p-4 flex flex-col transition h-full">
       <h4 class="text-lg font-bold text-center mb-2 border-b pb-1">Thursday</h4>
 
-      <div id="meals-Thursday" class="flex-grow flex flex-col gap-2 mb-3 text-sm">
-        <div class="bg-white p-2 rounded border border-gray-200">
-            <span class="text-xs text-gray-500 font-bold block">Breakfast</span>
-            <span id="thu-breakfast" class="text-gray-800 italic">Awaiting plan...</span>
+        <div id="meals-Thursday" class="flex-grow flex flex-col gap-2 mb-3 text-sm">
+            <div class="bg-white p-2 rounded border border-gray-200">
+                <span class="text-xs text-gray-500 font-bold block">Breakfast</span>
+                <span class="text-gray-800">
+                    {{ $meals['Thursday']['breakfast']->item_name ?? 'No meal' }}
+                </span>
+            </div>
+            <div class="bg-white p-2 rounded border border-gray-200">
+                <span class="text-xs text-gray-500 font-bold block">Lunch</span>
+                <span class="text-gray-800">
+                    {{ $meals['Thursday']['lunch']->item_name ?? 'No meal' }}
+                </span>
+            </div>
+            <div class="bg-white p-2 rounded border border-gray-200">
+                <span class="text-xs text-gray-500 font-bold block">Dinner</span>
+                <span class="text-gray-800">
+                    {{ $meals['Thursday']['dinner']->item_name ?? 'No meal' }}
+                </span>
+            </div>
         </div>
-        <div class="bg-white p-2 rounded border border-gray-200">
-            <span class="text-xs text-gray-500 font-bold block">Lunch</span>
-            <span id="thu-lunch" class="text-gray-800 italic">Awaiting plan...</span>
-        </div>
-        <div class="bg-white p-2 rounded border border-gray-200">
-            <span class="text-xs text-gray-500 font-bold block">Dinner</span>
-            <span id="thu-dinner" class="text-gray-800 italic">Awaiting plan...</span>
-        </div>
-      </div>
 
       <div class="flex gap-2 mt-auto">
         <button onclick="regenerateDay('Thursday')" class="flex-1 bg-blue-500 text-white text-xs py-2 rounded hover:bg-blue-600 transition font-semibold">Regenerate</button>
@@ -255,20 +280,26 @@
     <div class="bg-gray-50 border border-gray-300 rounded-xl p-4 flex flex-col transition h-full">
       <h4 class="text-lg font-bold text-center mb-2 border-b pb-1">Friday</h4>
 
-      <div id="meals-Friday" class="flex-grow flex flex-col gap-2 mb-3 text-sm">
-        <div class="bg-white p-2 rounded border border-gray-200">
-            <span class="text-xs text-gray-500 font-bold block">Breakfast</span>
-            <span id="fri-breakfast" class="text-gray-800 italic">Awaiting plan...</span>
+        <div id="meals-Friday" class="flex-grow flex flex-col gap-2 mb-3 text-sm">
+            <div class="bg-white p-2 rounded border border-gray-200">
+                <span class="text-xs text-gray-500 font-bold block">Breakfast</span>
+                <span class="text-gray-800">
+                    {{ $meals['Friday']['breakfast']->item_name ?? 'No meal' }}
+                </span>
+            </div>
+            <div class="bg-white p-2 rounded border border-gray-200">
+                <span class="text-xs text-gray-500 font-bold block">Lunch</span>
+                <span class="text-gray-800">
+                    {{ $meals['Friday']['lunch']->item_name ?? 'No meal' }}
+                </span>
+            </div>
+            <div class="bg-white p-2 rounded border border-gray-200">
+                <span class="text-xs text-gray-500 font-bold block">Dinner</span>
+                <span class="text-gray-800">
+                    {{ $meals['Friday']['dinner']->item_name ?? 'No meal' }}
+                </span>
+            </div>
         </div>
-        <div class="bg-white p-2 rounded border border-gray-200">
-            <span class="text-xs text-gray-500 font-bold block">Lunch</span>
-            <span id="fri-lunch" class="text-gray-800 italic">Awaiting plan...</span>
-        </div>
-        <div class="bg-white p-2 rounded border border-gray-200">
-            <span class="text-xs text-gray-500 font-bold block">Dinner</span>
-            <span id="fri-dinner" class="text-gray-800 italic">Awaiting plan...</span>
-        </div>
-      </div>
 
       <div class="flex gap-2 mt-auto">
         <button onclick="regenerateDay('Friday')" class="flex-1 bg-blue-500 text-white text-xs py-2 rounded hover:bg-blue-600 transition font-semibold">Regenerate</button>
@@ -280,20 +311,26 @@
     <div class="bg-gray-50 border border-gray-300 rounded-xl p-4 flex flex-col transition h-full">
       <h4 class="text-lg font-bold text-center mb-2 border-b pb-1">Saturday</h4>
 
-      <div id="meals-Saturday" class="flex-grow flex flex-col gap-2 mb-3 text-sm">
-        <div class="bg-white p-2 rounded border border-gray-200">
-            <span class="text-xs text-gray-500 font-bold block">Breakfast</span>
-            <span id="sat-breakfast" class="text-gray-800 italic">Awaiting plan...</span>
+        <div id="meals-Saturday" class="flex-grow flex flex-col gap-2 mb-3 text-sm">
+            <div class="bg-white p-2 rounded border border-gray-200">
+                <span class="text-xs text-gray-500 font-bold block">Breakfast</span>
+                <span class="text-gray-800">
+                    {{ $meals['Saturday']['breakfast']->item_name ?? 'No meal' }}
+                </span>
+            </div>
+            <div class="bg-white p-2 rounded border border-gray-200">
+                <span class="text-xs text-gray-500 font-bold block">Lunch</span>
+                <span class="text-gray-800">
+                    {{ $meals['Saturday']['lunch']->item_name ?? 'No meal' }}
+                </span>
+            </div>
+            <div class="bg-white p-2 rounded border border-gray-200">
+                <span class="text-xs text-gray-500 font-bold block">Dinner</span>
+                <span class="text-gray-800">
+                    {{ $meals['Saturday']['dinner']->item_name ?? 'No meal' }}
+                </span>
+            </div>
         </div>
-        <div class="bg-white p-2 rounded border border-gray-200">
-            <span class="text-xs text-gray-500 font-bold block">Lunch</span>
-            <span id="sat-lunch" class="text-gray-800 italic">Awaiting plan...</span>
-        </div>
-        <div class="bg-white p-2 rounded border border-gray-200">
-            <span class="text-xs text-gray-500 font-bold block">Dinner</span>
-            <span id="sat-dinner" class="text-gray-800 italic">Awaiting plan...</span>
-        </div>
-      </div>
 
       <div class="flex gap-2 mt-auto">
         <button onclick="regenerateDay('Saturday')" class="flex-1 bg-blue-500 text-white text-xs py-2 rounded hover:bg-blue-600 transition font-semibold">Regenerate</button>
@@ -305,20 +342,26 @@
     <div class="md:col-start-2 bg-gray-50 border border-gray-300 rounded-xl p-4 flex flex-col transition h-full">
       <h4 class="text-lg font-bold text-center mb-2 border-b pb-1">Sunday</h4>
 
-      <div id="meals-Sunday" class="flex-grow flex flex-col gap-2 mb-3 text-sm">
-        <div class="bg-white p-2 rounded border border-gray-200">
-            <span class="text-xs text-gray-500 font-bold block">Breakfast</span>
-            <span id="sun-breakfast" class="text-gray-800 italic">Awaiting plan...</span>
+        <div id="meals-Sunday" class="flex-grow flex flex-col gap-2 mb-3 text-sm">
+            <div class="bg-white p-2 rounded border border-gray-200">
+                <span class="text-xs text-gray-500 font-bold block">Breakfast</span>
+                <span class="text-gray-800">
+                    {{ $meals['Sunday']['breakfast']->item_name ?? 'No meal' }}
+                </span>
+            </div>
+            <div class="bg-white p-2 rounded border border-gray-200">
+                <span class="text-xs text-gray-500 font-bold block">Lunch</span>
+                <span class="text-gray-800">
+                    {{ $meals['Sunday']['lunch']->item_name ?? 'No meal' }}
+                </span>
+            </div>
+            <div class="bg-white p-2 rounded border border-gray-200">
+                <span class="text-xs text-gray-500 font-bold block">Dinner</span>
+                <span class="text-gray-800">
+                    {{ $meals['Sunday']['dinner']->item_name ?? 'No meal' }}
+                </span>
+            </div>
         </div>
-        <div class="bg-white p-2 rounded border border-gray-200">
-            <span class="text-xs text-gray-500 font-bold block">Lunch</span>
-            <span id="sun-lunch" class="text-gray-800 italic">Awaiting plan...</span>
-        </div>
-        <div class="bg-white p-2 rounded border border-gray-200">
-            <span class="text-xs text-gray-500 font-bold block">Dinner</span>
-            <span id="sun-dinner" class="text-gray-800 italic">Awaiting plan...</span>
-        </div>
-      </div>
 
       <div class="flex gap-2 mt-auto">
         <button onclick="regenerateDay('Sunday')" class="flex-1 bg-blue-500 text-white text-xs py-2 rounded hover:bg-blue-600 transition font-semibold">Regenerate</button>
@@ -373,7 +416,6 @@
         <option value="gain">Gain Weight</option>
       </select>
 
-      <!-- Changed from type="button" to type="submit" and removed the onclick -->
       <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition font-bold">Calculate</button>
     </form>
 
@@ -386,19 +428,101 @@
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
-    // --- Diet Selection ---
+    // --- Preferred Diet Selection ---
     function selectDiet(diet) {
-        localStorage.setItem('diet', diet);
-        document.getElementById('savedDiet').innerText = "Saved Diet: " + diet;
+        localStorage.setItem('preferred_diet', diet);
+        document.getElementById('savedDiet').innerText = "Preferred Diet: " + diet;
         applyDietFilter(diet);
+
+        // Send to backend - this is DIFFERENT from diet_option
+        fetch("/save-preferred-diet", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({ diet: diet })
+        }).then(() => {
+            location.reload(); // Reload to apply filter
+        });
     }
+
+    // --- Regenerate Day (FIXED) ---
+    window.regenerateDay = async function(day) {
+        const buttons = document.querySelectorAll(`[onclick="regenerateDay('${day}')"]`);
+        buttons.forEach(btn => {
+            btn.disabled = true;
+            btn.textContent = 'Regenerating...';
+        });
+
+        try {
+            const response = await fetch("/regenerate-day", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({ day: day })
+            });
+
+            const data = await response.json();
+
+            if (data.meals) {
+                // Update the UI for this day's meals
+                const mealsContainer = document.getElementById(`meals-${day}`);
+                if (mealsContainer) {
+                    const breakfastDiv = mealsContainer.children[0];
+                    const lunchDiv = mealsContainer.children[1];
+                    const dinnerDiv = mealsContainer.children[2];
+
+                    if (breakfastDiv && data.meals.breakfast) {
+                        breakfastDiv.querySelector('span:last-child').innerHTML = data.meals.breakfast.item_name;
+                    }
+                    if (lunchDiv && data.meals.lunch) {
+                        lunchDiv.querySelector('span:last-child').innerHTML = data.meals.lunch.item_name;
+                    }
+                    if (dinnerDiv && data.meals.dinner) {
+                        dinnerDiv.querySelector('span:last-child').innerHTML = data.meals.dinner.item_name;
+                    }
+                }
+            }
+        } catch (error) {
+            console.error('Error regenerating day:', error);
+            alert('Failed to regenerate meals. Please try again.');
+        } finally {
+            buttons.forEach(btn => {
+                btn.disabled = false;
+                btn.textContent = 'Regenerate';
+            });
+        }
+    };
+
+    // --- View Ingredients (FIXED) ---
+    window.viewIngredients = async function(day) {
+        try {
+            const response = await fetch("/get-ingredients", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({ day: day })
+            });
+
+            if (response.redirected || response.ok) {
+                window.location.href = "/ingredients"; // This will need a route
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Could not load ingredients page');
+        }
+    };
 
     // --- Macro Display ---
     function loadMacroData() {
         const savedData = localStorage.getItem('macroData');
         if (savedData) {
             const parsedData = JSON.parse(savedData);
-
             document.getElementById('displayKcal').innerText = parsedData.kcal + ' kcal';
             document.getElementById('displayProtein').innerText = parsedData.protein;
             document.getElementById('displayFat').innerText = parsedData.fat;
@@ -410,27 +534,28 @@ document.addEventListener("DOMContentLoaded", function () {
     // --- Page Navigation ---
     function resetCalculator() {
         const resultDiv = document.getElementById('result');
-        resultDiv.innerHTML = "";
-        resultDiv.classList.add('hidden');
+        if (resultDiv) {
+            resultDiv.innerHTML = "";
+            resultDiv.classList.add('hidden');
+        }
     }
 
-    function openCalculator() {
+    window.openCalculator = function() {
         resetCalculator();
         document.getElementById('homePage').classList.add('hidden');
         document.getElementById('calculatorPage').classList.remove('hidden');
         document.getElementById('foodFilterWidget').classList.add('hidden');
         window.scrollTo(0, 0);
-    }
+    };
 
-    function goHome() {
+    window.goHome = function() {
         resetCalculator();
         document.getElementById('calculatorPage').classList.add('hidden');
         document.getElementById('homePage').classList.remove('hidden');
         document.getElementById('foodFilterWidget').classList.remove('hidden');
-
         loadMacroData();
         window.scrollTo(0, 0);
-    }
+    };
 
     // --- FOOD LIMIT ---
     const MAX_FOOD_OPTIONS = 21;
@@ -441,11 +566,30 @@ document.addEventListener("DOMContentLoaded", function () {
             if (checkedCount > MAX_FOOD_OPTIONS) {
                 e.target.checked = false;
                 alert(`You can only select up to ${MAX_FOOD_OPTIONS} options.`);
+            } else {
+                saveFoodFilters();
             }
         });
     });
 
-    function selectRandomFoods() {
+    // Save food filters to backend
+    function saveFoodFilters() {
+        const selectedFoods = Array.from(document.querySelectorAll('.food-checkbox:checked')).map(cb => cb.value);
+        const preferences = Array.from(document.querySelectorAll('.preference-checkbox:checked')).map(cb => cb.value);
+
+        fetch("/save-food-filters", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({
+                filters: { foods: selectedFoods, preferences: preferences }
+            })
+        });
+    }
+
+    window.selectRandomFoods = function() {
         const checkboxes = Array.from(document.querySelectorAll('.food-checkbox'));
         checkboxes.forEach(cb => cb.checked = false);
 
@@ -457,14 +601,17 @@ document.addEventListener("DOMContentLoaded", function () {
         for (let i = 0; i < MAX_FOOD_OPTIONS && i < checkboxes.length; i++) {
             checkboxes[i].checked = true;
         }
-    }
+        saveFoodFilters();
+    };
 
-    function unselectAllFoods() {
+    window.unselectAllFoods = function() {
         document.querySelectorAll('.food-checkbox').forEach(cb => cb.checked = false);
-    }
+        document.querySelectorAll('.preference-checkbox').forEach(cb => cb.checked = false);
+        saveFoodFilters();
+    };
 
     // --- CALORIES ---
-    function calculateCalories() {
+    window.calculateCalories = function() {
         const weight = parseFloat(document.getElementById('weight').value);
         const height = parseFloat(document.getElementById('height').value);
         const age = parseFloat(document.getElementById('age').value);
@@ -496,16 +643,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
         localStorage.setItem('macroData', JSON.stringify(macroData));
 
-        document.getElementById('result').innerHTML =
-            `Daily Calories: <b>${calories.toFixed(0)} kcal</b><br>
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = `Daily Calories: <b>${calories.toFixed(0)} kcal</b><br>
              Protein: <b>${protein.toFixed(0)}g</b><br>
              Fat: <b>${fat.toFixed(0)}g</b><br>
              Carbs: <b>${carbs.toFixed(0)}g</b>`;
+        resultDiv.classList.remove('hidden');
 
-        document.getElementById('result').classList.remove('hidden');
-    }
+        fetch("/save-calories", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({
+                calories: calories.toFixed(0)
+            })
+        }).then(() => {
+            // Reload to show meals based on new calories
+            location.reload();
+        });
+    };
 
-    // --- DIET FILTER MAP (IMPORTANT: must be BEFORE usage) ---
+    // --- DIET FILTER MAP ---
     const dietBlockMap = {
         Anything: [],
         Keto: ["Meat", "Seafood", "Carbs"],
@@ -514,53 +674,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function applyDietFilter(diet) {
         const blockedCategories = dietBlockMap[diet] || [];
-
         document.querySelectorAll('.food-checkbox').forEach(cb => {
             const category = cb.dataset.category;
-
-            // ALWAYS reset first
             cb.checked = false;
-
-            // Special case: Anything → do nothing else (stay all unchecked)
-            if (diet === "Anything") return;
-
-            // Other diets → tick allowed categories
-            if (!blockedCategories.includes(category)) {
+            if (diet !== "Anything" && !blockedCategories.includes(category)) {
                 cb.checked = true;
             }
         });
+        saveFoodFilters();
     }
 
     // --- INIT ---
-    const savedDietMemory = localStorage.getItem('diet');
-
-    if (savedDietMemory) {
-        document.getElementById('savedDiet').innerText =
-            "Saved Diet: " + savedDietMemory;
-
-        applyDietFilter(savedDietMemory);
+    const savedPreferredDiet = localStorage.getItem('preferred_diet');
+    if (savedPreferredDiet) {
+        document.getElementById('savedDiet').innerText = "Preferred Diet: " + savedPreferredDiet;
+        applyDietFilter(savedPreferredDiet);
     }
 
     loadMacroData();
 
-    // expose functions globally (IMPORTANT for onclick buttons)
+    // Expose functions globally
     window.selectDiet = selectDiet;
-    window.openCalculator = openCalculator;
-    window.goHome = goHome;
-    window.calculateCalories = calculateCalories;
-    window.selectRandomFoods = selectRandomFoods;
-    window.unselectAllFoods = unselectAllFoods;
-
-    function applyWeekendFlex(baseCalories) {
-    const weekdayReduction = 200;
-    const weekendIncrease = 500;
-
-        return {
-            weekdayCalories: baseCalories - weekdayReduction,
-            weekendCalories: baseCalories + weekendIncrease
-        };
-    }
-
 });
 </script>
 </body>

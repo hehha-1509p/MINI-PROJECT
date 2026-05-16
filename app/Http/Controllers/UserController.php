@@ -8,7 +8,9 @@ class UserController extends Controller
 {
     public function home()
     {
-        return view('home');
+        $meals = app(DietController::class)->generateMeals();
+
+        return view('home', compact('meals'));
     }
 
     public function login()
