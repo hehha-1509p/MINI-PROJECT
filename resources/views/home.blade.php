@@ -7,10 +7,13 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 font-sans min-h-[280vh] relative">
+<body class="bg-[url('{{ asset('images/homepage.jpeg') }}')] bg-cover bg-center bg-fixed bg-no-repeat font-sans min-h-[300vh] relative">
 
 <div id="homePage" class="h-full p-6">
-  <h1 class="text-4xl font-bold mb-6">NomNomNom 🍽️</h1>
+  <div class="flex items-center gap-3 mb-6">
+  <h1 class="text-4xl font-bold">NomNomNom</h1>
+  <img src="{{ asset('images/diet.jpeg') }}" alt="NomNomNom Logo" class="w-10 h-10 object-contain">
+</div>
 
   <div class="flex justify-end items-center mb-6">
     <div class="absolute top-6 right-8 flex items-center space-x-4">
@@ -22,15 +25,15 @@
   {{-- Preferred Diet --}}
   <h2 class="text-xl font-semibold mb-3 text-center">Preferred Diet</h2>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-    <button onclick="selectDiet('Anything')" class="dietBtn bg-white p-6 rounded-2xl shadow flex flex-col items-center hover:border-orange-500 border-2 border-transparent">
-      <img src="{{ asset('images/anything.jpeg') }}" class="w-16 h-16 mb-2" alt="Anything">
-      <span>Anything</span>
-    </button>
-    <button onclick="selectDiet('Keto')" class="dietBtn bg-white p-6 rounded-2xl shadow flex flex-col items-center hover:border-orange-500 border-2 border-transparent">
+    <button onclick="selectDiet('Anything')" class="dietBtn bg-[#ffdab9] p-6 rounded-2xl shadow flex flex-col items-center hover:border-orange-500 border-2 border-transparent">
+  <img src="{{ asset('images/anything.jpeg') }}" class="w-16 h-16 mb-2 mix-blend-multiply" alt="Anything">
+  <span>Anything</span>
+</button>
+    <button onclick="selectDiet('Keto')" class="dietBtn bg-[#ffdab9] p-6 rounded-2xl shadow flex flex-col items-center hover:border-orange-500 border-2 border-transparent">
       <img src="{{ asset('images/keto.jpeg') }}" class="w-16 h-16 mb-2" alt="Keto">
       <span>Keto</span>
     </button>
-    <button onclick="selectDiet('Vegetarian')" class="dietBtn bg-white p-6 rounded-2xl shadow flex flex-col items-center hover:border-orange-500 border-2 border-transparent">
+    <button onclick="selectDiet('Vegetarian')" class="dietBtn bg-[#ffdab9] p-6 rounded-2xl shadow flex flex-col items-center hover:border-orange-500 border-2 border-transparent">
       <img src="{{ asset('images/vegeterian.jpeg') }}" class="w-16 h-16 mb-2" alt="Vegetarian">
       <span>Vegetarian</span>
     </button>
@@ -369,7 +372,25 @@
       </div>
     </div>
   </div>
+
+<!-- Feedback Section -->
+
+<div class="w-full flex justify-center mt-10 mb-10">
+
+  <a href="https://forms.gle/7eqAqZ5cTTQLib2B9"
+
+     target="_blank"
+
+     class="bg-green-500 text-white px-8 py-3 rounded-xl shadow hover:bg-green-600 transition font-semibold text-center">
+
+     Feedback Form
+
+  </a>
 </div>
+
+</div>
+
+
 
 {{-- Frontend Macro Display --}}
   <div id="homeMacroResults" class="hidden mb-6 p-4 bg-blue-50 rounded-2xl border border-blue-100">
@@ -431,7 +452,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // --- Preferred Diet Selection ---
     function selectDiet(diet) {
         localStorage.setItem('preferred_diet', diet);
-        document.getElementById('savedDiet').innerText = "Preferred Diet: " + diet;
+        document.getElementById('savedDiet').innerText = "Saved Diet: " + diet;
         applyDietFilter(diet);
 
         // Send to backend - this is DIFFERENT from diet_option
@@ -660,8 +681,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 calories: calories.toFixed(0)
             })
         }).then(() => {
-            // Reload to show meals based on new calories
-            location.reload();
+            // Location reload removed so the calculator stays open
         });
     };
 
@@ -687,7 +707,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // --- INIT ---
     const savedPreferredDiet = localStorage.getItem('preferred_diet');
     if (savedPreferredDiet) {
-        document.getElementById('savedDiet').innerText = "Preferred Diet: " + savedPreferredDiet;
+        document.getElementById('savedDiet').innerText = "Saved Diet: " + savedPreferredDiet;
         applyDietFilter(savedPreferredDiet);
     }
 
