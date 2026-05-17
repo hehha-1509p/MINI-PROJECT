@@ -168,7 +168,8 @@
     <a href="/" class="back-home">← Back to Home</a>
     <div class="register-container">
         <p class="login-link">Already have an account? <a href="/login">Log In</a></p>
-        <form>
+        <form method="POST" action="/register">
+    @csrf
             <div class="input-group">
                 <label>Username</label>
                 <input type="text" name="username">
