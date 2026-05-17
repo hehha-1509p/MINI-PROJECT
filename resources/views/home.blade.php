@@ -60,10 +60,10 @@
     </div>
   </div>
 
-  @if(session('selectedDiet'))
+  @if(session('diet_plan'))
     <div class="bg-green-100 text-green-700 p-4 rounded-xl mb-5 text-center">
-        Selected Diet:
-        <strong>{{ session('selectedDiet') }}</strong>
+        Current Diet Plan:
+        <strong>{{ session('diet_plan') }}</strong>
     </div>
 @endif
 
