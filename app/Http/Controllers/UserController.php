@@ -10,7 +10,13 @@ class UserController extends Controller
 {
     public function home()
     {
-        return view('home');
+        // Force regenerate if diet plan exists but no meals
+        if (session('diet_plan') && !session('meal_plan')) {
+            app(DietController::class)->regenerateAllMeals();
+        }
+
+        $meals = app(DietController::class)->generateMeals();
+        return view('home', compact('meals'));
     }
 
     public function login()
@@ -25,11 +31,11 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-       User::create([
-    'name' => $request->username,
-    'email' => $request->email,
-    'password' => Hash::make($request->password),
-]);
+        User::create([
+        'name' => $request->username,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        ]);
 
         return redirect('/login');
     }

@@ -27,3 +27,4 @@ Route::get('/ingredients', function () {
     $meals = session('meal_plan', [])[$day] ?? [];
     return view('ingredients', compact('meals', 'day'));
 });
+    
