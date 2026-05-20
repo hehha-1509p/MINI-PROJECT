@@ -31,7 +31,7 @@ class DietController extends Controller
         return response()->json(['status' => 'success']);
     }
 
-    private function regenerateAllMeals()
+    public function regenerateAllMeals()
     {
         $calories = session('calories');
         $dietPlan = session('diet_plan');
