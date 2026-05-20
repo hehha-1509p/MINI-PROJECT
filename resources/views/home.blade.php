@@ -6,17 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    /* Additional responsive fixes */
-    @media (max-width: 768px) {
-      .responsive-stack {
-        flex-direction: column !important;
-      }
-      .responsive-grid {
-        grid-template-columns: 1fr !important;
-      }
-    }
-  </style>
 </head>
 <body class="bg-[url('{{ asset('images/homepage.jpeg') }}')] bg-cover bg-center bg-fixed bg-no-repeat font-sans min-h-screen relative">
 

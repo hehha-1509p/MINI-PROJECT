@@ -3,47 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <title>Diet Options</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+<body class="bg-gray-100 font-sans min-h-screen py-6 sm:py-10 px-4">
 
-<div class="max-w-2xl w-full text-center">
+<div class="max-w-2xl w-full mx-auto">
 
-    <h1 class="text-3xl font-bold mb-10 text-gray-800">
+    {{-- Title centered at top --}}
+    <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 text-center mb-8 sm:mb-12">
         Diet Options
     </h1>
 
-    <!-- DIET OPTIONS CENTERED -->
-    <div class="grid gap-8">
-
+    {{-- Diet Options Grid --}}
+    <div class="grid gap-4 sm:gap-6 md:gap-8">
         @foreach($dietPlans as $plan)
+            <form action="/save-diet" method="POST" class="w-full">
+                @csrf
+                <input type="hidden" name="diet" value="{{ $plan['name'] }}">
 
-<form action="/save-diet" method="POST">
-    @csrf
+                <button type="submit"
+                    class="w-full bg-white p-5 sm:p-8 rounded-2xl shadow-lg border-b-4 border-blue-500 hover:scale-105 transition-transform text-center">
 
-    <input type="hidden" name="diet" value="{{ $plan['name'] }}">
+                    <span class="text-xs font-bold text-blue-600 uppercase bg-blue-50 px-3 py-1 rounded-full inline-block">
+                        {{ $plan['tag'] }}
+                    </span>
 
-    <button type="submit"
-        class="w-full bg-white p-8 rounded-2xl shadow-lg border-b-4 border-blue-500 hover:scale-105 transition-transform text-center">
+                    <h2 class="font-bold text-xl sm:text-2xl mt-3 sm:mt-4 break-words">
+                        {{ $plan['name'] }}
+                    </h2>
 
-        <span class="text-xs font-bold text-blue-600 uppercase bg-blue-50 px-3 py-1 rounded-full">
-            {{ $plan['tag'] }}
-        </span>
-
-        <h2 class="font-bold text-2xl mt-4">
-            {{ $plan['name'] }}
-        </h2>
-
-        <p class="text-gray-500 text-sm mt-3">
-            {{ $plan['description'] }}
-        </p>
-
-    </button>
-</form>
-
-@endforeach
+                    <p class="text-gray-500 text-xs sm:text-sm mt-2 sm:mt-3 break-words">
+                        {{ $plan['description'] }}
+                    </p>
+                </button>
+            </form>
+        @endforeach
     </div>
 
+    {{-- Home Button at bottom --}}
+    <div class="mt-8 sm:mt-10 flex justify-center">
+        <a href="/">
+            <button type="button"
+                class="bg-blue-400 hover:bg-blue-600 text-white font-semibold px-6 py-3 rounded-xl transition duration-300 shadow-md">
+                Home
+            </button>
+        </a>
+    </div>
 </div>
 
 </body>
