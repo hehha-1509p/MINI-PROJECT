@@ -288,4 +288,15 @@ class DietController extends Controller
         $this->regenerateAllMeals();
         return response()->json(['status' => 'success']);
     }
+    public function search(Request $request)
+    {
+     $query = $request->input('query');
+
+    $results = MenuItem::where('item_name', 'LIKE', "%{$query}%")
+        ->orWhere('estimated_main_ingredients', 'LIKE', "%{$query}%")
+        ->orWhere('meal_category', 'LIKE', "%{$query}%")
+        ->get();
+
+    return view('search', compact('results', 'query'));
+    }
 }
