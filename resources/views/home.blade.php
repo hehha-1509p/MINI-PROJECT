@@ -6,6 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Additional responsive fixes */
+    @media (max-width: 768px) {
+      .responsive-stack {
+        flex-direction: column !important;
+      }
+      .responsive-grid {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
 </head>
 <body class="bg-[url('{{ asset('images/homepage.jpeg') }}')] bg-cover bg-center bg-fixed bg-no-repeat font-sans min-h-screen relative">
 
@@ -153,56 +164,130 @@
       </div>
     </div>
 
-    {{-- Meal Plan Days Widget (Takes remaining width) --}}
-    <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-xl flex-1 overflow-x-auto">
-      <h3 class="text-xl font-semibold mb-4">Meal Plan Days 📅</h3>
+    {{-- Meal Plan Days Widget --}}
+<div class="bg-white p-4 sm:p-6 rounded-2xl shadow-xl flex-1 overflow-x-auto">
+  <h3 class="text-xl font-semibold mb-4">Meal Plan Days 📅</h3>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        @foreach(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as $index => $day)
-          @php
-            $colors = ['text-red-500', 'text-orange-500', 'text-yellow-500', 'text-green-500', 'text-blue-500', 'text-purple-500', 'text-pink-500'];
-            $colStart = ($day == 'Sunday') ? 'md:col-start-2 lg:col-start-auto' : '';
-          @endphp
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    @php
+      $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+      $colors = ['text-red-500', 'text-orange-500', 'text-yellow-500', 'text-green-500', 'text-blue-500', 'text-purple-500', 'text-pink-500'];
+    @endphp
 
-          <div class="bg-gray-50 border border-gray-300 rounded-xl p-4 flex flex-col transition h-full {{ $colStart }}">
-            <h4 class="text-lg font-bold text-center mb-2 border-b pb-1 {{ $colors[$index] }}">{{ $day }}</h4>
+    {{-- Row 1: Monday, Tuesday, Wednesday --}}
+    @foreach(['Monday', 'Tuesday', 'Wednesday'] as $index => $day)
+      @php $dayIndex = array_search($day, $days); @endphp
+      <div class="bg-gray-50 border border-gray-300 rounded-xl p-4 flex flex-col transition h-full">
+        <h4 class="text-lg font-bold text-center mb-2 border-b pb-1 {{ $colors[$dayIndex] }}">{{ $day }}</h4>
 
-            <div id="meals-{{ $day }}" class="flex-grow flex flex-col gap-2 mb-3 text-sm">
-              <div class="bg-white p-2 rounded border border-gray-200">
-                <span class="text-xs text-gray-500 font-bold block">Breakfast</span>
-                <span class="text-gray-800 break-words">
-                  {{ $meals[$day]['breakfast']->item_name ?? 'No meal' }}
-                </span>
-              </div>
-              <div class="bg-white p-2 rounded border border-gray-200">
-                <span class="text-xs text-gray-500 font-bold block">Lunch</span>
-                <span class="text-gray-800 break-words">
-                  {{ $meals[$day]['lunch']->item_name ?? 'No meal' }}
-                </span>
-              </div>
-              <div class="bg-white p-2 rounded border border-gray-200">
-                <span class="text-xs text-gray-500 font-bold block">Dinner</span>
-                <span class="text-gray-800 break-words">
-                  {{ $meals[$day]['dinner']->item_name ?? 'No meal' }}
-                </span>
-              </div>
-            </div>
-
-            <div class="flex gap-2 mt-auto">
-              <button onclick="regenerateDay('{{ $day }}')" class="flex-1 bg-blue-500 text-white text-xs py-2 rounded hover:bg-blue-600 transition font-semibold">Regenerate</button>
-              <button onclick="viewIngredients('{{ $day }}')" class="flex-1 bg-orange-400 text-white text-xs py-2 rounded hover:bg-orange-500 transition font-semibold">Ingredients</button>
-            </div>
+        <div id="meals-{{ $day }}" class="flex-grow flex flex-col gap-2 mb-3 text-sm">
+          <div class="bg-white p-2 rounded border border-gray-200">
+            <span class="text-xs text-gray-500 font-bold block">Breakfast</span>
+            <span class="text-gray-800 break-words">
+              {{ $meals[$day]['breakfast']->item_name ?? 'No meal' }}
+            </span>
           </div>
-        @endforeach
+          <div class="bg-white p-2 rounded border border-gray-200">
+            <span class="text-xs text-gray-500 font-bold block">Lunch</span>
+            <span class="text-gray-800 break-words">
+              {{ $meals[$day]['lunch']->item_name ?? 'No meal' }}
+            </span>
+          </div>
+          <div class="bg-white p-2 rounded border border-gray-200">
+            <span class="text-xs text-gray-500 font-bold block">Dinner</span>
+            <span class="text-gray-800 break-words">
+              {{ $meals[$day]['dinner']->item_name ?? 'No meal' }}
+            </span>
+          </div>
+        </div>
+
+        <div class="flex gap-2 mt-auto">
+          <button onclick="regenerateDay('{{ $day }}')" class="flex-1 bg-blue-500 text-white text-xs py-2 rounded hover:bg-blue-600 transition font-semibold">Regenerate</button>
+          <button onclick="viewIngredients('{{ $day }}')" class="flex-1 bg-orange-400 text-white text-xs py-2 rounded hover:bg-orange-500 transition font-semibold">Ingredients</button>
+        </div>
+      </div>
+    @endforeach
+
+    {{-- Row 2: Thursday, Friday, Saturday --}}
+    @foreach(['Thursday', 'Friday', 'Saturday'] as $index => $day)
+      @php $dayIndex = array_search($day, $days); @endphp
+      <div class="bg-gray-50 border border-gray-300 rounded-xl p-4 flex flex-col transition h-full">
+        <h4 class="text-lg font-bold text-center mb-2 border-b pb-1 {{ $colors[$dayIndex] }}">{{ $day }}</h4>
+
+        <div id="meals-{{ $day }}" class="flex-grow flex flex-col gap-2 mb-3 text-sm">
+          <div class="bg-white p-2 rounded border border-gray-200">
+            <span class="text-xs text-gray-500 font-bold block">Breakfast</span>
+            <span class="text-gray-800 break-words">
+              {{ $meals[$day]['breakfast']->item_name ?? 'No meal' }}
+            </span>
+          </div>
+          <div class="bg-white p-2 rounded border border-gray-200">
+            <span class="text-xs text-gray-500 font-bold block">Lunch</span>
+            <span class="text-gray-800 break-words">
+              {{ $meals[$day]['lunch']->item_name ?? 'No meal' }}
+            </span>
+          </div>
+          <div class="bg-white p-2 rounded border border-gray-200">
+            <span class="text-xs text-gray-500 font-bold block">Dinner</span>
+            <span class="text-gray-800 break-words">
+              {{ $meals[$day]['dinner']->item_name ?? 'No meal' }}
+            </span>
+          </div>
+        </div>
+
+        <div class="flex gap-2 mt-auto">
+          <button onclick="regenerateDay('{{ $day }}')" class="flex-1 bg-blue-500 text-white text-xs py-2 rounded hover:bg-blue-600 transition font-semibold">Regenerate</button>
+          <button onclick="viewIngredients('{{ $day }}')" class="flex-1 bg-orange-400 text-white text-xs py-2 rounded hover:bg-orange-500 transition font-semibold">Ingredients</button>
+        </div>
+      </div>
+    @endforeach
+
+    {{-- Row 3: Empty, Sunday, Empty --}}
+    <div class="bg-gray-50 border border-gray-300 rounded-xl p-4 flex flex-col transition h-full opacity-0 invisible">
+      <!-- Empty placeholder for alignment -->
+    </div>
+
+    <div class="bg-gray-50 border border-gray-300 rounded-xl p-4 flex flex-col transition h-full">
+      @php $day = 'Sunday'; $dayIndex = array_search($day, $days); @endphp
+      <h4 class="text-lg font-bold text-center mb-2 border-b pb-1 {{ $colors[$dayIndex] }}">{{ $day }}</h4>
+
+      <div id="meals-{{ $day }}" class="flex-grow flex flex-col gap-2 mb-3 text-sm">
+        <div class="bg-white p-2 rounded border border-gray-200">
+          <span class="text-xs text-gray-500 font-bold block">Breakfast</span>
+          <span class="text-gray-800 break-words">
+            {{ $meals[$day]['breakfast']->item_name ?? 'No meal' }}
+          </span>
+        </div>
+        <div class="bg-white p-2 rounded border border-gray-200">
+          <span class="text-xs text-gray-500 font-bold block">Lunch</span>
+          <span class="text-gray-800 break-words">
+            {{ $meals[$day]['lunch']->item_name ?? 'No meal' }}
+          </span>
+        </div>
+        <div class="bg-white p-2 rounded border border-gray-200">
+          <span class="text-xs text-gray-500 font-bold block">Dinner</span>
+          <span class="text-gray-800 break-words">
+            {{ $meals[$day]['dinner']->item_name ?? 'No meal' }}
+          </span>
+        </div>
       </div>
 
-      {{-- Feedback Section --}}
-      <div class="w-full flex justify-center mt-10 mb-5">
-        <a href="https://forms.gle/7eqAqZ5cTTQLib2B9" target="_blank" class="bg-green-500 text-white px-8 py-3 rounded-xl shadow hover:bg-green-600 transition font-semibold text-center">
-          Feedback Form
-        </a>
+      <div class="flex gap-2 mt-auto">
+        <button onclick="regenerateDay('{{ $day }}')" class="flex-1 bg-blue-500 text-white text-xs py-2 rounded hover:bg-blue-600 transition font-semibold">Regenerate</button>
+        <button onclick="viewIngredients('{{ $day }}')" class="flex-1 bg-orange-400 text-white text-xs py-2 rounded hover:bg-orange-500 transition font-semibold">Ingredients</button>
       </div>
     </div>
+
+    <div class="bg-gray-50 border border-gray-300 rounded-xl p-4 flex flex-col transition h-full opacity-0 invisible">
+      <!-- Empty placeholder for alignment -->
+    </div>
+  </div>
+
+  {{-- Feedback Section --}}
+  <div class="w-full flex justify-center mt-10 mb-5">
+    <a href="https://forms.gle/7eqAqZ5cTTQLib2B9" target="_blank" class="bg-green-500 text-white px-8 py-3 rounded-xl shadow hover:bg-green-600 transition font-semibold text-center">
+      Feedback Form
+    </a>
   </div>
 </div>
 
