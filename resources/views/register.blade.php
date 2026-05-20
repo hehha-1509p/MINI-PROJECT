@@ -16,6 +16,7 @@
             font-family: 'Inter', sans-serif;
             background-color: #f3f4f6;
             color: #000000;
+            overflow: hidden;
         }
 
         .password-wrapper {
@@ -43,19 +44,19 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center px-4 py-8 relative">
+<body class="h-screen w-screen flex items-center justify-center px-4 relative">
 
-{{-- Back to Home Button (Fixed at top left on all screens) --}}
+{{-- Back to Home Button (Left untouched at top left) --}}
 <a href="/" class="fixed top-4 left-4 sm:top-6 sm:left-6 text-blue-500 hover:text-blue-700 transition flex items-center gap-1 z-50 bg-white/80 backdrop-blur-sm px-3 py-2 rounded-lg shadow-sm">
     <i class="fa-solid fa-arrow-left"></i>
     <span class="text-sm font-medium">Back to Home</span>
 </a>
 
 <div class="w-full max-w-md mx-auto">
-    <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 md:p-10">
+    <div class="bg-white rounded-2xl shadow-xl p-5 sm:p-6 md:p-8">
 
         {{-- Login Link --}}
-        <div class="text-center mb-6">
+        <div class="text-center mb-4">
             <p class="text-sm text-gray-600">
                 Already have an account?
                 <a href="/login" class="text-orange-500 hover:text-orange-600 font-semibold transition">Log In</a>
@@ -66,59 +67,61 @@
             @csrf
 
             {{-- Username --}}
-            <div class="mb-4">
-                <label class="block text-gray-700 font-medium mb-2 text-sm">Username</label>
+            <div class="mb-3">
+                <label class="block text-gray-700 font-medium mb-1 text-sm">Username</label>
                 <input type="text" name="username"
-                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 transition"
+                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 transition"
                     placeholder="Enter your username">
             </div>
 
             {{-- Email --}}
-            <div class="mb-4">
-                <label class="block text-gray-700 font-medium mb-2 text-sm">Email</label>
+            <div class="mb-3">
+                <label class="block text-gray-700 font-medium mb-1 text-sm">Email</label>
                 <input type="email" name="email"
-                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 transition"
+                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 transition"
                     placeholder="Enter your email">
             </div>
 
             {{-- Password --}}
-            <div class="mb-4">
-                <label class="block text-gray-700 font-medium mb-2 text-sm">Password</label>
+            <div class="mb-3">
+                <label class="block text-gray-700 font-medium mb-1 text-sm">Password</label>
                 <div class="password-wrapper">
                     <input type="password" name="password" id="regPassword"
-                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 transition pr-12"
+                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 transition pr-12"
                         placeholder="Create a password">
                     <i class="fa-regular fa-eye absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer hover:text-gray-600 transition" id="togglePassword"></i>
                 </div>
             </div>
 
-            {{-- Terms of Service --}}
-            <div class="flex items-start gap-3 mb-4">
-                <input type="checkbox" id="tos" required
-                    class="mt-1 w-4 h-4 rounded border-gray-300 text-orange-500 focus:ring-orange-400 cursor-pointer">
-                <label for="tos" class="text-sm text-gray-700 cursor-pointer">
+            <div class="flex items-start gap-3 mb-3">
+                <div class="flex items-center h-5">
+                    <input type="checkbox" id="tos" required
+                        class="w-4 h-4 rounded border-gray-300 text-orange-500 focus:ring-orange-400 cursor-pointer">
+                </div>
+                <label for="tos" class="text-sm text-gray-700 cursor-pointer leading-5">
                     I agree to the
-                    <a href="#" class="text-orange-500 hover:text-orange-600 transition">
+                    <a href="#" class="text-orange-500 hover:text-orange-600 transition font-medium">
                         Terms of Service <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
                     </a>
                 </label>
             </div>
 
-            {{-- Newsletter --}}
-            <div class="flex items-start gap-3 mb-6">
-                <input type="checkbox" id="newsletter"
-                    class="mt-1 w-7 h-7 rounded border-gray-300 text-orange-500 focus:ring-orange-400 cursor-pointer">
-                <label for="newsletter" class="text-sm text-gray-700 cursor-pointer">
+            <div class="flex items-start gap-3 mb-5">
+                <div class="flex items-center h-5">
+                    <input type="checkbox" id="newsletter"
+                        class="w-4 h-4 rounded border-gray-300 text-orange-500 focus:ring-orange-400 cursor-pointer">
+                </div>
+                <label for="newsletter" class="text-sm text-gray-700 cursor-pointer leading-5">
                     Send me a once-a-week email with meal ideas
-                    <span class="block text-xs text-gray-400 italic mt-1">
-                        Optional! These can help maintain your meal planning mindset, and you can opt-out at anytime.
+                    <span class="block text-xs text-gray-400 italic mt-0.5">
+                        Optional! You can opt-out at anytime.
                     </span>
                 </label>
             </div>
 
             {{-- Submit Button --}}
             <button type="submit"
-                class="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold py-3 rounded-xl hover:opacity-90 transition duration-300 flex items-center justify-center gap-2 shadow-md">
+                class="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold py-2.5 rounded-xl hover:opacity-90 transition duration-300 flex items-center justify-center gap-2 shadow-md">
                 <i class="fa-regular fa-user"></i> Create Account
             </button>
         </form>
@@ -141,12 +144,12 @@
         togglePassword.classList.add('fa-eye');
     }
 
-    // Desktop (Mouse) Controls
+    // Desktop Controls
     togglePassword.addEventListener('mousedown', showPassword);
     togglePassword.addEventListener('mouseup', hidePassword);
     togglePassword.addEventListener('mouseleave', hidePassword);
 
-    // Mobile (Touch) Controls
+    // Mobile Controls
     togglePassword.addEventListener('touchstart', function(e) {
         e.preventDefault();
         showPassword();
@@ -154,13 +157,6 @@
     togglePassword.addEventListener('touchend', hidePassword);
     togglePassword.addEventListener('touchcancel', hidePassword);
 </script>
-
-{{-- Error handling (optional - add validation errors if needed) --}}
-@if($errors->any())
-<script>
-    alert('{{ $errors->first() }}');
-</script>
-@endif
 
 </body>
 </html>

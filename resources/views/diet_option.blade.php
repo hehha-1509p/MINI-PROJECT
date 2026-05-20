@@ -40,17 +40,6 @@
             </form>
         @endforeach
     </div>
-
-    {{-- Home Button at bottom --}}
-    <div class="mt-8 sm:mt-10 flex justify-center">
-        <a href="/">
-            <button type="button"
-                class="bg-blue-400 hover:bg-blue-600 text-white font-semibold px-6 py-3 rounded-xl transition duration-300 shadow-md">
-                Home
-            </button>
-        </a>
-    </div>
 </div>
-
 </body>
 </html>
