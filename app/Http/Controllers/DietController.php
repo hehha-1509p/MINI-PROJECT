@@ -215,7 +215,7 @@ class DietController extends Controller
         return $meal;
     }
 
-    public function regenerateMeal(Request $request)
+    private function regenerateMeal(Request $request)
     {
         $mealType = $request->meal_type;
         $day = $request->day;
