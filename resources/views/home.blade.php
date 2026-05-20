@@ -453,7 +453,7 @@ document.addEventListener("DOMContentLoaded", function () {
         window.scrollTo(0, 0);
     };
 
-    const MAX_FOOD_OPTIONS = 21;
+    const MAX_FOOD_OPTIONS = 17;
 
     document.querySelectorAll('.food-checkbox').forEach(cb => {
         cb.addEventListener('change', (e) => {
@@ -484,19 +484,28 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     window.selectRandomFoods = function() {
-        const checkboxes = Array.from(document.querySelectorAll('.food-checkbox'));
-        checkboxes.forEach(cb => cb.checked = false);
+    // Get only the food checkboxes (ignoring preferences/allergies)
+    const checkboxes = Array.from(document.querySelectorAll('.food-checkbox'));
 
-        for (let i = checkboxes.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [checkboxes[i], checkboxes[j]] = [checkboxes[j], checkboxes[i]];
-        }
+    // Reset all of them
+    checkboxes.forEach(cb => cb.checked = false);
 
-        for (let i = 0; i < MAX_FOOD_OPTIONS && i < checkboxes.length; i++) {
-            checkboxes[i].checked = true;
-        }
-        saveFoodFilters();
-    };
+    // Shuffle randomly
+    for (let i = checkboxes.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [checkboxes[i], checkboxes[j]] = [checkboxes[j], checkboxes[i]];
+    }
+
+    // Dynamically calculate the amount to check so exactly 10 are left empty
+    const amountToSelect = Math.max(0, checkboxes.length - 10);
+
+    // Check the calculated number of boxes
+    for (let i = 0; i < amountToSelect; i++) {
+        checkboxes[i].checked = true;
+    }
+
+    saveFoodFilters();
+};
 
     window.unselectAllFoods = function() {
         document.querySelectorAll('.food-checkbox').forEach(cb => cb.checked = false);
