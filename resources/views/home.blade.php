@@ -85,14 +85,14 @@
     {{-- Food Filter Widget (Now flows with content instead of absolute positioning) --}}
     <div class="bg-white p-4 rounded-2xl shadow-xl w-full xl:w-96 h-fit">
       <h3 class="font-semibold leading-tight">Food Filter</h3>
-      <span class="text-sm text-gray-600 block mb-3 -mt-1">(Randomly choose 21 if select all)</span>
+      <span class="text-sm text-gray-600 block mb-3 -mt-1">(Randomly choose 17 if Randomize)</span>
 
       <div class="flex gap-2 mb-4">
         <button onclick="selectRandomFoods()" class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 transition">
-          Select All
+            Randomize
         </button>
         <button onclick="unselectAllFoods()" class="bg-gray-400 text-white px-3 py-1 rounded text-sm hover:bg-gray-500 transition">
-          Unselect All
+            Unselect All
         </button>
       </div>
 
