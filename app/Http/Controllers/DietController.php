@@ -162,7 +162,7 @@ class DietController extends Controller
         // First attempt: Strict calorie range
         $query = MenuItem::where('meal_category', $mealType)
             ->whereNotIn('id', $excludeIds)
-            ->whereBetween('calories_min_kcal', [$target - 100, $target + 100]);
+            ->whereBetween('calories_min', [$target - 100, $target + 100]);
 
         // ONLY use food filters - NO preferred diet filtering here
         $foodFilters = session('food_filters', []);

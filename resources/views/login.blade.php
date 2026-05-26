@@ -1,127 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Login Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #000000;
+        }
 
-<style>
-    body {
-        margin: 0;
-        font-family: 'Inter', sans-serif;
-        background: #f3f4f6;
-        color: #000000;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        overflow: hidden;
-    }
+        .password-wrapper {
+            position: relative;
+            display: flex;
+        }
 
-    .login-container {
-        background: #f3f4f6;
-        padding: 40px;
-        border-radius: 10px;
-        width: 350px;
-        text-align: center;
-    }
+        input:focus {
+            outline: none;
+            border-color: #888888;
+        }
 
-   h2 {
-        margin-bottom: 10px;
-        font-size: 28px;
-        font-weight: 600;
-    }
-
-    .register {
-        font-size: 14px;
-        margin-bottom: 20px;
-        color: #000000;
-    }
-
-    .register a {
-        color: #4da6ff;
-        text-decoration: none;
-    }
-
-    .register a:hover { text-decoration: underline; }
-
-    form {
-        display: flex;
-        flex-direction: column;
-    }
-
-    label {
-        text-align: left;
-        margin-top: 10px;
-        font-size: 14px;
-        font-weight: 500;
-    }
-
-   input {
-        padding: 12px 15px;
-        margin-top: 5px;
-        border-radius: 6px;
-        border: 1px solid #000000;
-        background-color: #ffffff;
-        color: #000000;
-        font-size: 15px;
-        box-sizing: border-box;
-        width: 100%;
-    }
-
-    button {
-        margin-top: 25px;
-        padding: 12px;
-        border: none;
-        border-radius: 25px;
-        background: #ff6a3d;
-        color: white;
-        font-size: 16px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: opacity 0.2s;
-    }
-
-    button:hover { opacity: 0.9; }
-
-    .back-home {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        text-decoration: none;
-        color: #4da6ff;
-        font-size: 15px;
-        font-weight: 500;
-        transition: color 0.2s;
-    }
-
-    .back-home:hover {
-        color: #007bff;
-        text-decoration: underline;
-    }
-</style>
+        button:hover {
+            opacity: 0.85;
+        }
+    </style>
 </head>
+<body class="min-h-screen flex items-center justify-center px-4 py-8 relative">
 
-<body>
-    <a href="/" class="back-home">← Back to Home</a>
+<a href="/" class="fixed top-4 left-4 sm:top-6 sm:left-6 text-blue-500 hover:text-blue-700 transition flex items-center gap-1 z-50 bg-white/80 backdrop-blur-sm px-3 py-2 rounded-lg shadow-sm">
+    <i class="fa-solid fa-arrow-left"></i>
+    <span class="text-sm font-medium">Back to Home</span>
+</a>
 
-<div class="login-container">
+<div class="w-full max-w-md mx-auto">
+    <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 md:p-10">
 
-    <h2>Log In</h2>
-    <p class="register">Don't have an account? <a href="/register">Register</a></p>
-    <form id="loginForm">
-        <label>Email or Username</label>
-        <input type="text" id="username" required>
+        <h2 class="text-center text-3xl font-bold mb-2 text-gray-900">Log In</h2>
 
-        <label>Password</label>
-        <input type="password" id="password" required>
+        <div class="text-center mb-6">
+            <p class="text-sm text-gray-600">
+                Don't have an account?
+                <a href="/register" class="text-orange-500 hover:text-orange-600 font-semibold transition">Register</a>
+            </p>
+        </div>
 
-        <button type="submit">Log In</button>
-    </form>
+        <form method="POST" action="/login" id="loginForm">
+            <div class="mb-4">
+                <label class="block text-gray-700 font-medium mb-2 text-sm">Email or Username</label>
+                <input type="text" name="username" id="username" required
+                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 transition"
+                    placeholder="Enter your email or username">
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-gray-700 font-medium mb-2 text-sm">Password</label>
+                <div class="password-wrapper">
+                    <input type="password" name="password" id="loginPassword" required
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 transition pr-12"
+                        placeholder="Enter your password">
+                    <i class="fa-regular fa-eye absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer hover:text-gray-600 transition" id="togglePassword"></i>
+                </div>
+            </div>
+
+            <button type="submit"
+                class="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold py-3 rounded-xl hover:opacity-90 transition duration-300 flex items-center justify-center gap-2 shadow-md">
+                <i class="fa-solid fa-right-to-bracket"></i> Log In
+            </button>
+        </form>
+    </div>
 </div>
 
-<script src="script.js"></script>
+<script>
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('loginPassword');
+
+    function showPassword() {
+        passwordInput.setAttribute('type', 'text');
+        togglePassword.classList.remove('fa-eye');
+        togglePassword.classList.add('fa-eye-slash');
+    }
+
+    function hidePassword() {
+        passwordInput.setAttribute('type', 'password');
+        togglePassword.classList.remove('fa-eye-slash');
+        togglePassword.classList.add('fa-eye');
+    }
+
+    // Desktop (Mouse) Controls
+    togglePassword.addEventListener('mousedown', showPassword);
+    togglePassword.addEventListener('mouseup', hidePassword);
+    togglePassword.addEventListener('mouseleave', hidePassword);
+
+    // Mobile (Touch) Controls
+    togglePassword.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        showPassword();
+    });
+    togglePassword.addEventListener('touchend', hidePassword);
+    togglePassword.addEventListener('touchcancel', hidePassword);
+</script>
 
 </body>
 </html>
