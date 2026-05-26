@@ -52,7 +52,21 @@
             </p>
         </div>
 
+        @if(session('success'))
+            <div class="mb-4 text-green-600 text-sm text-center font-medium">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="mb-4 text-red-500 text-sm text-center font-medium">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <form method="POST" action="/login" id="loginForm">
+            @csrf
+
             <div class="mb-4">
                 <label class="block text-gray-700 font-medium mb-2 text-sm">Email or Username</label>
                 <input type="text" name="username" id="username" required
@@ -94,16 +108,15 @@
         togglePassword.classList.add('fa-eye');
     }
 
-    // Desktop (Mouse) Controls
     togglePassword.addEventListener('mousedown', showPassword);
     togglePassword.addEventListener('mouseup', hidePassword);
     togglePassword.addEventListener('mouseleave', hidePassword);
 
-    // Mobile (Touch) Controls
     togglePassword.addEventListener('touchstart', function(e) {
         e.preventDefault();
         showPassword();
     });
+
     togglePassword.addEventListener('touchend', hidePassword);
     togglePassword.addEventListener('touchcancel', hidePassword);
 </script>

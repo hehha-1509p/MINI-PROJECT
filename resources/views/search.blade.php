@@ -11,20 +11,44 @@
 
     <div class="max-w-7xl mx-auto">
 
-        {{-- Header with Back Button --}}
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8">
-            <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 break-words">
-                Search Results for "<span class="text-orange-500">{{ $query }}</span>"
-            </h1>
+ <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6 sm:mb-8">
 
-            <a href="/"
-               class="inline-flex items-center gap-2 text-blue-500 hover:text-blue-700 transition font-medium">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                </svg>
-                Back to Homepage
-            </a>
+    {{-- Title --}}
+    <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 break-words">
+        Search Results for "<span class="text-orange-500">{{ $query }}</span>"
+    </h1>
+
+    {{-- Search Bar --}}
+    <form action="/search" method="GET" class="w-full lg:w-[420px]">
+        <div class="flex items-center bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+
+            <input
+                type="text"
+                name="query"
+                placeholder="Search food..."
+                value="{{ $query }}"
+                class="w-full px-4 py-3 text-gray-700 focus:outline-none"
+            >
+
+            <button
+                type="submit"
+                class="bg-orange-500 hover:bg-orange-600 text-white px-5 py-3 transition"
+            >
+                Search
+            </button>
         </div>
+    </form>
+
+    {{-- Back Button --}}
+    <a href="/"
+       class="inline-flex items-center gap-2 text-blue-500 hover:text-blue-700 transition font-medium whitespace-nowrap">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        Back to Homepage
+    </a>
+
+</div>
 
         {{-- Search Summary / Count --}}
         <div class="mb-6">
@@ -82,7 +106,7 @@
                                 <div>
                                     <p class="text-xs text-gray-500">Calories</p>
                                     <p class="text-lg font-bold text-orange-600">
-                                        {{ $item->calories_min_kcal ?? 'N/A' }} kcal
+                                        {{ $item->calories_min ?? 'N/A' }} kcal
                                     </p>
                                 </div>
 
