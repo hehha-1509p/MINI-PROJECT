@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [UserController::class, 'home']);
-Route::get('/login', [UserController::class, 'login']);
+Route::get('/{any}', [UserController::class, 'login']);
 Route::get('/register', [UserController::class, 'register']);
 Route::post('/register', [UserController::class, 'store']);
 Route::get('/diet_option', [DietController::class, 'diet_option']);
