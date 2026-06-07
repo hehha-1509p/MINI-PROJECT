@@ -330,10 +330,16 @@
 </div>
 
 <script>
-// Your existing JavaScript remains exactly the same
 document.addEventListener("DOMContentLoaded", function () {
 
+    // Load persisted manual modification flag from localStorage
+    let userManuallyModified = localStorage.getItem('userManuallyModified') === 'true';
+    let currentDiet = localStorage.getItem('preferred_diet') || 'Anything';
+
     function selectDiet(diet) {
+        currentDiet = diet;
+        userManuallyModified = false;
+        localStorage.setItem('userManuallyModified', 'false');  // ← Persist to localStorage
         localStorage.setItem('preferred_diet', diet);
         document.getElementById('savedDiet').innerText = "Saved Diet: " + diet;
         applyDietFilter(diet);
@@ -462,8 +468,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 e.target.checked = false;
                 alert(`You can only select up to ${MAX_FOOD_OPTIONS} options.`);
             } else {
+                userManuallyModified = true;
+                localStorage.setItem('userManuallyModified', 'true');  // ← Persist to localStorage
                 saveFoodFilters();
             }
+        });
+    });
+
+    // Also track preference checkbox changes
+    document.querySelectorAll('.preference-checkbox').forEach(cb => {
+        cb.addEventListener('change', () => {
+            userManuallyModified = true;
+            localStorage.setItem('userManuallyModified', 'true');  // ← Persist to localStorage
+            saveFoodFilters();
         });
     });
 
@@ -483,33 +500,72 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    // Loads the user's manually saved filters from the server on page refresh
+    function restoreSavedFilters() {
+        fetch("/get-food-filters", {
+            method: "GET",
+            headers: {
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.filters && data.filters.foods) {
+                // Reset all checkboxes first
+                document.querySelectorAll('.food-checkbox').forEach(cb => {
+                    cb.checked = false;
+                });
+                // Check the saved ones
+                document.querySelectorAll('.food-checkbox').forEach(cb => {
+                    if (data.filters.foods.includes(cb.value)) {
+                        cb.checked = true;
+                    }
+                });
+            }
+            if (data.filters && data.filters.preferences) {
+                document.querySelectorAll('.preference-checkbox').forEach(cb => {
+                    cb.checked = false;
+                });
+                document.querySelectorAll('.preference-checkbox').forEach(cb => {
+                    if (data.filters.preferences.includes(cb.value)) {
+                        cb.checked = true;
+                    }
+                });
+            }
+        });
+    }
+
     window.selectRandomFoods = function() {
-    // Get only the food checkboxes (ignoring preferences/allergies)
-    const checkboxes = Array.from(document.querySelectorAll('.food-checkbox'));
+        // Get only the food checkboxes (ignoring preferences/allergies)
+        const checkboxes = Array.from(document.querySelectorAll('.food-checkbox'));
 
-    // Reset all of them
-    checkboxes.forEach(cb => cb.checked = false);
+        // Reset all of them
+        checkboxes.forEach(cb => cb.checked = false);
 
-    // Shuffle randomly
-    for (let i = checkboxes.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [checkboxes[i], checkboxes[j]] = [checkboxes[j], checkboxes[i]];
-    }
+        // Shuffle randomly
+        for (let i = checkboxes.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [checkboxes[i], checkboxes[j]] = [checkboxes[j], checkboxes[i]];
+        }
 
-    // Dynamically calculate the amount to check so exactly 10 are left empty
-    const amountToSelect = Math.max(0, checkboxes.length - 10);
+        // Dynamically calculate the amount to check so exactly 10 are left empty
+        const amountToSelect = Math.max(0, checkboxes.length - 10);
 
-    // Check the calculated number of boxes
-    for (let i = 0; i < amountToSelect; i++) {
-        checkboxes[i].checked = true;
-    }
+        // Check the calculated number of boxes
+        for (let i = 0; i < amountToSelect; i++) {
+            checkboxes[i].checked = true;
+        }
 
-    saveFoodFilters();
-};
+        userManuallyModified = true;
+        localStorage.setItem('userManuallyModified', 'true');  // ← Persist to localStorage
+        saveFoodFilters();
+    };
 
     window.unselectAllFoods = function() {
         document.querySelectorAll('.food-checkbox').forEach(cb => cb.checked = false);
         document.querySelectorAll('.preference-checkbox').forEach(cb => cb.checked = false);
+        userManuallyModified = true;
+        localStorage.setItem('userManuallyModified', 'true');  // ← Persist to localStorage
         saveFoodFilters();
     };
 
@@ -585,7 +641,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const savedPreferredDiet = localStorage.getItem('preferred_diet');
     if (savedPreferredDiet) {
         document.getElementById('savedDiet').innerText = "Saved Diet: " + savedPreferredDiet;
-        applyDietFilter(savedPreferredDiet);
+        currentDiet = savedPreferredDiet;
+
+        // ONLY apply diet filter if user hasn't manually modified
+        if (!userManuallyModified) {
+            applyDietFilter(savedPreferredDiet);
+        } else {
+            // Restore saved manual selections from session
+            restoreSavedFilters();
+        }
     }
 
     loadMacroData();

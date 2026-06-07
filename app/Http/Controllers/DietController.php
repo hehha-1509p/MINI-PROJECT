@@ -295,4 +295,11 @@ class DietController extends Controller
 
     return view('search', compact('results', 'query'));
     }
+
+    public function getFoodFilters(Request $request)
+    {
+        return response()->json([
+            'filters' => session('food_filters', ['foods' => [], 'preferences' => []])
+        ]);
+    }
 }

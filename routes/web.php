@@ -29,3 +29,4 @@ Route::get('/ingredients', function () {
     return view('ingredients', compact('meals', 'day'));
 });
 Route::get('/search', [DietController::class, 'search'])->name('search');
+Route::get('/get-food-filters', [DietController::class, 'getFoodFilters']);
