@@ -50,31 +50,31 @@
 
                         {{-- Nutrition grid - responsive columns --}}
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                            @if($meal->calories_min_kcal)
+                            @if($meal->calories_min)
                             <div class="bg-blue-50 rounded-lg p-3">
                                 <span class="text-xs sm:text-sm text-blue-600 font-semibold">Calories</span>
-                                <p class="text-base sm:text-lg font-bold text-blue-800">{{ $meal->calories_min_kcal }} - {{ $meal->calories_max_kcal }} kcal</p>
+                                <p class="text-base sm:text-lg font-bold text-blue-800">{{ $meal->calories_min }} kcal</p>
                             </div>
                             @endif
 
-                            @if($meal->protein_min_g)
+                            @if($meal->protein_min)
                             <div class="bg-green-50 rounded-lg p-3">
                                 <span class="text-xs sm:text-sm text-green-600 font-semibold">Protein</span>
-                                <p class="text-base sm:text-lg font-bold text-green-800">{{ $meal->protein_min_g }} - {{ $meal->protein_max_g }} g</p>
+                                <p class="text-base sm:text-lg font-bold text-green-800">{{ $meal->protein_min }} g</p>
                             </div>
                             @endif
 
-                            @if($meal->carbs_min_g)
+                            @if($meal->carbs_min)
                             <div class="bg-yellow-50 rounded-lg p-3">
                                 <span class="text-xs sm:text-sm text-yellow-600 font-semibold">Carbs</span>
-                                <p class="text-base sm:text-lg font-bold text-yellow-800">{{ $meal->carbs_min_g }} - {{ $meal->carbs_max_g }} g</p>
+                                <p class="text-base sm:text-lg font-bold text-yellow-800">{{ $meal->carbs_min }} g</p>
                             </div>
                             @endif
 
-                            @if($meal->fat_min_g)
+                            @if($meal->fat_min)
                             <div class="bg-purple-50 rounded-lg p-3">
                                 <span class="text-xs sm:text-sm text-purple-600 font-semibold">Fat</span>
-                                <p class="text-base sm:text-lg font-bold text-purple-800">{{ $meal->fat_min_g }} - {{ $meal->fat_max_g }} g</p>
+                                <p class="text-base sm:text-lg font-bold text-purple-800">{{ $meal->fat_min }} g</p>
                             </div>
                             @endif
                         </div>
