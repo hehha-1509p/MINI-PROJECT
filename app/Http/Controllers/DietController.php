@@ -12,14 +12,16 @@ class DietController extends Controller
     {
         session(['diet_plan' => $request->diet]);
         $this->regenerateAllMeals();
+
         return redirect('/');
     }
 
-    // Save PREFERRED DIET (from home page buttons)
+    // SAVE PREFERRED DIET (from home page buttons)
     public function savePreferredDiet(Request $request)
     {
         session(['preferred_diet' => $request->diet]);
         $this->regenerateAllMeals();
+
         return response()->json(['status' => 'success']);
     }
 
@@ -28,6 +30,7 @@ class DietController extends Controller
     {
         session(['calories' => $request->calories]);
         $this->regenerateAllMeals();
+
         return response()->json(['status' => 'success']);
     }
 
@@ -42,7 +45,7 @@ class DietController extends Controller
 
         $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
         $plan = [];
-        $usedMealIds = [];  // Prevent duplicates across the week
+        $usedMealIds = [];
 
         foreach ($days as $day) {
             $isWeekend = in_array($day, ['Saturday', 'Sunday']);
@@ -57,22 +60,29 @@ class DietController extends Controller
             $dinnerTarget = $currentCalories * 0.3;
 
             $breakfast = $this->getMeal('Breakfast', $breakfastTarget, $usedMealIds);
-            if ($breakfast) $usedMealIds[] = $breakfast->id;
+            if ($breakfast) {
+                $usedMealIds[] = $breakfast->id;
+            }
 
             $lunch = $this->getMeal('Lunch', $lunchTarget, $usedMealIds);
-            if ($lunch) $usedMealIds[] = $lunch->id;
+            if ($lunch) {
+                $usedMealIds[] = $lunch->id;
+            }
 
             $dinner = $this->getMeal('Dinner', $dinnerTarget, $usedMealIds);
-            if ($dinner) $usedMealIds[] = $dinner->id;
+            if ($dinner) {
+                $usedMealIds[] = $dinner->id;
+            }
 
             $plan[$day] = [
-                'breakfast' => $breakfast,
-                'lunch' => $lunch,
-                'dinner' => $dinner,
+                'breakfast' => $breakfast,  // Can be null
+                'lunch' => $lunch,          // Can be null
+                'dinner' => $dinner,        // Can be null
             ];
         }
 
         session(['meal_plan' => $plan]);
+
         return $plan;
     }
 
@@ -81,6 +91,7 @@ class DietController extends Controller
         if (session()->has('meal_plan')) {
             return session('meal_plan');
         }
+
         return $this->regenerateAllMeals();
     }
 
@@ -107,19 +118,32 @@ class DietController extends Controller
 
         $mealPlan = session('meal_plan', []);
 
-        // Get current meal IDs to exclude from regeneration
+        // Clear the day first
+        $mealPlan[$day] = [
+            'breakfast' => null,
+            'lunch' => null,
+            'dinner' => null,
+        ];
+
+        // Get new meals with proper exclusion
         $excludeIds = [];
-        if (isset($mealPlan[$day])) {
-            if ($mealPlan[$day]['breakfast']) $excludeIds[] = $mealPlan[$day]['breakfast']->id;
-            if ($mealPlan[$day]['lunch']) $excludeIds[] = $mealPlan[$day]['lunch']->id;
-            if ($mealPlan[$day]['dinner']) $excludeIds[] = $mealPlan[$day]['dinner']->id;
+
+        $breakfast = $this->getMeal('Breakfast', $breakfastTarget, $excludeIds);
+        if ($breakfast) {
+            $excludeIds[] = $breakfast->id;
+            $mealPlan[$day]['breakfast'] = $breakfast;
         }
 
-        $mealPlan[$day] = [
-            'breakfast' => $this->getMeal('Breakfast', $breakfastTarget, $excludeIds),
-            'lunch' => $this->getMeal('Lunch', $lunchTarget, $excludeIds),
-            'dinner' => $this->getMeal('Dinner', $dinnerTarget, $excludeIds),
-        ];
+        $lunch = $this->getMeal('Lunch', $lunchTarget, $excludeIds);
+        if ($lunch) {
+            $excludeIds[] = $lunch->id;
+            $mealPlan[$day]['lunch'] = $lunch;
+        }
+
+        $dinner = $this->getMeal('Dinner', $dinnerTarget, $excludeIds);
+        if ($dinner) {
+            $mealPlan[$day]['dinner'] = $dinner;
+        }
 
         session(['meal_plan' => $mealPlan]);
 
@@ -148,64 +172,129 @@ class DietController extends Controller
         $mealPlan = session('meal_plan', []);
 
         if (!isset($mealPlan[$day])) {
+            return response()->json(['error' => 'No meals found for this day'], 404);
+        }
+
+        session(['viewing_ingredients_day' => $day]);
+
+        return response()->json(['status' => 'success']);
+    }
+
+    public function showIngredients()
+    {
+        $day = session('viewing_ingredients_day');
+        $mealPlan = session('meal_plan', []);
+
+        if (!$day || !isset($mealPlan[$day])) {
             return redirect('/')->with('error', 'No meals found for this day');
         }
 
         $meals = $mealPlan[$day];
-        session(['viewing_ingredients_day' => $day]);
 
         return view('ingredients', compact('meals', 'day'));
     }
 
     private function getMeal($mealType, $target, $excludeIds = [])
     {
-        // First attempt: Strict calorie range
-        $query = MenuItem::where('meal_category', $mealType)
+        $foodFilters = session('food_filters', []);
+        $includedFoods = $foodFilters['foods'] ?? [];
+        $excludedFoods = $foodFilters['excluded'] ?? [];
+
+        // If no ingredients selected, return null (no meal)
+        if (empty($includedFoods)) {
+            return null;
+        }
+
+        $dbMealCategory = $mealType;
+        if ($mealType === 'Lunch' || $mealType === 'Dinner') {
+            $dbMealCategory = 'Lunch/Dinner';
+        }
+
+        // First attempt: strict calorie range
+        $query = MenuItem::where('meal_category', $dbMealCategory)
             ->whereNotIn('id', $excludeIds)
             ->whereBetween('calories_min', [$target - 100, $target + 100]);
 
-        // ONLY use food filters - NO preferred diet filtering here
-        $foodFilters = session('food_filters', []);
-        if (!empty($foodFilters) && isset($foodFilters['foods']) && count($foodFilters['foods']) > 0) {
-            $selectedFoods = $foodFilters['foods'];
-            foreach ($selectedFoods as $food) {
-                $query->where('estimated_main_ingredients', 'not like', '%' . $food . '%');
+        // OR logic for ALL selected ingredients (any of them)
+        if (!empty($includedFoods)) {
+            $query->where(function($q) use ($includedFoods) {
+                foreach ($includedFoods as $food) {
+                    $q->orWhere('ingredient_category', 'like', '%' . strtolower($food) . '%');
+                }
+            });
+        }
+
+        // Exclude: must NOT have any of these
+        if (!empty($excludedFoods)) {
+            foreach ($excludedFoods as $food) {
+                $query->where('ingredient_category', 'not like', '%' . strtolower($food) . '%');
             }
         }
 
         $meal = $query->inRandomOrder()->first();
 
-        // Second attempt: No calorie restriction
+        // Second attempt: no calorie restriction
         if (!$meal) {
-            $query = MenuItem::where('meal_category', $mealType)
+            $query = MenuItem::where('meal_category', $dbMealCategory)
                 ->whereNotIn('id', $excludeIds);
 
-            if (!empty($foodFilters) && isset($foodFilters['foods']) && count($foodFilters['foods']) > 0) {
-                $selectedFoods = $foodFilters['foods'];
-                foreach ($selectedFoods as $food) {
-                    $query->where('estimated_main_ingredients', 'not like', '%' . $food . '%');
+            if (!empty($includedFoods)) {
+                $query->where(function($q) use ($includedFoods) {
+                    foreach ($includedFoods as $food) {
+                        $q->orWhere('ingredient_category', 'like', '%' . strtolower($food) . '%');
+                    }
+                });
+            }
+
+            if (!empty($excludedFoods)) {
+                foreach ($excludedFoods as $food) {
+                    $query->where('ingredient_category', 'not like', '%' . strtolower($food) . '%');
                 }
             }
 
             $meal = $query->inRandomOrder()->first();
         }
 
-        // Third attempt: Any meal of this type (ignore calories)
-        if (!$meal) {
-            $query = MenuItem::where('meal_category', $mealType)
-                ->whereNotIn('id', $excludeIds);
+        // Third attempt: REMOVED - No fallback
 
-            if (!empty($foodFilters) && isset($foodFilters['foods']) && count($foodFilters['foods']) > 0) {
-                $selectedFoods = $foodFilters['foods'];
-                foreach ($selectedFoods as $food) {
-                    $query->where('estimated_main_ingredients', 'not like', '%' . $food . '%');
-                }
-            }
+        return $meal;  // Returns null if no meal found
+    }
 
-            $meal = $query->inRandomOrder()->first();
-        }
+    // Helper function to get category for a food
+    private function getCategoryForFood($food)
+    {
+        $categoryMap = [
+            'Chicken' => 'Meat',
+            'Beef' => 'Meat',
+            'Lamb' => 'Meat',
+            'Pork' => 'Meat',
+            'Duck' => 'Meat',
+            'Fish' => 'Seafood',
+            'Prawn' => 'Seafood',
+            'Crab' => 'Seafood',
+            'Squid' => 'Seafood',
+            'Shellfish' => 'Seafood',
+            'Rice' => 'Carbs',
+            'Noodles' => 'Carbs',
+            'Bread' => 'Carbs',
+            'Pasta' => 'Carbs',
+            'Potato' => 'Carbs',
+            'Milk' => 'Dairy',
+            'Cheese' => 'Dairy',
+            'Yogurt' => 'Dairy',
+            'Butter' => 'Dairy',
+            'Broccoli' => 'Vegetables',
+            'Spinach' => 'Vegetables',
+            'Mushroom' => 'Vegetables',
+            'Onion' => 'Vegetables',
+            'Tofu' => 'Vegetables',
+            'Egg' => 'Vegetables',
+            'Peanuts' => 'Nuts',
+            'Almonds' => 'Nuts',
+            'Walnuts' => 'Nuts',
+        ];
 
-        return $meal;
+        return $categoryMap[$food] ?? 'Other';
     }
 
     public function regenerateMeal(Request $request)
@@ -233,15 +322,15 @@ class DietController extends Controller
             default => $currentCalories * 0.3,
         };
 
-        // Exclude the current meal to get a different one
         $mealPlan = session('meal_plan', []);
-        $currentMealId = $mealPlan[$day][strtolower($mealType)]->id ?? null;
+        $mealKey = strtolower($mealType);
+
+        $currentMealId = $mealPlan[$day][$mealKey]->id ?? null;
         $excludeIds = $currentMealId ? [$currentMealId] : [];
 
         $newMeal = $this->getMeal($mealType, $target, $excludeIds);
 
         if (isset($mealPlan[$day])) {
-            $mealKey = strtolower($mealType);
             $mealPlan[$day][$mealKey] = $newMeal;
             session(['meal_plan' => $mealPlan]);
         }
@@ -252,7 +341,7 @@ class DietController extends Controller
             'meal' => $newMeal ? [
                 'id' => $newMeal->id,
                 'item_name' => $newMeal->item_name,
-            ] : null
+            ] : null,
         ]);
     }
 
@@ -281,25 +370,44 @@ class DietController extends Controller
     public function saveFoodFilters(Request $request)
     {
         session(['food_filters' => $request->filters]);
-        $this->regenerateAllMeals();
+
         return response()->json(['status' => 'success']);
     }
+
     public function search(Request $request)
     {
-     $query = $request->input('query');
+        $query = $request->input('query');
 
-    $results = MenuItem::where('item_name', 'LIKE', "%{$query}%")
-        ->orWhere('estimated_main_ingredients', 'LIKE', "%{$query}%")
-        ->orWhere('meal_category', 'LIKE', "%{$query}%")
-        ->get();
+        $results = MenuItem::where('item_name', 'LIKE', "%{$query}%")
+            ->orWhere('estimated_main_ingredients', 'LIKE', "%{$query}%")
+            ->orWhere('ingredient_category', 'LIKE', "%{$query}%")
+            ->orWhere('meal_category', 'LIKE', "%{$query}%")
+            ->get();
 
-    return view('search', compact('results', 'query'));
+        return view('search', compact('results', 'query'));
     }
 
     public function getFoodFilters(Request $request)
     {
         return response()->json([
-            'filters' => session('food_filters', ['foods' => [], 'preferences' => []])
+            'filters' => session('food_filters', [
+                'foods' => [],
+                'preferences' => [],
+            ]),
+        ]);
+    }
+
+    public function regenerateAllDays(Request $request)
+    {
+        $mealPlan = $this->regenerateAllMeals();
+
+        if (!$mealPlan) {
+            return response()->json(['error' => 'Missing calories or diet plan'], 400);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'meals' => $mealPlan
         ]);
     }
 }

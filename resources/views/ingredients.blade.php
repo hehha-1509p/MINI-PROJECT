@@ -50,48 +50,120 @@
 
                         {{-- Nutrition grid - responsive columns --}}
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                            @if($meal->calories_min)
+                            {{-- Calories --}}
+                            @if($meal->calories_min || $meal->calories_max)
                             <div class="bg-blue-50 rounded-lg p-3">
                                 <span class="text-xs sm:text-sm text-blue-600 font-semibold">Calories</span>
-                                <p class="text-base sm:text-lg font-bold text-blue-800">{{ $meal->calories_min }} kcal</p>
+                                <p class="text-base sm:text-lg font-bold text-blue-800">
+                                    @if($meal->calories_min && $meal->calories_max && $meal->calories_min != $meal->calories_max)
+                                        {{ $meal->calories_min }} - {{ $meal->calories_max }} kcal
+                                    @elseif($meal->calories_min)
+                                        {{ $meal->calories_min }} kcal
+                                    @elseif($meal->calories_max)
+                                        {{ $meal->calories_max }} kcal
+                                    @else
+                                        N/A
+                                    @endif
+                                </p>
                             </div>
                             @endif
 
-                            @if($meal->protein_min)
+                            {{-- Protein --}}
+                            @if($meal->protein_min || $meal->protein_max)
                             <div class="bg-green-50 rounded-lg p-3">
                                 <span class="text-xs sm:text-sm text-green-600 font-semibold">Protein</span>
-                                <p class="text-base sm:text-lg font-bold text-green-800">{{ $meal->protein_min }} g</p>
+                                <p class="text-base sm:text-lg font-bold text-green-800">
+                                    @if($meal->protein_min && $meal->protein_max && $meal->protein_min != $meal->protein_max)
+                                        {{ $meal->protein_min }} - {{ $meal->protein_max }} g
+                                    @elseif($meal->protein_min)
+                                        {{ $meal->protein_min }} g
+                                    @elseif($meal->protein_max)
+                                        {{ $meal->protein_max }} g
+                                    @else
+                                        N/A
+                                    @endif
+                                </p>
                             </div>
                             @endif
 
-                            @if($meal->carbs_min)
+                            {{-- Carbs --}}
+                            @if($meal->carbs_min || $meal->carbs_max)
                             <div class="bg-yellow-50 rounded-lg p-3">
                                 <span class="text-xs sm:text-sm text-yellow-600 font-semibold">Carbs</span>
-                                <p class="text-base sm:text-lg font-bold text-yellow-800">{{ $meal->carbs_min }} g</p>
+                                <p class="text-base sm:text-lg font-bold text-yellow-800">
+                                    @if($meal->carbs_min && $meal->carbs_max && $meal->carbs_min != $meal->carbs_max)
+                                        {{ $meal->carbs_min }} - {{ $meal->carbs_max }} g
+                                    @elseif($meal->carbs_min)
+                                        {{ $meal->carbs_min }} g
+                                    @elseif($meal->carbs_max)
+                                        {{ $meal->carbs_max }} g
+                                    @else
+                                        N/A
+                                    @endif
+                                </p>
                             </div>
                             @endif
 
-                            @if($meal->fat_min)
+                            {{-- Fat --}}
+                            @if($meal->fat_min || $meal->fat_max)
                             <div class="bg-purple-50 rounded-lg p-3">
                                 <span class="text-xs sm:text-sm text-purple-600 font-semibold">Fat</span>
-                                <p class="text-base sm:text-lg font-bold text-purple-800">{{ $meal->fat_min }} g</p>
+                                <p class="text-base sm:text-lg font-bold text-purple-800">
+                                    @if($meal->fat_min && $meal->fat_max && $meal->fat_min != $meal->fat_max)
+                                        {{ $meal->fat_min }} - {{ $meal->fat_max }} g
+                                    @elseif($meal->fat_min)
+                                        {{ $meal->fat_min }} g
+                                    @elseif($meal->fat_max)
+                                        {{ $meal->fat_max }} g
+                                    @else
+                                        N/A
+                                    @endif
+                                </p>
                             </div>
                             @endif
                         </div>
 
+                        {{-- Sodium Level --}}
+                        @if($meal->sodium_level)
+                        <div class="mt-3">
+                            <span class="text-xs sm:text-sm font-semibold text-gray-600">Sodium Level:</span>
+                            <span class="ml-2 text-xs sm:text-sm px-2 py-1 rounded-full
+                                @if($meal->sodium_level == 'Low') bg-green-100 text-green-700
+                                @elseif($meal->sodium_level == 'Medium') bg-yellow-100 text-yellow-700
+                                @elseif($meal->sodium_level == 'High') bg-orange-100 text-orange-700
+                                @elseif($meal->sodium_level == 'Very High') bg-red-100 text-red-700
+                                @else bg-gray-100 text-gray-700
+                                @endif
+                            ">{{ $meal->sodium_level }}</span>
+                        </div>
+                        @endif
+
                         {{-- Health labels as chips --}}
                         @if($meal->health_label)
-                            <div class="mt-4 flex flex-wrap gap-2">
+                            <div class="mt-3 flex flex-wrap gap-2">
                                 @foreach(explode(',', $meal->health_label) as $label)
                                     <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full">{{ trim($label) }}</span>
                                 @endforeach
                             </div>
                         @endif
 
-                        {{-- Notes --}}
-                        @if($meal->notes)
-                            <div class="mt-4 text-xs sm:text-sm text-gray-500 italic">
-                                📝 {{ $meal->notes }}
+                        {{-- Halal Status --}}
+                        @if($meal->halal_status)
+                            <div class="mt-3">
+                                <span class="text-xs sm:text-sm font-semibold text-gray-600">Halal Status:</span>
+                                <span class="ml-2 text-xs sm:text-sm px-2 py-1 rounded-full
+                                    @if($meal->halal_status == 'Halal') bg-green-100 text-green-700
+                                    @else bg-red-100 text-red-700
+                                    @endif
+                                ">{{ $meal->halal_status }}</span>
+                            </div>
+                        @endif
+
+                        {{-- Price --}}
+                        @if($meal->price_default_hot)
+                            <div class="mt-3">
+                                <span class="text-xs sm:text-sm font-semibold text-gray-600">Price:</span>
+                                <span class="ml-2 text-sm font-bold text-gray-800">RM {{ number_format($meal->price_default_hot, 2) }}</span>
                             </div>
                         @endif
                     </div>
@@ -104,7 +176,7 @@
 
     {{-- Footer note --}}
     <div class="text-center text-gray-500 text-xs sm:text-sm mt-6 sm:mt-8 px-2">
-        <p>⚠️ Ingredients may vary based on preparation. Always check with the restaurant.</p>
+        <p>⚠️ Ingredients and nutrition may vary based on preparation. Always check with the restaurant.</p>
     </div>
 </div>
 

@@ -6,6 +6,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Three-state checkbox styles */
+    .food-checkbox {
+        display: none;
+    }
+
+    .checkbox-label {
+        cursor: pointer;
+        padding: 2px 4px;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 0.9rem;
+    }
+
+    .state-badge {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border-radius: 4px;
+        text-align: center;
+        line-height: 20px;
+        font-weight: bold;
+        font-size: 0.75rem;
+        flex-shrink: 0;
+    }
+
+    .state-badge.include {
+        background-color: #22c55e;
+        color: white;
+    }
+
+    .state-badge.exclude {
+        background-color: #ef4444;
+        color: white;
+    }
+
+    .state-badge.none {
+        background-color: #e5e7eb;
+        color: #9ca3af;
+    }
+
+    .checkbox-label .label-text {
+        color: #374151;
+    }
+
+    .checkbox-label .label-text.excluded {
+        text-decoration: line-through;
+        color: #9ca3af;
+    }
+  </style>
 </head>
 <body class="bg-[url('{{ asset('images/homepage.jpeg') }}')] bg-cover bg-center bg-fixed bg-no-repeat font-sans min-h-screen relative">
 
@@ -79,14 +132,18 @@
     {{-- Food Filter & Meal Plan --}}
     <div class="flex flex-col xl:flex-row gap-6 relative">
 
-        {{-- Food Filter Widget (Now flows with content instead of absolute positioning) --}}
+        {{-- Food Filter Widget --}}
         <div class="bg-white p-4 rounded-2xl shadow-xl w-full xl:w-96 h-fit">
             <h3 class="font-semibold leading-tight">Food Filter</h3>
-            <span class="text-sm text-gray-600 block mb-3 -mt-1">(Randomly choose 17 if Randomize)</span>
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-2 rounded mb-3">
+                <p class="text-xs text-gray-700">
+                    Click once to include <span class="text-green-600 font-bold">✓</span>, twice to exclude <span class="text-red-600 font-bold">✗</span>, three times to clear.
+                </p>
+            </div>
 
             <div class="flex gap-2 mb-4">
-                <button onclick="selectRandomFoods()" class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 transition">
-                    Randomize
+                <button onclick="selectAllFoods()" class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 transition">
+                    Select All
                 </button>
                 <button onclick="unselectAllFoods()" class="bg-gray-400 text-white px-3 py-1 rounded text-sm hover:bg-gray-500 transition">
                     Unselect All
@@ -97,58 +154,227 @@
                 <!-- Meat -->
                 <div class="mb-2">
                     <h4 class="font-bold">Meat 🍖</h4>
-                    <label><input type="checkbox" value="Chicken" class="food-checkbox" data-category="Meat"> Chicken</label><br>
-                    <label><input type="checkbox" value="Beef" class="food-checkbox" data-category="Meat"> Beef</label><br>
-                    <label><input type="checkbox" value="Lamb" class="food-checkbox" data-category="Meat"> Lamb</label><br>
-                    <label><input type="checkbox" value="Pork" class="food-checkbox" data-category="Meat"> Pork</label><br>
-                    <label><input type="checkbox" value="Turkey" class="food-checkbox" data-category="Meat"> Turkey</label>
+                    <label>
+                        <input type="checkbox" value="Chicken" class="food-checkbox" data-category="Meat" data-state="none">
+                        <span class="checkbox-label">
+                            <span class="state-badge none">□</span>
+                            <span class="label-text">Chicken</span>
+                        </span>
+                    </label><br>
+                    <label>
+                        <input type="checkbox" value="Beef" class="food-checkbox" data-category="Meat" data-state="none">
+                        <span class="checkbox-label">
+                            <span class="state-badge none">□</span>
+                            <span class="label-text">Beef</span>
+                        </span>
+                    </label><br>
+                    <label>
+                        <input type="checkbox" value="Lamb" class="food-checkbox" data-category="Meat" data-state="none">
+                        <span class="checkbox-label">
+                            <span class="state-badge none">□</span>
+                            <span class="label-text">Lamb</span>
+                        </span>
+                    </label><br>
+                    <label>
+                        <input type="checkbox" value="Pork" class="food-checkbox" data-category="Meat" data-state="none">
+                        <span class="checkbox-label">
+                            <span class="state-badge none">□</span>
+                            <span class="label-text">Pork</span>
+                        </span>
+                    </label><br>
+                    <label>
+                        <input type="checkbox" value="Duck" class="food-checkbox" data-category="Meat" data-state="none">
+                        <span class="checkbox-label">
+                            <span class="state-badge none">□</span>
+                            <span class="label-text">Duck</span>
+                        </span>
+                    </label>
                 </div>
 
                 <!-- Seafood -->
                 <div class="mb-2">
                     <h4 class="font-bold">Seafood 🦐</h4>
-                    <label><input type="checkbox" value="Fish" class="food-checkbox" data-category="Seafood"> Fish</label><br>
-                    <label><input type="checkbox" value="Prawn" class="food-checkbox" data-category="Seafood"> Prawn</label><br>
-                    <label><input type="checkbox" value="Crab" class="food-checkbox" data-category="Seafood"> Crab</label><br>
-                    <label><input type="checkbox" value="Squid" class="food-checkbox" data-category="Seafood"> Squid</label><br>
-                    <label><input type="checkbox" value="Shellfish" class="food-checkbox" data-category="Seafood"> Shellfish</label>
+                    <label>
+                        <input type="checkbox" value="Fish" class="food-checkbox" data-category="Seafood" data-state="none">
+                        <span class="checkbox-label">
+                            <span class="state-badge none">□</span>
+                            <span class="label-text">Fish</span>
+                        </span>
+                    </label><br>
+                    <label>
+                        <input type="checkbox" value="Prawn" class="food-checkbox" data-category="Seafood" data-state="none">
+                        <span class="checkbox-label">
+                            <span class="state-badge none">□</span>
+                            <span class="label-text">Prawn</span>
+                        </span>
+                    </label><br>
+                    <label>
+                        <input type="checkbox" value="Crab" class="food-checkbox" data-category="Seafood" data-state="none">
+                        <span class="checkbox-label">
+                            <span class="state-badge none">□</span>
+                            <span class="label-text">Crab</span>
+                        </span>
+                    </label><br>
+                    <label>
+                        <input type="checkbox" value="Squid" class="food-checkbox" data-category="Seafood" data-state="none">
+                        <span class="checkbox-label">
+                            <span class="state-badge none">□</span>
+                            <span class="label-text">Squid</span>
+                        </span>
+                    </label><br>
+                    <label>
+                        <input type="checkbox" value="Shellfish" class="food-checkbox" data-category="Seafood" data-state="none">
+                        <span class="checkbox-label">
+                            <span class="state-badge none">□</span>
+                            <span class="label-text">Shellfish</span>
+                        </span>
+                    </label>
                 </div>
 
                 <!-- Vegetables -->
                 <div class="mb-2">
                     <h4 class="font-bold">Vegetables 🥦</h4>
-                    <label><input type="checkbox" value="Broccoli" class="food-checkbox" data-category="Vegetables"> Broccoli</label><br>
-                    <label><input type="checkbox" value="Carrot" class="food-checkbox" data-category="Vegetables"> Carrot</label><br>
-                    <label><input type="checkbox" value="Spinach" class="food-checkbox" data-category="Vegetables"> Spinach</label><br>
-                    <label><input type="checkbox" value="Mushroom" class="food-checkbox" data-category="Vegetables"> Mushroom</label><br>
-                    <label><input type="checkbox" value="Onion" class="food-checkbox" data-category="Vegetables"> Onion</label>
+                    <label>
+                        <input type="checkbox" value="Broccoli" class="food-checkbox" data-category="Vegetables" data-state="none">
+                        <span class="checkbox-label">
+                            <span class="state-badge none">□</span>
+                            <span class="label-text">Broccoli</span>
+                        </span>
+                    </label><br>
+                    <label>
+                        <input type="checkbox" value="Spinach" class="food-checkbox" data-category="Vegetables" data-state="none">
+                        <span class="checkbox-label">
+                            <span class="state-badge none">□</span>
+                            <span class="label-text">Spinach</span>
+                        </span>
+                    </label><br>
+                    <label>
+                        <input type="checkbox" value="Mushroom" class="food-checkbox" data-category="Vegetables" data-state="none">
+                        <span class="checkbox-label">
+                            <span class="state-badge none">□</span>
+                            <span class="label-text">Mushroom</span>
+                        </span>
+                    </label><br>
+                    <label>
+                        <input type="checkbox" value="Onion" class="food-checkbox" data-category="Vegetables" data-state="none">
+                        <span class="checkbox-label">
+                            <span class="state-badge none">□</span>
+                            <span class="label-text">Onion</span>
+                        </span>
+                    </label><br>
+                    <label>
+                        <input type="checkbox" value="Tofu" class="food-checkbox" data-category="Vegetables" data-state="none">
+                        <span class="checkbox-label">
+                            <span class="state-badge none">□</span>
+                            <span class="label-text">Tofu</span>
+                        </span>
+                    </label><br>
+                    <label>
+                        <input type="checkbox" value="Egg" class="food-checkbox" data-category="Vegetables" data-state="none">
+                        <span class="checkbox-label">
+                            <span class="state-badge none">□</span>
+                            <span class="label-text">Egg</span>
+                        </span>
+                    </label>
                 </div>
 
                 <!-- Carbs -->
                 <div class="mb-2">
                     <h4 class="font-bold">Carbs 🍞</h4>
-                    <label><input type="checkbox" value="Rice" class="food-checkbox" data-category="Carbs"> Rice</label><br>
-                    <label><input type="checkbox" value="Bread" class="food-checkbox" data-category="Carbs"> Bread</label><br>
-                    <label><input type="checkbox" value="Pasta" class="food-checkbox" data-category="Carbs"> Pasta</label><br>
-                    <label><input type="checkbox" value="Potato" class="food-checkbox" data-category="Carbs"> Potato</label><br>
-                    <label><input type="checkbox" value="Noodles" class="food-checkbox" data-category="Carbs"> Noodles</label>
+                    <label>
+                        <input type="checkbox" value="Rice" class="food-checkbox" data-category="Carbs" data-state="none">
+                        <span class="checkbox-label">
+                            <span class="state-badge none">□</span>
+                            <span class="label-text">Rice</span>
+                        </span>
+                    </label><br>
+                    <label>
+                        <input type="checkbox" value="Bread" class="food-checkbox" data-category="Carbs" data-state="none">
+                        <span class="checkbox-label">
+                            <span class="state-badge none">□</span>
+                            <span class="label-text">Bread</span>
+                        </span>
+                    </label><br>
+                    <label>
+                        <input type="checkbox" value="Pasta" class="food-checkbox" data-category="Carbs" data-state="none">
+                        <span class="checkbox-label">
+                            <span class="state-badge none">□</span>
+                            <span class="label-text">Pasta</span>
+                        </span>
+                    </label><br>
+                    <label>
+                        <input type="checkbox" value="Potato" class="food-checkbox" data-category="Carbs" data-state="none">
+                        <span class="checkbox-label">
+                            <span class="state-badge none">□</span>
+                            <span class="label-text">Potato</span>
+                        </span>
+                    </label><br>
+                    <label>
+                        <input type="checkbox" value="Noodles" class="food-checkbox" data-category="Carbs" data-state="none">
+                        <span class="checkbox-label">
+                            <span class="state-badge none">□</span>
+                            <span class="label-text">Noodles</span>
+                        </span>
+                    </label>
                 </div>
 
                 <!-- Dairy -->
                 <div class="mb-2">
                     <h4 class="font-bold">Dairy 🧀</h4>
-                    <label><input type="checkbox" value="Milk" class="food-checkbox" data-category="Dairy"> Milk</label><br>
-                    <label><input type="checkbox" value="Cheese" class="food-checkbox" data-category="Dairy"> Cheese</label><br>
-                    <label><input type="checkbox" value="Yogurt" class="food-checkbox" data-category="Dairy"> Yogurt</label><br>
-                    <label><input type="checkbox" value="Butter" class="food-checkbox" data-category="Dairy"> Butter</label>
+                    <label>
+                        <input type="checkbox" value="Milk" class="food-checkbox" data-category="Dairy" data-state="none">
+                        <span class="checkbox-label">
+                            <span class="state-badge none">□</span>
+                            <span class="label-text">Milk</span>
+                        </span>
+                    </label><br>
+                    <label>
+                        <input type="checkbox" value="Cheese" class="food-checkbox" data-category="Dairy" data-state="none">
+                        <span class="checkbox-label">
+                            <span class="state-badge none">□</span>
+                            <span class="label-text">Cheese</span>
+                        </span>
+                    </label><br>
+                    <label>
+                        <input type="checkbox" value="Yogurt" class="food-checkbox" data-category="Dairy" data-state="none">
+                        <span class="checkbox-label">
+                            <span class="state-badge none">□</span>
+                            <span class="label-text">Yogurt</span>
+                        </span>
+                    </label><br>
+                    <label>
+                        <input type="checkbox" value="Butter" class="food-checkbox" data-category="Dairy" data-state="none">
+                        <span class="checkbox-label">
+                            <span class="state-badge none">□</span>
+                            <span class="label-text">Butter</span>
+                        </span>
+                    </label>
                 </div>
 
                 <!-- Nuts -->
                 <div class="mb-2">
                     <h4 class="font-bold">Nuts 🥜</h4>
-                    <label><input type="checkbox" value="Peanuts" class="food-checkbox" data-category="Nuts"> Peanuts</label><br>
-                    <label><input type="checkbox" value="Almonds" class="food-checkbox" data-category="Nuts"> Almonds</label><br>
-                    <label><input type="checkbox" value="Walnuts" class="food-checkbox" data-category="Nuts"> Walnuts</label>
+                    <label>
+                        <input type="checkbox" value="Peanuts" class="food-checkbox" data-category="Nuts" data-state="none">
+                        <span class="checkbox-label">
+                            <span class="state-badge none">□</span>
+                            <span class="label-text">Peanuts</span>
+                        </span>
+                    </label><br>
+                    <label>
+                        <input type="checkbox" value="Almonds" class="food-checkbox" data-category="Nuts" data-state="none">
+                        <span class="checkbox-label">
+                            <span class="state-badge none">□</span>
+                            <span class="label-text">Almonds</span>
+                        </span>
+                    </label><br>
+                    <label>
+                        <input type="checkbox" value="Walnuts" class="food-checkbox" data-category="Nuts" data-state="none">
+                        <span class="checkbox-label">
+                            <span class="state-badge none">□</span>
+                            <span class="label-text">Walnuts</span>
+                        </span>
+                    </label>
                 </div>
             </div>
 
@@ -165,7 +391,12 @@
 
         {{-- Meal Plan Days Widget --}}
         <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-xl flex-1 overflow-x-auto">
-            <h3 class="text-xl font-semibold mb-4">Meal Plan Days 📅</h3>
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-4 mb-4">
+                <h3 class="text-xl font-semibold">Meal Plan Days 📅</h3>
+                <button onclick="regenerateAllDays()" class="bg-purple-500 text-white px-4 py-2 rounded-xl hover:bg-purple-600 transition font-semibold text-sm sm:text-base whitespace-nowrap w-full sm:w-auto">
+                    Regenerate All Days
+                </button>
+            </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 @php
@@ -173,7 +404,7 @@
                     $colors = ['text-red-500', 'text-orange-500', 'text-yellow-500', 'text-green-500', 'text-blue-500', 'text-purple-500', 'text-pink-500'];
                 @endphp
 
-                {{-- Monday, Tuesday, Wednesday --}}
+                {{-- Row 1: Monday, Tuesday, Wednesday --}}
                 @foreach(['Monday', 'Tuesday', 'Wednesday'] as $index => $day)
                     @php $dayIndex = array_search($day, $days); @endphp
                     <div class="bg-gray-50 border border-gray-300 rounded-xl p-4 flex flex-col transition h-full">
@@ -207,7 +438,7 @@
                     </div>
                 @endforeach
 
-                {{-- Thursday, Friday, Saturday --}}
+                {{-- Row 2: Thursday, Friday, Saturday --}}
                 @foreach(['Thursday', 'Friday', 'Saturday'] as $index => $day)
                     @php $dayIndex = array_search($day, $days); @endphp
                     <div class="bg-gray-50 border border-gray-300 rounded-xl p-4 flex flex-col transition h-full">
@@ -241,7 +472,7 @@
                     </div>
                 @endforeach
 
-                {{-- Sunday --}}
+                {{-- Row 3: Invisible, Sunday, Invisible --}}
                 <div class="bg-gray-50 border border-gray-300 rounded-xl p-4 flex flex-col transition h-full opacity-0 invisible"></div>
 
                 <div class="bg-gray-50 border border-gray-300 rounded-xl p-4 flex flex-col transition h-full">
@@ -336,10 +567,86 @@ document.addEventListener("DOMContentLoaded", function () {
     let userManuallyModified = localStorage.getItem('userManuallyModified') === 'true';
     let currentDiet = localStorage.getItem('preferred_diet') || 'Anything';
 
+    // --- Three-state checkbox handler ---
+    function updateLabelDisplay(checkbox) {
+        const label = checkbox.parentElement.querySelector('.checkbox-label');
+        if (!label) return;
+
+        const state = checkbox.dataset.state;
+        const text = checkbox.value;
+
+        // Find or create badge and text span
+        let badge = label.querySelector('.state-badge');
+        let textSpan = label.querySelector('.label-text');
+
+        if (!badge) {
+            badge = document.createElement('span');
+            badge.className = 'state-badge';
+            label.prepend(badge);
+        }
+
+        if (!textSpan) {
+            textSpan = document.createElement('span');
+            textSpan.className = 'label-text';
+            label.appendChild(textSpan);
+        }
+
+        // Update badge
+        badge.className = 'state-badge';
+        if (state === 'include') {
+            badge.classList.add('include');
+            badge.textContent = '✓';
+        } else if (state === 'exclude') {
+            badge.classList.add('exclude');
+            badge.textContent = '✗';
+        } else {
+            badge.classList.add('none');
+            badge.textContent = '□';
+        }
+
+        // Update text
+        textSpan.textContent = text;
+        textSpan.className = 'label-text';
+        if (state === 'exclude') {
+            textSpan.classList.add('excluded');
+        }
+    }
+
+    // Initialize all checkbox labels
+    document.querySelectorAll('.food-checkbox').forEach(cb => {
+        updateLabelDisplay(cb);
+    });
+
+    // --- Three-state click handler ---
+    document.querySelectorAll('.food-checkbox').forEach(cb => {
+        cb.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            const currentState = this.dataset.state;
+            let newState;
+
+            // Cycle: none → include → exclude → none
+            if (currentState === 'none') {
+                newState = 'include';
+            } else if (currentState === 'include') {
+                newState = 'exclude';
+            } else {
+                newState = 'none';
+            }
+
+            this.dataset.state = newState;
+            updateLabelDisplay(this);
+
+            userManuallyModified = true;
+            localStorage.setItem('userManuallyModified', 'true');
+            saveFoodFilters();
+        });
+    });
+
     function selectDiet(diet) {
         currentDiet = diet;
         userManuallyModified = false;
-        localStorage.setItem('userManuallyModified', 'false');  // ← Persist to localStorage
+        localStorage.setItem('userManuallyModified', 'false');
         localStorage.setItem('preferred_diet', diet);
         document.getElementById('savedDiet').innerText = "Saved Diet: " + diet;
         applyDietFilter(diet);
@@ -351,8 +658,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
             },
             body: JSON.stringify({ diet: diet })
-        }).then(() => {
-            location.reload();
         });
     }
 
@@ -444,6 +749,56 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    window.regenerateAllDays = async function() {
+        const button = document.querySelector('[onclick="regenerateAllDays()"]');
+        const originalText = button.textContent;
+        button.disabled = true;
+        button.textContent = 'Regenerating...';
+
+        try {
+            const response = await fetch("/regenerate-all", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+                }
+            });
+
+            const data = await response.json();
+
+            if (data.status === 'success' && data.meals) {
+                const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+                days.forEach(day => {
+                    const mealsContainer = document.getElementById(`meals-${day}`);
+                    if (mealsContainer && data.meals[day]) {
+                        const breakfastDiv = mealsContainer.children[0];
+                        const lunchDiv = mealsContainer.children[1];
+                        const dinnerDiv = mealsContainer.children[2];
+
+                        if (breakfastDiv) {
+                            const span = breakfastDiv.querySelector('span:last-child');
+                            span.innerHTML = data.meals[day].breakfast ? data.meals[day].breakfast.item_name : 'No meal';
+                        }
+                        if (lunchDiv) {
+                            const span = lunchDiv.querySelector('span:last-child');
+                            span.innerHTML = data.meals[day].lunch ? data.meals[day].lunch.item_name : 'No meal';
+                        }
+                        if (dinnerDiv) {
+                            const span = dinnerDiv.querySelector('span:last-child');
+                            span.innerHTML = data.meals[day].dinner ? data.meals[day].dinner.item_name : 'No meal';
+                        }
+                    }
+                });
+            }
+        } catch (error) {
+            console.error('Error regenerating all days:', error);
+            alert('Failed to regenerate meals. Please try again.');
+        } finally {
+            button.disabled = false;
+            button.textContent = originalText;
+        }
+    };
+
     window.openCalculator = function() {
         resetCalculator();
         document.getElementById('homePage').classList.add('hidden');
@@ -459,33 +814,28 @@ document.addEventListener("DOMContentLoaded", function () {
         window.scrollTo(0, 0);
     };
 
-    const MAX_FOOD_OPTIONS = 17;
-
-    document.querySelectorAll('.food-checkbox').forEach(cb => {
-        cb.addEventListener('change', (e) => {
-            const checkedCount = document.querySelectorAll('.food-checkbox:checked').length;
-            if (checkedCount > MAX_FOOD_OPTIONS) {
-                e.target.checked = false;
-                alert(`You can only select up to ${MAX_FOOD_OPTIONS} options.`);
-            } else {
-                userManuallyModified = true;
-                localStorage.setItem('userManuallyModified', 'true');  // ← Persist to localStorage
-                saveFoodFilters();
-            }
-        });
-    });
-
-    // Also track preference checkbox changes
+    // Track preference checkbox changes
     document.querySelectorAll('.preference-checkbox').forEach(cb => {
         cb.addEventListener('change', () => {
             userManuallyModified = true;
-            localStorage.setItem('userManuallyModified', 'true');  // ← Persist to localStorage
+            localStorage.setItem('userManuallyModified', 'true');
             saveFoodFilters();
         });
     });
 
     function saveFoodFilters() {
-        const selectedFoods = Array.from(document.querySelectorAll('.food-checkbox:checked')).map(cb => cb.value);
+        const includedFoods = [];
+        const excludedFoods = [];
+
+        document.querySelectorAll('.food-checkbox').forEach(cb => {
+            const state = cb.dataset.state;
+            if (state === 'include') {
+                includedFoods.push(cb.value);
+            } else if (state === 'exclude') {
+                excludedFoods.push(cb.value);
+            }
+        });
+
         const preferences = Array.from(document.querySelectorAll('.preference-checkbox:checked')).map(cb => cb.value);
 
         fetch("/save-food-filters", {
@@ -495,7 +845,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
             },
             body: JSON.stringify({
-                filters: { foods: selectedFoods, preferences: preferences }
+                filters: {
+                    foods: includedFoods,
+                    excluded: excludedFoods,
+                    preferences: preferences
+                }
             })
         });
     }
@@ -510,17 +864,32 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then(response => response.json())
         .then(data => {
-            if (data.filters && data.filters.foods) {
+            if (data.filters) {
                 // Reset all checkboxes first
                 document.querySelectorAll('.food-checkbox').forEach(cb => {
-                    cb.checked = false;
+                    cb.dataset.state = 'none';
+                    updateLabelDisplay(cb);
                 });
-                // Check the saved ones
-                document.querySelectorAll('.food-checkbox').forEach(cb => {
-                    if (data.filters.foods.includes(cb.value)) {
-                        cb.checked = true;
-                    }
-                });
+
+                // Check included foods
+                if (data.filters.foods) {
+                    document.querySelectorAll('.food-checkbox').forEach(cb => {
+                        if (data.filters.foods.includes(cb.value)) {
+                            cb.dataset.state = 'include';
+                            updateLabelDisplay(cb);
+                        }
+                    });
+                }
+
+                // Check excluded foods
+                if (data.filters.excluded) {
+                    document.querySelectorAll('.food-checkbox').forEach(cb => {
+                        if (data.filters.excluded.includes(cb.value)) {
+                            cb.dataset.state = 'exclude';
+                            updateLabelDisplay(cb);
+                        }
+                    });
+                }
             }
             if (data.filters && data.filters.preferences) {
                 document.querySelectorAll('.preference-checkbox').forEach(cb => {
@@ -535,37 +904,24 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    window.selectRandomFoods = function() {
-        // Get only the food checkboxes (ignoring preferences/allergies)
-        const checkboxes = Array.from(document.querySelectorAll('.food-checkbox'));
-
-        // Reset all of them
-        checkboxes.forEach(cb => cb.checked = false);
-
-        // Shuffle randomly
-        for (let i = checkboxes.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [checkboxes[i], checkboxes[j]] = [checkboxes[j], checkboxes[i]];
-        }
-
-        // Dynamically calculate the amount to check so exactly 10 are left empty
-        const amountToSelect = Math.max(0, checkboxes.length - 10);
-
-        // Check the calculated number of boxes
-        for (let i = 0; i < amountToSelect; i++) {
-            checkboxes[i].checked = true;
-        }
-
+    window.selectAllFoods = function() {
+        document.querySelectorAll('.food-checkbox').forEach(cb => {
+            cb.dataset.state = 'include';
+            updateLabelDisplay(cb);
+        });
         userManuallyModified = true;
-        localStorage.setItem('userManuallyModified', 'true');  // ← Persist to localStorage
+        localStorage.setItem('userManuallyModified', 'true');
         saveFoodFilters();
     };
 
     window.unselectAllFoods = function() {
-        document.querySelectorAll('.food-checkbox').forEach(cb => cb.checked = false);
+        document.querySelectorAll('.food-checkbox').forEach(cb => {
+            cb.dataset.state = 'none';
+            updateLabelDisplay(cb);
+        });
         document.querySelectorAll('.preference-checkbox').forEach(cb => cb.checked = false);
         userManuallyModified = true;
-        localStorage.setItem('userManuallyModified', 'true');  // ← Persist to localStorage
+        localStorage.setItem('userManuallyModified', 'true');
         saveFoodFilters();
     };
 
@@ -622,19 +978,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const dietBlockMap = {
         Anything: [],
-        Keto: ["Meat", "Seafood", "Carbs"],
-        Vegetarian: ["Vegetables", "Dairy", "Nuts"]
+        Keto: ["Meat", "Seafood"],  // Only Meat & Seafood
+        Vegetarian: ["Vegetables", "Dairy", "Nuts"]  // Only Vegetables, Dairy, Nuts
     };
 
-    function applyDietFilter(diet) {
-        const blockedCategories = dietBlockMap[diet] || [];
+   function applyDietFilter(diet) {
+        const allowedCategories = dietBlockMap[diet] || [];
         document.querySelectorAll('.food-checkbox').forEach(cb => {
             const category = cb.dataset.category;
-            cb.checked = false;
-            if (diet !== "Anything" && !blockedCategories.includes(category)) {
-                cb.checked = true;
+            if (diet === "Anything") {
+                cb.dataset.state = 'none';
+                updateLabelDisplay(cb);
+            } else if (allowedCategories.includes(category)) {
+                cb.dataset.state = 'include';
+                updateLabelDisplay(cb);
+            } else {
+                cb.dataset.state = 'none';
+                updateLabelDisplay(cb);
             }
         });
+        // When diet is applied, save filters
         saveFoodFilters();
     }
 
@@ -647,7 +1010,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!userManuallyModified) {
             applyDietFilter(savedPreferredDiet);
         } else {
-            // Restore saved manual selections from session
+            // Restore saved manual selections from server
             restoreSavedFilters();
         }
     }
