@@ -199,6 +199,7 @@ class DietController extends Controller
         $foodFilters = session('food_filters', []);
         $includedFoods = $foodFilters['foods'] ?? [];
         $excludedFoods = $foodFilters['excluded'] ?? [];
+        $preferences = $foodFilters['preferences'] ?? [];
 
         // If no ingredients selected, return null (no meal)
         if (empty($includedFoods)) {
@@ -231,6 +232,15 @@ class DietController extends Controller
             }
         }
 
+        // --- PREFERENCES FILTERS ---
+        if (in_array('Halal Only', $preferences)) {
+            $query->where('halal_status', 'Halal');
+        }
+
+        // Vegan: Already handled in UI (excludes Meat), but add extra check
+        if (in_array('Vegan', $preferences)) {
+        }
+
         $meal = $query->inRandomOrder()->first();
 
         // Second attempt: no calorie restriction
@@ -252,12 +262,15 @@ class DietController extends Controller
                 }
             }
 
+            // Halal Only
+            if (in_array('Halal Only', $preferences)) {
+                $query->where('halal_status', 'Halal');
+            }
+
             $meal = $query->inRandomOrder()->first();
         }
 
-        // Third attempt: REMOVED - No fallback
-
-        return $meal;  // Returns null if no meal found
+        return $meal;
     }
 
     // Helper function to get category for a food

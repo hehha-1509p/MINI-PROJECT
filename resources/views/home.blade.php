@@ -58,6 +58,18 @@
         text-decoration: line-through;
         color: #9ca3af;
     }
+
+    .preference-btn.active {
+        background-color: #3b82f6;
+        color: white;
+        border-color: #3b82f6;
+    }
+
+    .preference-btn.inactive {
+        background-color: #e5e7eb;
+        color: #6b7280;
+        border-color: #d1d5db;
+    }
   </style>
 </head>
 <body class="bg-[url('{{ asset('images/homepage.jpeg') }}')] bg-cover bg-center bg-fixed bg-no-repeat font-sans min-h-screen relative">
@@ -380,11 +392,27 @@
 
             <div class="mt-2 pt-3 border-t border-gray-200">
                 <h4 class="font-bold mb-1">Preferences & Allergies ☪️</h4>
-                <div class="grid grid-cols-2 gap-x-4">
-                    <label><input type="checkbox" value="Halal Only" class="preference-checkbox"> Halal Only</label>
-                    <label><input type="checkbox" value="Vegan" class="preference-checkbox"> Vegan</label>
-                    <label><input type="checkbox" value="Gluten-Free" class="preference-checkbox"> Gluten-Free</label>
-                    <label><input type="checkbox" value="Nut-Free" class="preference-checkbox"> Nut-Free</label>
+                <div class="grid grid-cols-2 gap-x-4 gap-y-2">
+                    <button onclick="togglePreference('Halal Only')"
+                            class="preference-btn px-3 py-1 rounded text-sm font-medium transition border-2 border-gray-300 hover:border-blue-400 text-gray-600"
+                            data-preference="Halal Only">
+                        Halal Only
+                    </button>
+                    <button onclick="togglePreference('Vegan')"
+                            class="preference-btn px-3 py-1 rounded text-sm font-medium transition border-2 border-gray-300 hover:border-blue-400 text-gray-600"
+                            data-preference="Vegan">
+                        Vegan
+                    </button>
+                    <button onclick="togglePreference('Gluten-Free')"
+                            class="preference-btn px-3 py-1 rounded text-sm font-medium transition border-2 border-gray-300 hover:border-blue-400 text-gray-600"
+                            data-preference="Gluten-Free">
+                        Gluten-Free
+                    </button>
+                    <button onclick="togglePreference('Nut-Free')"
+                            class="preference-btn px-3 py-1 rounded text-sm font-medium transition border-2 border-gray-300 hover:border-blue-400 text-gray-600"
+                            data-preference="Nut-Free">
+                        Nut-Free
+                    </button>
                 </div>
             </div>
         </div>
@@ -566,6 +594,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Load persisted manual modification flag from localStorage
     let userManuallyModified = localStorage.getItem('userManuallyModified') === 'true';
     let currentDiet = localStorage.getItem('preferred_diet') || 'Anything';
+    let activePreferences = [];
 
     // --- Three-state checkbox handler ---
     function updateLabelDisplay(checkbox) {
@@ -575,7 +604,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const state = checkbox.dataset.state;
         const text = checkbox.value;
 
-        // Find or create badge and text span
         let badge = label.querySelector('.state-badge');
         let textSpan = label.querySelector('.label-text');
 
@@ -591,7 +619,6 @@ document.addEventListener("DOMContentLoaded", function () {
             label.appendChild(textSpan);
         }
 
-        // Update badge
         badge.className = 'state-badge';
         if (state === 'include') {
             badge.classList.add('include');
@@ -604,7 +631,6 @@ document.addEventListener("DOMContentLoaded", function () {
             badge.textContent = '□';
         }
 
-        // Update text
         textSpan.textContent = text;
         textSpan.className = 'label-text';
         if (state === 'exclude') {
@@ -625,7 +651,6 @@ document.addEventListener("DOMContentLoaded", function () {
             const currentState = this.dataset.state;
             let newState;
 
-            // Cycle: none → include → exclude → none
             if (currentState === 'none') {
                 newState = 'include';
             } else if (currentState === 'include') {
@@ -643,6 +668,171 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    // --- Preference Toggle ---
+    function togglePreference(pref) {
+        const btn = document.querySelector(`[data-preference="${pref}"]`);
+        const index = activePreferences.indexOf(pref);
+
+        if (index > -1) {
+            activePreferences.splice(index, 1);
+            btn.classList.remove('active');
+            btn.classList.add('inactive');
+
+            // Clear the cross effect when unselecting
+            if (pref === 'Vegan') {
+                document.querySelectorAll('.food-checkbox[data-category="Meat"]').forEach(cb => {
+                    if (cb.dataset.state === 'exclude') {
+                        cb.dataset.state = 'none';
+                        updateLabelDisplay(cb);
+                    }
+                });
+            } else if (pref === 'Gluten-Free') {
+                // Clear BOTH Vegetables AND Carbs
+                document.querySelectorAll('.food-checkbox[data-category="Vegetables"]').forEach(cb => {
+                    if (cb.dataset.state === 'exclude') {
+                        cb.dataset.state = 'none';
+                        updateLabelDisplay(cb);
+                    }
+                });
+                document.querySelectorAll('.food-checkbox[data-category="Carbs"]').forEach(cb => {
+                    if (cb.dataset.state === 'exclude') {
+                        cb.dataset.state = 'none';
+                        updateLabelDisplay(cb);
+                    }
+                });
+            } else if (pref === 'Nut-Free') {
+                document.querySelectorAll('.food-checkbox[data-category="Nuts"]').forEach(cb => {
+                    if (cb.dataset.state === 'exclude') {
+                        cb.dataset.state = 'none';
+                        updateLabelDisplay(cb);
+                    }
+                });
+            }
+        } else {
+            activePreferences.push(pref);
+            btn.classList.add('active');
+            btn.classList.remove('inactive');
+            applyPreferenceEffects(pref);
+        }
+
+        userManuallyModified = true;
+        localStorage.setItem('userManuallyModified', 'true');
+        saveFoodFilters();
+    }
+
+    function applyPreferenceEffects(pref) {
+        if (pref === 'Vegan') {
+            document.querySelectorAll('.food-checkbox[data-category="Meat"]').forEach(cb => {
+                cb.dataset.state = 'exclude';
+                updateLabelDisplay(cb);
+            });
+        } else if (pref === 'Gluten-Free') {
+            // Exclude BOTH Vegetables AND Carbs
+            document.querySelectorAll('.food-checkbox[data-category="Vegetables"]').forEach(cb => {
+                cb.dataset.state = 'exclude';
+                updateLabelDisplay(cb);
+            });
+            document.querySelectorAll('.food-checkbox[data-category="Carbs"]').forEach(cb => {
+                cb.dataset.state = 'exclude';
+                updateLabelDisplay(cb);
+            });
+        } else if (pref === 'Nut-Free') {
+            document.querySelectorAll('.food-checkbox[data-category="Nuts"]').forEach(cb => {
+                cb.dataset.state = 'exclude';
+                updateLabelDisplay(cb);
+            });
+        }
+    }
+
+    // --- Save Food Filters ---
+    function saveFoodFilters() {
+        const includedFoods = [];
+        const excludedFoods = [];
+
+        document.querySelectorAll('.food-checkbox').forEach(cb => {
+            const state = cb.dataset.state;
+            if (state === 'include') {
+                includedFoods.push(cb.value);
+            } else if (state === 'exclude') {
+                excludedFoods.push(cb.value);
+            }
+        });
+
+        fetch("/save-food-filters", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({
+                filters: {
+                    foods: includedFoods,
+                    excluded: excludedFoods,
+                    preferences: activePreferences
+                }
+            })
+        });
+    }
+
+    // --- Restore Saved Filters ---
+    function restoreSavedFilters() {
+        fetch("/get-food-filters", {
+            method: "GET",
+            headers: {
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.filters) {
+                // Reset all checkboxes
+                document.querySelectorAll('.food-checkbox').forEach(cb => {
+                    cb.dataset.state = 'none';
+                    updateLabelDisplay(cb);
+                });
+
+                // Restore included foods
+                if (data.filters.foods) {
+                    document.querySelectorAll('.food-checkbox').forEach(cb => {
+                        if (data.filters.foods.includes(cb.value)) {
+                            cb.dataset.state = 'include';
+                            updateLabelDisplay(cb);
+                        }
+                    });
+                }
+
+                // Restore excluded foods
+                if (data.filters.excluded) {
+                    document.querySelectorAll('.food-checkbox').forEach(cb => {
+                        if (data.filters.excluded.includes(cb.value)) {
+                            cb.dataset.state = 'exclude';
+                            updateLabelDisplay(cb);
+                        }
+                    });
+                }
+
+                // Restore preferences
+                if (data.filters.preferences) {
+                    activePreferences = data.filters.preferences;
+                    document.querySelectorAll('.preference-btn').forEach(btn => {
+                        const pref = btn.dataset.preference;
+                        if (activePreferences.includes(pref)) {
+                            btn.classList.add('active');
+                            btn.classList.remove('inactive');
+                            if (pref !== 'Halal Only') {
+                                applyPreferenceEffects(pref);
+                            }
+                        } else {
+                            btn.classList.remove('active');
+                            btn.classList.add('inactive');
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    // --- Select Diet ---
     function selectDiet(diet) {
         currentDiet = diet;
         userManuallyModified = false;
@@ -661,6 +851,59 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    // --- Apply Diet Filter ---
+    const dietBlockMap = {
+        Anything: [],
+        Keto: ["Meat", "Seafood"],
+        Vegetarian: ["Vegetables", "Dairy", "Nuts"]
+    };
+
+    function applyDietFilter(diet) {
+        const allowedCategories = dietBlockMap[diet] || [];
+        document.querySelectorAll('.food-checkbox').forEach(cb => {
+            const category = cb.dataset.category;
+            if (diet === "Anything") {
+                cb.dataset.state = 'none';
+                updateLabelDisplay(cb);
+            } else if (allowedCategories.includes(category)) {
+                cb.dataset.state = 'include';
+                updateLabelDisplay(cb);
+            } else {
+                cb.dataset.state = 'none';
+                updateLabelDisplay(cb);
+            }
+        });
+        saveFoodFilters();
+    }
+
+    // --- Select All / Unselect All ---
+    window.selectAllFoods = function() {
+        document.querySelectorAll('.food-checkbox').forEach(cb => {
+            cb.dataset.state = 'include';
+            updateLabelDisplay(cb);
+        });
+        userManuallyModified = true;
+        localStorage.setItem('userManuallyModified', 'true');
+        saveFoodFilters();
+    };
+
+    window.unselectAllFoods = function() {
+        document.querySelectorAll('.food-checkbox').forEach(cb => {
+            cb.dataset.state = 'none';
+            updateLabelDisplay(cb);
+        });
+        // Also clear preferences
+        activePreferences = [];
+        document.querySelectorAll('.preference-btn').forEach(btn => {
+            btn.classList.remove('active');
+            btn.classList.add('inactive');
+        });
+        userManuallyModified = true;
+        localStorage.setItem('userManuallyModified', 'true');
+        saveFoodFilters();
+    };
+
+    // --- Regenerate Functions ---
     window.regenerateDay = async function(day) {
         const buttons = document.querySelectorAll(`[onclick="regenerateDay('${day}')"]`);
         buttons.forEach(btn => {
@@ -708,46 +951,6 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     };
-
-    window.viewIngredients = async function(day) {
-        try {
-            const response = await fetch("/get-ingredients", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
-                },
-                body: JSON.stringify({ day: day })
-            });
-
-            if (response.redirected || response.ok) {
-                window.location.href = "/ingredients";
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Could not load ingredients page');
-        }
-    };
-
-    function loadMacroData() {
-        const savedData = localStorage.getItem('macroData');
-        if (savedData) {
-            const parsedData = JSON.parse(savedData);
-            document.getElementById('displayKcal').innerText = parsedData.kcal + ' kcal';
-            document.getElementById('displayProtein').innerText = parsedData.protein;
-            document.getElementById('displayFat').innerText = parsedData.fat;
-            document.getElementById('displayCarbs').innerText = parsedData.carbs;
-            document.getElementById('homeMacroResults').classList.remove('hidden');
-        }
-    }
-
-    function resetCalculator() {
-        const resultDiv = document.getElementById('result');
-        if (resultDiv) {
-            resultDiv.innerHTML = "";
-            resultDiv.classList.add('hidden');
-        }
-    }
 
     window.regenerateAllDays = async function() {
         const button = document.querySelector('[onclick="regenerateAllDays()"]');
@@ -799,6 +1002,48 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
 
+    // --- View Ingredients ---
+    window.viewIngredients = async function(day) {
+        try {
+            const response = await fetch("/get-ingredients", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({ day: day })
+            });
+
+            if (response.redirected || response.ok) {
+                window.location.href = "/ingredients";
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Could not load ingredients page');
+        }
+    };
+
+    // --- Calorie Calculator ---
+    function loadMacroData() {
+        const savedData = localStorage.getItem('macroData');
+        if (savedData) {
+            const parsedData = JSON.parse(savedData);
+            document.getElementById('displayKcal').innerText = parsedData.kcal + ' kcal';
+            document.getElementById('displayProtein').innerText = parsedData.protein;
+            document.getElementById('displayFat').innerText = parsedData.fat;
+            document.getElementById('displayCarbs').innerText = parsedData.carbs;
+            document.getElementById('homeMacroResults').classList.remove('hidden');
+        }
+    }
+
+    function resetCalculator() {
+        const resultDiv = document.getElementById('result');
+        if (resultDiv) {
+            resultDiv.innerHTML = "";
+            resultDiv.classList.add('hidden');
+        }
+    }
+
     window.openCalculator = function() {
         resetCalculator();
         document.getElementById('homePage').classList.add('hidden');
@@ -812,117 +1057,6 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('homePage').classList.remove('hidden');
         loadMacroData();
         window.scrollTo(0, 0);
-    };
-
-    // Track preference checkbox changes
-    document.querySelectorAll('.preference-checkbox').forEach(cb => {
-        cb.addEventListener('change', () => {
-            userManuallyModified = true;
-            localStorage.setItem('userManuallyModified', 'true');
-            saveFoodFilters();
-        });
-    });
-
-    function saveFoodFilters() {
-        const includedFoods = [];
-        const excludedFoods = [];
-
-        document.querySelectorAll('.food-checkbox').forEach(cb => {
-            const state = cb.dataset.state;
-            if (state === 'include') {
-                includedFoods.push(cb.value);
-            } else if (state === 'exclude') {
-                excludedFoods.push(cb.value);
-            }
-        });
-
-        const preferences = Array.from(document.querySelectorAll('.preference-checkbox:checked')).map(cb => cb.value);
-
-        fetch("/save-food-filters", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
-            },
-            body: JSON.stringify({
-                filters: {
-                    foods: includedFoods,
-                    excluded: excludedFoods,
-                    preferences: preferences
-                }
-            })
-        });
-    }
-
-    // Loads the user's manually saved filters from the server on page refresh
-    function restoreSavedFilters() {
-        fetch("/get-food-filters", {
-            method: "GET",
-            headers: {
-                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.filters) {
-                // Reset all checkboxes first
-                document.querySelectorAll('.food-checkbox').forEach(cb => {
-                    cb.dataset.state = 'none';
-                    updateLabelDisplay(cb);
-                });
-
-                // Check included foods
-                if (data.filters.foods) {
-                    document.querySelectorAll('.food-checkbox').forEach(cb => {
-                        if (data.filters.foods.includes(cb.value)) {
-                            cb.dataset.state = 'include';
-                            updateLabelDisplay(cb);
-                        }
-                    });
-                }
-
-                // Check excluded foods
-                if (data.filters.excluded) {
-                    document.querySelectorAll('.food-checkbox').forEach(cb => {
-                        if (data.filters.excluded.includes(cb.value)) {
-                            cb.dataset.state = 'exclude';
-                            updateLabelDisplay(cb);
-                        }
-                    });
-                }
-            }
-            if (data.filters && data.filters.preferences) {
-                document.querySelectorAll('.preference-checkbox').forEach(cb => {
-                    cb.checked = false;
-                });
-                document.querySelectorAll('.preference-checkbox').forEach(cb => {
-                    if (data.filters.preferences.includes(cb.value)) {
-                        cb.checked = true;
-                    }
-                });
-            }
-        });
-    }
-
-    window.selectAllFoods = function() {
-        document.querySelectorAll('.food-checkbox').forEach(cb => {
-            cb.dataset.state = 'include';
-            updateLabelDisplay(cb);
-        });
-        userManuallyModified = true;
-        localStorage.setItem('userManuallyModified', 'true');
-        saveFoodFilters();
-    };
-
-    window.unselectAllFoods = function() {
-        document.querySelectorAll('.food-checkbox').forEach(cb => {
-            cb.dataset.state = 'none';
-            updateLabelDisplay(cb);
-        });
-        document.querySelectorAll('.preference-checkbox').forEach(cb => cb.checked = false);
-        userManuallyModified = true;
-        localStorage.setItem('userManuallyModified', 'true');
-        saveFoodFilters();
     };
 
     window.calculateCalories = function() {
@@ -976,48 +1110,28 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     };
 
-    const dietBlockMap = {
-        Anything: [],
-        Keto: ["Meat", "Seafood"],  // Only Meat & Seafood
-        Vegetarian: ["Vegetables", "Dairy", "Nuts"]  // Only Vegetables, Dairy, Nuts
-    };
-
-   function applyDietFilter(diet) {
-        const allowedCategories = dietBlockMap[diet] || [];
-        document.querySelectorAll('.food-checkbox').forEach(cb => {
-            const category = cb.dataset.category;
-            if (diet === "Anything") {
-                cb.dataset.state = 'none';
-                updateLabelDisplay(cb);
-            } else if (allowedCategories.includes(category)) {
-                cb.dataset.state = 'include';
-                updateLabelDisplay(cb);
-            } else {
-                cb.dataset.state = 'none';
-                updateLabelDisplay(cb);
-            }
-        });
-        // When diet is applied, save filters
-        saveFoodFilters();
-    }
-
+    // --- Initialize ---
     const savedPreferredDiet = localStorage.getItem('preferred_diet');
     if (savedPreferredDiet) {
         document.getElementById('savedDiet').innerText = "Saved Diet: " + savedPreferredDiet;
         currentDiet = savedPreferredDiet;
 
-        // ONLY apply diet filter if user hasn't manually modified
         if (!userManuallyModified) {
             applyDietFilter(savedPreferredDiet);
         } else {
-            // Restore saved manual selections from server
             restoreSavedFilters();
         }
     }
 
+    // Initialize preference buttons
+    document.querySelectorAll('.preference-btn').forEach(btn => {
+        btn.classList.add('inactive');
+    });
+
     loadMacroData();
 
     window.selectDiet = selectDiet;
+    window.togglePreference = togglePreference;
 });
 </script>
 </body>
