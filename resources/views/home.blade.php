@@ -393,10 +393,10 @@
             <div class="mt-2 pt-3 border-t border-gray-200">
                 <h4 class="font-bold mb-1">Preferences & Allergies ☪️</h4>
                 <div class="grid grid-cols-2 gap-x-4 gap-y-2">
-                    <button onclick="togglePreference('Halal Only')"
+                    <button onclick="togglePreference('Pork-Free Only')"
                             class="preference-btn px-3 py-1 rounded text-sm font-medium transition border-2 border-gray-300 hover:border-blue-400 text-gray-600"
-                            data-preference="Halal Only">
-                        Halal Only
+                            data-preference="Pork-Free Only">
+                        Pork-Free Only
                     </button>
                     <button onclick="togglePreference('Vegan')"
                             class="preference-btn px-3 py-1 rounded text-sm font-medium transition border-2 border-gray-300 hover:border-blue-400 text-gray-600"
@@ -819,7 +819,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         if (activePreferences.includes(pref)) {
                             btn.classList.add('active');
                             btn.classList.remove('inactive');
-                            if (pref !== 'Halal Only') {
+                            if (pref !== 'Pork-Free Only') {
                                 applyPreferenceEffects(pref);
                             }
                         } else {

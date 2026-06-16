@@ -233,8 +233,8 @@ class DietController extends Controller
         }
 
         // --- PREFERENCES FILTERS ---
-        if (in_array('Halal Only', $preferences)) {
-            $query->where('halal_status', 'Halal');
+        if (in_array('Pork-Free Only', $preferences)) {
+            $query->where('halal_status', 'Pork-Free');
         }
 
         // Vegan: Already handled in UI (excludes Meat), but add extra check
@@ -262,9 +262,9 @@ class DietController extends Controller
                 }
             }
 
-            // Halal Only
-            if (in_array('Halal Only', $preferences)) {
-                $query->where('halal_status', 'Halal');
+            // Pork-Free only
+            if (in_array('Pork-Free Only', $preferences)) {
+                $query->where('halal_status', 'Pork-Free');
             }
 
             $meal = $query->inRandomOrder()->first();

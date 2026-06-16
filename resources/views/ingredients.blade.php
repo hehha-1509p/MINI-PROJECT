@@ -147,12 +147,12 @@
                             </div>
                         @endif
 
-                        {{-- Halal Status --}}
+                        {{-- Pork-Free Status --}}
                         @if($meal->halal_status)
                             <div class="mt-3">
-                                <span class="text-xs sm:text-sm font-semibold text-gray-600">Halal Status:</span>
+                                <span class="text-xs sm:text-sm font-semibold text-gray-600">Pork-Free Status:</span>
                                 <span class="ml-2 text-xs sm:text-sm px-2 py-1 rounded-full
-                                    @if($meal->halal_status == 'Halal') bg-green-100 text-green-700
+                                    @if($meal->halal_status == 'Pork-Free') bg-green-100 text-green-700
                                     @else bg-red-100 text-red-700
                                     @endif
                                 ">{{ $meal->halal_status }}</span>
