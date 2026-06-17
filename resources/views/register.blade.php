@@ -44,9 +44,10 @@
         }
     </style>
 </head>
+
 <body class="h-screen w-screen flex items-center justify-center px-4 relative">
 
-{{-- Back to Home Button (Left untouched at top left) --}}
+{{-- Back to Home Button --}}
 <a href="/" class="fixed top-4 left-4 sm:top-6 sm:left-6 text-blue-500 hover:text-blue-700 transition flex items-center gap-1 z-50 bg-white/80 backdrop-blur-sm px-3 py-2 rounded-lg shadow-sm">
     <i class="fa-solid fa-arrow-left"></i>
     <span class="text-sm font-medium">Back to Home</span>
@@ -70,16 +71,26 @@
             <div class="mb-3">
                 <label class="block text-gray-700 font-medium mb-1 text-sm">Username</label>
                 <input type="text" name="username"
+                    value="{{ old('username') }}"
                     class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 transition"
                     placeholder="Enter your username">
+
+                @error('username')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             {{-- Email --}}
             <div class="mb-3">
                 <label class="block text-gray-700 font-medium mb-1 text-sm">Email</label>
                 <input type="email" name="email"
+                    value="{{ old('email') }}"
                     class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 transition"
                     placeholder="Enter your email">
+
+                @error('email')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             {{-- Password --}}
@@ -89,10 +100,16 @@
                     <input type="password" name="password" id="regPassword"
                         class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 transition pr-12"
                         placeholder="Create a password">
+
                     <i class="fa-regular fa-eye absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer hover:text-gray-600 transition" id="togglePassword"></i>
                 </div>
+
+                @error('password')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
+            {{-- Terms of Service --}}
             <div class="flex items-start gap-3 mb-3">
                 <div class="flex items-center h-5">
                     <input type="checkbox" id="tos" required
@@ -106,6 +123,7 @@
                 </label>
             </div>
 
+            {{-- Newsletter --}}
             <div class="flex items-start gap-3 mb-5">
                 <div class="flex items-center h-5">
                     <input type="checkbox" id="newsletter"
@@ -144,16 +162,17 @@
         togglePassword.classList.add('fa-eye');
     }
 
-    // Desktop Controls
+    // Desktop controls
     togglePassword.addEventListener('mousedown', showPassword);
     togglePassword.addEventListener('mouseup', hidePassword);
     togglePassword.addEventListener('mouseleave', hidePassword);
 
-    // Mobile Controls
+    // Mobile controls
     togglePassword.addEventListener('touchstart', function(e) {
         e.preventDefault();
         showPassword();
     });
+
     togglePassword.addEventListener('touchend', hidePassword);
     togglePassword.addEventListener('touchcancel', hidePassword);
 </script>
