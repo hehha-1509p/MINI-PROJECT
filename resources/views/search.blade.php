@@ -19,7 +19,7 @@
             </h1>
 
             {{-- Search Bar --}}
-            <form action="/search" method="GET" class="w-full lg:w-[420px] mt-4">
+            <form action="/search" method="GET" class="w-full lg:w-[420px] mt-5">
                 <div class="flex items-center bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
 
                     <input
@@ -41,11 +41,11 @@
 
             {{-- Back Button --}}
             <a href="/"
-            class="inline-flex items-center gap-2 text-blue-500 hover:text-blue-700 transition font-medium whitespace-nowrap">
+            class="inline-flex items-center gap-2 text-blue-500 hover:text-blue-700 transition font-medium whitespace-nowrap mt-4 bg-white/80 backdrop-blur-sm px-3 py-2 rounded-lg shadow-sm">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                 </svg>
-                Back to Homepage
+                Back to Home
             </a>
 
         </div>
