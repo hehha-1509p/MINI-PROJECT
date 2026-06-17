@@ -48,6 +48,26 @@
                             </div>
                         @endif
 
+                        {{-- Restaurant & Location --}}
+                        @if(($meal->store_name || $meal->store) || ($meal->floor || $meal->location))
+                            <div class="bg-blue-50 rounded-lg p-3 mb-4">
+                                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-4">
+                                    <div>
+                                        <span class="text-xs sm:text-sm font-semibold text-blue-600">🏪 Restaurant</span>
+                                        <p class="text-base sm:text-lg font-bold text-blue-800">
+                                            {{ $meal->store_name ?? $meal->store ?? 'N/A' }}
+                                        </p>
+                                    </div>
+                                    <div class="sm:text-right">
+                                        <span class="text-xs sm:text-sm font-semibold text-blue-600">📍 Location</span>
+                                        <p class="text-base sm:text-lg font-bold text-blue-800">
+                                            {{ $meal->floor ?? $meal->location ?? 'N/A' }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
                         {{-- Nutrition grid - responsive columns --}}
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                             {{-- Calories --}}
@@ -123,47 +143,26 @@
                             @endif
                         </div>
 
-                        {{-- Sodium Level --}}
-                        @if($meal->sodium_level)
-                        <div class="mt-3">
-                            <span class="text-xs sm:text-sm font-semibold text-gray-600">Sodium Level:</span>
-                            <span class="ml-2 text-xs sm:text-sm px-2 py-1 rounded-full
-                                @if($meal->sodium_level == 'Low') bg-green-100 text-green-700
-                                @elseif($meal->sodium_level == 'Medium') bg-yellow-100 text-yellow-700
-                                @elseif($meal->sodium_level == 'High') bg-orange-100 text-orange-700
-                                @elseif($meal->sodium_level == 'Very High') bg-red-100 text-red-700
-                                @else bg-gray-100 text-gray-700
-                                @endif
-                            ">{{ $meal->sodium_level }}</span>
-                        </div>
-                        @endif
+                        {{-- Price Section - Compact Single Line --}}
+                        @php
+                            $priceParts = [];
+                            if (isset($meal->price_default_hot) && $meal->price_default_hot !== null) {
+                                $priceParts[] = 'RM ' . number_format($meal->price_default_hot, 2);
+                            }
+                            if (isset($meal->price_cold_regular) && $meal->price_cold_regular !== null) {
+                                $priceParts[] = 'Cold: RM ' . number_format($meal->price_cold_regular, 2);
+                            }
+                            if (isset($meal->price_cold_large) && $meal->price_cold_large !== null) {
+                                $priceParts[] = 'Cold (Large): RM ' . number_format($meal->price_cold_large, 2);
+                            }
+                        @endphp
 
-                        {{-- Health labels as chips --}}
-                        @if($meal->health_label)
-                            <div class="mt-3 flex flex-wrap gap-2">
-                                @foreach(explode(',', $meal->health_label) as $label)
-                                    <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full">{{ trim($label) }}</span>
-                                @endforeach
-                            </div>
-                        @endif
-
-                        {{-- Pork-Free Status --}}
-                        @if($meal->halal_status)
-                            <div class="mt-3">
-                                <span class="text-xs sm:text-sm font-semibold text-gray-600">Pork-Free Status:</span>
-                                <span class="ml-2 text-xs sm:text-sm px-2 py-1 rounded-full
-                                    @if($meal->halal_status == 'Pork-Free') bg-green-100 text-green-700
-                                    @else bg-red-100 text-red-700
-                                    @endif
-                                ">{{ $meal->halal_status }}</span>
-                            </div>
-                        @endif
-
-                        {{-- Price --}}
-                        @if($meal->price_default_hot)
-                            <div class="mt-3">
-                                <span class="text-xs sm:text-sm font-semibold text-gray-600">Price:</span>
-                                <span class="ml-2 text-sm font-bold text-gray-800">RM {{ number_format($meal->price_default_hot, 2) }}</span>
+                        @if(!empty($priceParts))
+                            <div class="mt-4 pt-3 border-t border-gray-100">
+                                <span class="text-xs sm:text-sm font-semibold text-gray-600">💰 Price:</span>
+                                <span class="ml-2 text-sm font-bold text-gray-800">
+                                    {{ implode(' | ', $priceParts) }}
+                                </span>
                             </div>
                         @endif
                     </div>
@@ -179,6 +178,5 @@
         <p>⚠️ Ingredients and nutrition may vary based on preparation. Always check with the restaurant.</p>
     </div>
 </div>
-
 </body>
 </html>

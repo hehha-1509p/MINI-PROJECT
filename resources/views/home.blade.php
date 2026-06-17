@@ -680,14 +680,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Clear the cross effect when unselecting
             if (pref === 'Vegan') {
+                // Clear Meat
                 document.querySelectorAll('.food-checkbox[data-category="Meat"]').forEach(cb => {
                     if (cb.dataset.state === 'exclude') {
                         cb.dataset.state = 'none';
                         updateLabelDisplay(cb);
                     }
+                    cb.disabled = false;
+                    cb.parentElement.style.opacity = '1';
+                    cb.parentElement.style.cursor = 'pointer';
+                });
+                // Clear Seafood
+                document.querySelectorAll('.food-checkbox[data-category="Seafood"]').forEach(cb => {
+                    if (cb.dataset.state === 'exclude') {
+                        cb.dataset.state = 'none';
+                        updateLabelDisplay(cb);
+                    }
+                    cb.disabled = false;
+                    cb.parentElement.style.opacity = '1';
+                    cb.parentElement.style.cursor = 'pointer';
                 });
             } else if (pref === 'Gluten-Free') {
-                // Clear BOTH Vegetables AND Carbs
                 document.querySelectorAll('.food-checkbox[data-category="Vegetables"]').forEach(cb => {
                     if (cb.dataset.state === 'exclude') {
                         cb.dataset.state = 'none';
@@ -722,12 +735,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function applyPreferenceEffects(pref) {
         if (pref === 'Vegan') {
+            // Cross out (exclude) ALL Meat and Seafood checkboxes
             document.querySelectorAll('.food-checkbox[data-category="Meat"]').forEach(cb => {
                 cb.dataset.state = 'exclude';
                 updateLabelDisplay(cb);
+                // DO NOT disable - keep clickable
+                cb.disabled = false;
+                cb.parentElement.style.opacity = '1';
+                cb.parentElement.style.cursor = 'pointer';
+            });
+            document.querySelectorAll('.food-checkbox[data-category="Seafood"]').forEach(cb => {
+                cb.dataset.state = 'exclude';
+                updateLabelDisplay(cb);
+                // DO NOT disable - keep clickable
+                cb.disabled = false;
+                cb.parentElement.style.opacity = '1';
+                cb.parentElement.style.cursor = 'pointer';
             });
         } else if (pref === 'Gluten-Free') {
-            // Exclude BOTH Vegetables AND Carbs
             document.querySelectorAll('.food-checkbox[data-category="Vegetables"]').forEach(cb => {
                 cb.dataset.state = 'exclude';
                 updateLabelDisplay(cb);
@@ -743,7 +768,6 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     }
-
     // --- Save Food Filters ---
     function saveFoodFilters() {
         const includedFoods = [];
@@ -862,6 +886,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const allowedCategories = dietBlockMap[diet] || [];
         document.querySelectorAll('.food-checkbox').forEach(cb => {
             const category = cb.dataset.category;
+            // Skip if disabled (Vegan case)
+            if (cb.disabled) return;
+
             if (diet === "Anything") {
                 cb.dataset.state = 'none';
                 updateLabelDisplay(cb);
@@ -891,6 +918,9 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll('.food-checkbox').forEach(cb => {
             cb.dataset.state = 'none';
             updateLabelDisplay(cb);
+            cb.disabled = false; // Re-enable all
+            cb.parentElement.style.opacity = '1';
+            cb.parentElement.style.cursor = 'default';
         });
         // Also clear preferences
         activePreferences = [];
