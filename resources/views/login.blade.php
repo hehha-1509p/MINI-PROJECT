@@ -33,7 +33,7 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center px-4 py-8 relative">
+<body class="font-sans min-h-screen relative bg-fixed bg-cover bg-center bg-no-repeat"style="background-image: url('https://png.pngtree.com/thumb_back/fh260/background/20231028/pngtree-fresh-and-calming-watercolor-texture-background-in-light-mint-pastel-green-image_13758848.png');">
 
 <a href="/" class="fixed top-4 left-4 sm:top-6 sm:left-6 text-blue-500 hover:text-blue-700 transition flex items-center gap-1 z-50 bg-white/80 backdrop-blur-sm px-3 py-2 rounded-lg shadow-sm">
     <i class="fa-solid fa-arrow-left"></i>

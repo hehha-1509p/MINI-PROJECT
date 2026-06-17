@@ -72,7 +72,7 @@
     }
   </style>
 </head>
-<body class="bg-[url('{{ asset('images/homepage.jpeg') }}')] bg-cover bg-center bg-fixed bg-no-repeat font-sans min-h-screen relative">
+<body class="font-sans min-h-screen relative bg-fixed bg-cover bg-center bg-no-repeat"style="background-image: url('https://png.pngtree.com/thumb_back/fh260/background/20231028/pngtree-fresh-and-calming-watercolor-texture-background-in-light-mint-pastel-green-image_13758848.png');">
 
 <div id="homePage" class="container mx-auto px-4 py-4 sm:px-6 lg:px-8">
 
@@ -102,9 +102,9 @@
     {{-- Preferred Diet --}}
     <h2 class="text-xl font-semibold mb-3 text-center">Preferred Diet</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-        <button onclick="selectDiet('Anything')" class="dietBtn bg-[#ffdab9] p-6 rounded-2xl shadow flex flex-col items-center hover:border-orange-500 border-2 border-transparent">
+        <button onclick="selectDiet('Manual Change')" class="dietBtn bg-[#ffdab9] p-6 rounded-2xl shadow flex flex-col items-center hover:border-orange-500 border-2 border-transparent">
             <img src="{{ asset('images/anything.jpeg') }}" class="w-16 h-16 mb-2 mix-blend-multiply" alt="Anything">
-            <span>Anything</span>
+            <span>Manual Change</span>
         </button>
         <button onclick="selectDiet('Keto')" class="dietBtn bg-[#ffdab9] p-6 rounded-2xl shadow flex flex-col items-center hover:border-orange-500 border-2 border-transparent">
             <img src="{{ asset('images/keto.jpeg') }}" class="w-16 h-16 mb-2" alt="Keto">

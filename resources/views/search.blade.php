@@ -7,48 +7,48 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100 min-h-screen py-6 px-4 sm:py-8 sm:px-6">
+<body class="font-sans min-h-screen relative bg-fixed bg-cover bg-center bg-no-repeat"style="background-image: url('https://png.pngtree.com/thumb_back/fh260/background/20231028/pngtree-fresh-and-calming-watercolor-texture-background-in-light-mint-pastel-green-image_13758848.png');">
 
     <div class="max-w-7xl mx-auto">
 
- <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6 sm:mb-8">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6 sm:mb-8">
 
-    {{-- Title --}}
-    <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 break-words">
-        Search Results for "<span class="text-orange-500">{{ $query }}</span>"
-    </h1>
+            {{-- Title --}}
+            <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 break-words">
+                Search Results for "<span class="text-orange-500">{{ $query }}</span>"
+            </h1>
 
-    {{-- Search Bar --}}
-    <form action="/search" method="GET" class="w-full lg:w-[420px]">
-        <div class="flex items-center bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+            {{-- Search Bar --}}
+            <form action="/search" method="GET" class="w-full lg:w-[420px] mt-4">
+                <div class="flex items-center bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
 
-            <input
-                type="text"
-                name="query"
-                placeholder="Search food..."
-                value="{{ $query }}"
-                class="w-full px-4 py-3 text-gray-700 focus:outline-none"
-            >
+                    <input
+                        type="text"
+                        name="query"
+                        placeholder="Search food..."
+                        value="{{ $query }}"
+                        class="w-full px-4 py-3 text-gray-700 focus:outline-none"
+                    >
 
-            <button
-                type="submit"
-                class="bg-orange-500 hover:bg-orange-600 text-white px-5 py-3 transition"
-            >
-                Search
-            </button>
+                    <button
+                        type="submit"
+                        class="bg-orange-500 hover:bg-orange-600 text-white px-5 py-3 transition"
+                    >
+                        Search
+                    </button>
+                </div>
+            </form>
+
+            {{-- Back Button --}}
+            <a href="/"
+            class="inline-flex items-center gap-2 text-blue-500 hover:text-blue-700 transition font-medium whitespace-nowrap">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Back to Homepage
+            </a>
+
         </div>
-    </form>
-
-    {{-- Back Button --}}
-    <a href="/"
-       class="inline-flex items-center gap-2 text-blue-500 hover:text-blue-700 transition font-medium whitespace-nowrap">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-        </svg>
-        Back to Homepage
-    </a>
-
-</div>
 
         {{-- Search Summary / Count --}}
         <div class="mb-6">
