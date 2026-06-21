@@ -86,16 +86,61 @@
         {{-- SEARCH BAR --}}
         <form action="{{ route('search') }}" method="GET"
             class="flex w-full max-w-2xl shadow-md rounded-xl overflow-hidden bg-white h-12">
-
             <input type="text" name="query" placeholder="Search food, ingredients, breakfast, lunch, dinner..." class="flex-grow p-3 text-base sm:text-lg focus:outline-none" required>
             <button type="submit" class="bg-green-500 text-white px-6 sm:px-8 hover:bg-green-600 transition font-semibold whitespace-nowrap">
                 Search
             </button>
         </form>
 
-        <div class="flex items-center space-x-4">
-            <a href="/login" class="text-gray-600 hover:text-black font-medium">Log In</a>
-            <a href="/register" class="bg-red-400 text-white px-4 py-2 rounded-xl shadow hover:bg-red-500 transition">Sign Up</a>
+        {{-- User Profile / Auth Section --}}
+        <div class="flex items-center space-x-4 relative">
+            @auth
+                {{-- Logged In: Profile Picture Dropdown --}}
+                <div class="relative" x-data="{ open: false }">
+                    <button @click="open = !open"
+                            class="w-10 h-10 rounded-full bg-gray-300 hover:bg-gray-400 transition flex items-center justify-center overflow-hidden focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        @if(Auth::user()->avatar)
+                            <img src="{{ Auth::user()->avatar }}" alt="Profile" class="w-full h-full object-cover">
+                        @else
+                            {{-- Default avatar with first letter of username --}}
+                            <span class="text-gray-700 font-bold text-lg">
+                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                            </span>
+                        @endif
+                    </button>
+
+                    {{-- Dropdown Menu --}}
+                    <div x-show="open"
+                        @click.away="open = false"
+                        class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 border border-gray-200 z-50">
+
+                        {{-- Username display --}}
+                        <div class="px-4 py-2 border-b border-gray-100">
+                            <p class="text-sm font-semibold text-gray-700 truncate">{{ Auth::user()->name }}</p>
+                            <p class="text-xs text-gray-500 truncate">{{ Auth::user()->email }}</p>
+                        </div>
+
+                        {{-- Logout button --}}
+                        <form action="{{ route('logout') }}" method="POST" class="block">
+                            @csrf
+                            <button type="submit"
+                                    class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                                </svg>
+                                Logout
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                {{-- Alpine.js for dropdown --}}
+                <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+            @else
+                {{-- Guest: Show Login and Sign Up --}}
+                <a href="/login" class="text-gray-600 hover:text-black font-medium">Log In</a>
+                <a href="/register" class="bg-red-400 text-white px-4 py-2 rounded-xl shadow hover:bg-red-500 transition">Sign Up</a>
+            @endauth
         </div>
     </div>
 

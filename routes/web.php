@@ -27,3 +27,4 @@ Route::get('/get-food-filters', [DietController::class, 'getFoodFilters']);
 Route::post('/save-preferred-diet', [DietController::class, 'savePreferredDiet']);
 Route::get('/search', [DietController::class, 'search'])->name('search');
 Route::post('/regenerate-all', [DietController::class, 'regenerateAllDays']);
+Route::post('/logout', [UserController::class, 'logout'])->name('logout');
