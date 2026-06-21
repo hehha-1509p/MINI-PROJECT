@@ -70,6 +70,16 @@
         color: #6b7280;
         border-color: #d1d5db;
     }
+
+    /* Toast animation */
+    @keyframes bounceIn {
+        0% { transform: translateX(-50%) scale(0.8); opacity: 0; }
+        60% { transform: translateX(-50%) scale(1.05); opacity: 1; }
+        100% { transform: translateX(-50%) scale(1); opacity: 1; }
+    }
+    .animate-bounce-in {
+        animation: bounceIn 0.5s ease-out;
+    }
   </style>
 </head>
 <body class="font-sans min-h-screen relative bg-fixed bg-cover bg-center bg-no-repeat"style="background-image: url('https://png.pngtree.com/thumb_back/fh260/background/20231028/pngtree-fresh-and-calming-watercolor-texture-background-in-light-mint-pastel-green-image_13758848.png');">
@@ -166,25 +176,50 @@
         <div class="flex flex-col gap-4 w-full lg:w-auto">
             <p id="savedDiet" class="text-green-600 font-semibold text-lg m-0"></p>
             <button onclick="openCalculator()" class="bg-blue-400 text-white px-6 py-2 rounded-xl shadow hover:bg-blue-500 transition font-semibold w-max text-center">Calorie Calculator</button>
-            <a href="/diet_option" class="bg-red-400 text-white px-6 py-2 rounded-xl shadow hover:bg-red-500 transition font-semibold w-max text-center">Diet Option</a>
+            <a href="/diet_option"
+                onclick="return checkDietOptionAccess(event)"
+                class="bg-red-400 text-white px-6 py-2 rounded-xl shadow hover:bg-red-500 transition font-semibold w-max text-center">
+                Diet Option
+            </a>
         </div>
 
-        <div id="homeMacroResults" class="hidden p-5 bg-blue-50 rounded-2xl border border-blue-100 shadow-sm w-full lg:w-auto min-w-[300px]">
+        <div id="homeMacroResults" class="p-5 bg-blue-50 rounded-2xl border border-blue-100 shadow-sm w-full lg:w-auto min-w-[300px]">
             <h3 class="font-bold text-blue-800 mb-3">Your Daily Targets:</h3>
-            <p class="text-lg mb-3">Calories: <b id="displayKcal" class="text-blue-600"></b></p>
+            <p class="text-lg mb-3">Calories: <b id="displayKcal" class="text-blue-600">-</b></p>
             <div class="flex flex-wrap justify-between gap-4 text-sm font-medium text-gray-700">
-                <span>Protein: <span id="displayProtein"></span></span>
-                <span>Fat: <span id="displayFat"></span></span>
-                <span>Carbohydrate: <span id="displayCarbs"></span></span>
+                <span>Protein: <span id="displayProtein">-</span></span>
+                <span>Fat: <span id="displayFat">-</span></span>
+                <span>Carbohydrate: <span id="displayCarbs">-</span></span>
             </div>
         </div>
     </div>
 
-    @if(session('diet_plan'))
-        <div class="bg-green-100 text-green-700 p-4 rounded-xl mb-5 text-center">
-            Current Diet Plan: <strong>{{ session('diet_plan') }}</strong>
-        </div>
-    @endif
+        @if(session('diet_plan'))
+            <div class="bg-green-100 text-green-700 p-4 rounded-xl mb-5 text-center">
+                Current Diet Plan: <strong>{{ session('diet_plan') }}</strong>
+            </div>
+        @endif
+
+        {{-- Warning Messages --}}
+        @auth
+            @php
+                $hasCalories = session('calories') !== null;
+                $hasDietPlan = session('diet_plan') !== null;
+            @endphp
+
+            @if(!$hasCalories)
+                <div class="bg-yellow-100 text-yellow-700 p-4 rounded-xl mb-5 text-center border border-yellow-300">
+                    <strong>⚠️ Please calculate your calorie needs first.</strong>
+                    Click the <strong>"Calorie Calculator"</strong> button above to set your daily targets before choosing a diet option.
+                </div>
+            @endif
+
+            @if($hasCalories && !$hasDietPlan)
+                <div class="bg-yellow-100 text-yellow-700 p-4 rounded-xl mb-5 text-center border border-yellow-300">
+                    <strong>⚠️ Welcome!</strong> Please choose your meal plan by clicking the <strong>"Diet Option"</strong> button above.
+                </div>
+            @endif
+        @endauth
 
     {{-- Food Filter & Meal Plan --}}
     <div class="flex flex-col xl:flex-row gap-6 relative">
@@ -466,7 +501,8 @@
         <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-xl flex-1 overflow-x-auto">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-4 mb-4">
                 <h3 class="text-xl font-semibold">Meal Plan Days 📅</h3>
-                <button onclick="regenerateAllDays()" class="bg-purple-500 text-white px-4 py-2 rounded-xl hover:bg-purple-600 transition font-semibold text-sm sm:text-base whitespace-nowrap w-full sm:w-auto">
+                <button onclick="regenerateAllDays()"
+                        class="bg-purple-500 text-white px-4 py-2 rounded-xl hover:bg-purple-600 transition font-semibold text-sm sm:text-base whitespace-nowrap w-full sm:w-auto">
                     Regenerate All Days
                 </button>
             </div>
@@ -487,19 +523,19 @@
                             <div class="bg-white p-2 rounded border border-gray-200">
                                 <span class="text-xs text-gray-500 font-bold block">Breakfast</span>
                                 <span class="text-gray-800 break-words">
-                                {{ $meals[$day]['breakfast']->item_name ?? 'No meal' }}
+                                {{ isset($meals[$day]['breakfast']) && $meals[$day]['breakfast'] ? $meals[$day]['breakfast']->item_name : 'No meal' }}
                                 </span>
                             </div>
                             <div class="bg-white p-2 rounded border border-gray-200">
                                 <span class="text-xs text-gray-500 font-bold block">Lunch</span>
                                 <span class="text-gray-800 break-words">
-                                {{ $meals[$day]['lunch']->item_name ?? 'No meal' }}
+                                {{ isset($meals[$day]['lunch']) && $meals[$day]['lunch'] ? $meals[$day]['lunch']->item_name : 'No meal' }}
                                 </span>
                             </div>
                             <div class="bg-white p-2 rounded border border-gray-200">
                                 <span class="text-xs text-gray-500 font-bold block">Dinner</span>
                                 <span class="text-gray-800 break-words">
-                                {{ $meals[$day]['dinner']->item_name ?? 'No meal' }}
+                                {{ isset($meals[$day]['dinner']) && $meals[$day]['dinner'] ? $meals[$day]['dinner']->item_name : 'No meal' }}
                                 </span>
                             </div>
                         </div>
@@ -521,19 +557,19 @@
                             <div class="bg-white p-2 rounded border border-gray-200">
                                 <span class="text-xs text-gray-500 font-bold block">Breakfast</span>
                                 <span class="text-gray-800 break-words">
-                                {{ $meals[$day]['breakfast']->item_name ?? 'No meal' }}
+                                {{ isset($meals[$day]['breakfast']) && $meals[$day]['breakfast'] ? $meals[$day]['breakfast']->item_name : 'No meal' }}
                                 </span>
                             </div>
                             <div class="bg-white p-2 rounded border border-gray-200">
                                 <span class="text-xs text-gray-500 font-bold block">Lunch</span>
                                 <span class="text-gray-800 break-words">
-                                {{ $meals[$day]['lunch']->item_name ?? 'No meal' }}
+                                {{ isset($meals[$day]['lunch']) && $meals[$day]['lunch'] ? $meals[$day]['lunch']->item_name : 'No meal' }}
                                 </span>
                             </div>
                             <div class="bg-white p-2 rounded border border-gray-200">
                                 <span class="text-xs text-gray-500 font-bold block">Dinner</span>
                                 <span class="text-gray-800 break-words">
-                                {{ $meals[$day]['dinner']->item_name ?? 'No meal' }}
+                                {{ isset($meals[$day]['dinner']) && $meals[$day]['dinner'] ? $meals[$day]['dinner']->item_name : 'No meal' }}
                                 </span>
                             </div>
                         </div>
@@ -556,19 +592,19 @@
                         <div class="bg-white p-2 rounded border border-gray-200">
                             <span class="text-xs text-gray-500 font-bold block">Breakfast</span>
                             <span class="text-gray-800 break-words">
-                                {{ $meals[$day]['breakfast']->item_name ?? 'No meal' }}
+                                {{ isset($meals[$day]['breakfast']) && $meals[$day]['breakfast'] ? $meals[$day]['breakfast']->item_name : 'No meal' }}
                             </span>
                         </div>
                         <div class="bg-white p-2 rounded border border-gray-200">
                             <span class="text-xs text-gray-500 font-bold block">Lunch</span>
                             <span class="text-gray-800 break-words">
-                                {{ $meals[$day]['lunch']->item_name ?? 'No meal' }}
+                                {{ isset($meals[$day]['lunch']) && $meals[$day]['lunch'] ? $meals[$day]['lunch']->item_name : 'No meal' }}
                             </span>
                         </div>
                         <div class="bg-white p-2 rounded border border-gray-200">
                             <span class="text-xs text-gray-500 font-bold block">Dinner</span>
                             <span class="text-gray-800 break-words">
-                                {{ $meals[$day]['dinner']->item_name ?? 'No meal' }}
+                                {{ isset($meals[$day]['dinner']) && $meals[$day]['dinner'] ? $meals[$day]['dinner']->item_name : 'No meal' }}
                             </span>
                         </div>
                     </div>
@@ -640,6 +676,60 @@ document.addEventListener("DOMContentLoaded", function () {
     let userManuallyModified = localStorage.getItem('userManuallyModified') === 'true';
     let currentDiet = localStorage.getItem('preferred_diet') || 'Anything';
     let activePreferences = [];
+
+    // --- Toast Notification System ---
+    function showToast(message, type = 'warning') {
+        // Remove existing toast if any
+        const existingToast = document.querySelector('.custom-toast');
+        if (existingToast) {
+            existingToast.remove();
+        }
+
+        const colors = {
+            warning: 'bg-yellow-500',
+            error: 'bg-red-500',
+            success: 'bg-green-500',
+            info: 'bg-blue-500'
+        };
+
+        const toast = document.createElement('div');
+        toast.className = `custom-toast fixed top-4 left-1/2 transform -translate-x-1/2 z-50 ${colors[type] || 'bg-gray-700'} text-white px-6 py-3 rounded-xl shadow-lg text-center max-w-md w-full mx-4 animate-bounce-in`;
+        toast.innerHTML = `
+            <div class="flex items-center justify-between gap-4">
+                <span class="text-sm font-medium">${message}</span>
+                <button onclick="this.parentElement.parentElement.remove()" class="text-white hover:text-gray-200 text-xl leading-none">×</button>
+            </div>
+        `;
+        document.body.appendChild(toast);
+
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+            if (toast.parentElement) {
+                toast.remove();
+            }
+        }, 5000);
+    }
+
+    // --- Access Control Functions ---
+    window.checkDietOptionAccess = function(event) {
+        // Check if user is logged in
+        const isLoggedIn = {{ auth()->check() ? 'true' : 'false' }};
+        const hasCalories = {{ session('calories') !== null ? 'true' : 'false' }};
+
+        if (!isLoggedIn) {
+            event.preventDefault();
+            showToast('Please login before choosing diet option.', 'warning');
+            return false;
+        }
+
+        if (!hasCalories) {
+            event.preventDefault();
+            showToast('Please calculate your calorie needs first using the Calorie Calculator.', 'warning');
+            return false;
+        }
+
+        return true;
+    };
 
     // --- Three-state checkbox handler ---
     function updateLabelDisplay(checkbox) {
@@ -714,7 +804,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // --- Preference Toggle ---
-    function togglePreference(pref) {
+    window.togglePreference = function(pref) {
         const btn = document.querySelector(`[data-preference="${pref}"]`);
         const index = activePreferences.indexOf(pref);
 
@@ -776,7 +866,7 @@ document.addEventListener("DOMContentLoaded", function () {
         userManuallyModified = true;
         localStorage.setItem('userManuallyModified', 'true');
         saveFoodFilters();
-    }
+    };
 
     function applyPreferenceEffects(pref) {
         if (pref === 'Vegan') {
@@ -813,6 +903,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     }
+
     // --- Save Food Filters ---
     function saveFoodFilters() {
         const includedFoods = [];
@@ -902,7 +993,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // --- Select Diet ---
-    function selectDiet(diet) {
+    window.selectDiet = function(diet) {
         currentDiet = diet;
         userManuallyModified = false;
         localStorage.setItem('userManuallyModified', 'false');
@@ -918,7 +1009,7 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             body: JSON.stringify({ diet: diet })
         });
-    }
+    };
 
     // --- Apply Diet Filter ---
     const dietBlockMap = {
@@ -980,6 +1071,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // --- Regenerate Functions ---
     window.regenerateDay = async function(day) {
+        const isLoggedIn = {{ auth()->check() ? 'true' : 'false' }};
+        const hasDietPlan = {{ session('diet_plan') ? 'true' : 'false' }};
+        const hasCalories = {{ session('calories') !== null ? 'true' : 'false' }};
+
+        if (!isLoggedIn) {
+            showToast('Please login before regenerating meals.', 'warning');
+            return;
+        }
+
+        if (!hasCalories) {
+            showToast('Please calculate your calorie needs first.', 'warning');
+            return;
+        }
+
+        if (!hasDietPlan) {
+            showToast('Please choose a diet option before regenerating meals.', 'warning');
+            return;
+        }
+
         const buttons = document.querySelectorAll(`[onclick="regenerateDay('${day}')"]`);
         buttons.forEach(btn => {
             btn.disabled = true;
@@ -1018,7 +1128,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         } catch (error) {
             console.error('Error regenerating day:', error);
-            alert('Failed to regenerate meals. Please try again.');
+            showToast('Failed to regenerate meals. Please try again.', 'error');
         } finally {
             buttons.forEach(btn => {
                 btn.disabled = false;
@@ -1028,6 +1138,25 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     window.regenerateAllDays = async function() {
+        const isLoggedIn = {{ auth()->check() ? 'true' : 'false' }};
+        const hasDietPlan = {{ session('diet_plan') ? 'true' : 'false' }};
+        const hasCalories = {{ session('calories') !== null ? 'true' : 'false' }};
+
+        if (!isLoggedIn) {
+            showToast('Please login before regenerating meals.', 'warning');
+            return;
+        }
+
+        if (!hasCalories) {
+            showToast('Please calculate your calorie needs first.', 'warning');
+            return;
+        }
+
+        if (!hasDietPlan) {
+            showToast('Please choose a diet option before regenerating meals.', 'warning');
+            return;
+        }
+
         const button = document.querySelector('[onclick="regenerateAllDays()"]');
         const originalText = button.textContent;
         button.disabled = true;
@@ -1067,10 +1196,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
                     }
                 });
+                showToast('All meals regenerated successfully!', 'success');
             }
         } catch (error) {
             console.error('Error regenerating all days:', error);
-            alert('Failed to regenerate meals. Please try again.');
+            showToast('Failed to regenerate meals. Please try again.', 'error');
         } finally {
             button.disabled = false;
             button.textContent = originalText;
@@ -1079,6 +1209,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // --- View Ingredients ---
     window.viewIngredients = async function(day) {
+        const isLoggedIn = {{ auth()->check() ? 'true' : 'false' }};
+        const hasDietPlan = {{ session('diet_plan') ? 'true' : 'false' }};
+        const hasCalories = {{ session('calories') !== null ? 'true' : 'false' }};
+
+        if (!isLoggedIn) {
+            showToast('Please login before viewing ingredients.', 'warning');
+            return;
+        }
+
+        if (!hasCalories) {
+            showToast('Please calculate your calorie needs first.', 'warning');
+            return;
+        }
+
+        if (!hasDietPlan) {
+            showToast('Please choose a diet option before viewing ingredients.', 'warning');
+            return;
+        }
+
         try {
             const response = await fetch("/get-ingredients", {
                 method: "POST",
@@ -1094,7 +1243,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         } catch (error) {
             console.error('Error:', error);
-            alert('Could not load ingredients page');
+            showToast('Could not load ingredients page', 'error');
         }
     };
 
@@ -1107,7 +1256,12 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('displayProtein').innerText = parsedData.protein;
             document.getElementById('displayFat').innerText = parsedData.fat;
             document.getElementById('displayCarbs').innerText = parsedData.carbs;
-            document.getElementById('homeMacroResults').classList.remove('hidden');
+        } else {
+            // Show dashes if no data
+            document.getElementById('displayKcal').innerText = '-';
+            document.getElementById('displayProtein').innerText = '-';
+            document.getElementById('displayFat').innerText = '-';
+            document.getElementById('displayCarbs').innerText = '-';
         }
     }
 
@@ -1168,9 +1322,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const resultDiv = document.getElementById('result');
         resultDiv.innerHTML = `Daily Calories: <b>${calories.toFixed(0)} kcal</b><br>
-             Protein: <b>${protein.toFixed(0)}g</b><br>
-             Fat: <b>${fat.toFixed(0)}g</b><br>
-             Carbs: <b>${carbs.toFixed(0)}g</b>`;
+            Protein: <b>${protein.toFixed(0)}g</b><br>
+            Fat: <b>${fat.toFixed(0)}g</b><br>
+            Carbs: <b>${carbs.toFixed(0)}g</b>`;
         resultDiv.classList.remove('hidden');
 
         fetch("/save-calories", {
@@ -1182,9 +1336,18 @@ document.addEventListener("DOMContentLoaded", function () {
             body: JSON.stringify({
                 calories: calories.toFixed(0)
             })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // ✅ Reload the page to refresh the session state
+            window.location.reload();
+        })
+        .catch(error => {
+            console.error('Error saving calories:', error);
+            // Still reload to show the updated state
+            window.location.reload();
         });
     };
-
     // --- Initialize ---
     const savedPreferredDiet = localStorage.getItem('preferred_diet');
     if (savedPreferredDiet) {
@@ -1205,8 +1368,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     loadMacroData();
 
-    window.selectDiet = selectDiet;
     window.togglePreference = togglePreference;
+});
+
+// Clear calories on logout (for when the user logs out)
+document.addEventListener('logout', function() {
+    localStorage.removeItem('macroData');
+    loadMacroData();
 });
 </script>
 </body>

@@ -75,9 +75,9 @@ class DietController extends Controller
             }
 
             $plan[$day] = [
-                'breakfast' => $breakfast,  // Can be null
-                'lunch' => $lunch,          // Can be null
-                'dinner' => $dinner,        // Can be null
+                'breakfast' => $breakfast,
+                'lunch' => $lunch,
+                'dinner' => $dinner,
             ];
         }
 
@@ -237,10 +237,6 @@ class DietController extends Controller
             $query->where('halal_status', 'Pork-Free');
         }
 
-        // Vegan: Already handled in UI (excludes Meat), but add extra check
-        if (in_array('Vegan', $preferences)) {
-        }
-
         $meal = $query->inRandomOrder()->first();
 
         // Second attempt: no calorie restriction
@@ -271,43 +267,6 @@ class DietController extends Controller
         }
 
         return $meal;
-    }
-
-    // Helper function to get category for a food
-    private function getCategoryForFood($food)
-    {
-        $categoryMap = [
-            'Chicken' => 'Meat',
-            'Beef' => 'Meat',
-            'Lamb' => 'Meat',
-            'Pork' => 'Meat',
-            'Duck' => 'Meat',
-            'Fish' => 'Seafood',
-            'Prawn' => 'Seafood',
-            'Crab' => 'Seafood',
-            'Squid' => 'Seafood',
-            'Shellfish' => 'Seafood',
-            'Rice' => 'Carbs',
-            'Noodles' => 'Carbs',
-            'Bread' => 'Carbs',
-            'Pasta' => 'Carbs',
-            'Potato' => 'Carbs',
-            'Milk' => 'Dairy',
-            'Cheese' => 'Dairy',
-            'Yogurt' => 'Dairy',
-            'Butter' => 'Dairy',
-            'Broccoli' => 'Vegetables',
-            'Spinach' => 'Vegetables',
-            'Mushroom' => 'Vegetables',
-            'Onion' => 'Vegetables',
-            'Tofu' => 'Vegetables',
-            'Egg' => 'Vegetables',
-            'Peanuts' => 'Nuts',
-            'Almonds' => 'Nuts',
-            'Walnuts' => 'Nuts',
-        ];
-
-        return $categoryMap[$food] ?? 'Other';
     }
 
     public function regenerateMeal(Request $request)
@@ -360,6 +319,12 @@ class DietController extends Controller
 
     public function diet_option()
     {
+        // ✅ ADD THIS - Check if user is logged in
+        if (!auth()->check()) {
+            return redirect('/login')->with('error', 'Please login before choosing a diet option.');
+        }
+
+        // ✅ Check if calories are calculated
         if (!session('calories')) {
             return redirect('/')->with('error', 'Please calculate your calorie needs first');
         }
