@@ -836,13 +836,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     cb.parentElement.style.cursor = 'pointer';
                 });
             } else if (pref === 'Gluten-Free') {
-                document.querySelectorAll('.food-checkbox[data-category="Vegetables"]').forEach(cb => {
+                // Clear only Bread, Pasta, Noodles
+                document.querySelectorAll('.food-checkbox[value="Bread"]').forEach(cb => {
                     if (cb.dataset.state === 'exclude') {
                         cb.dataset.state = 'none';
                         updateLabelDisplay(cb);
                     }
                 });
-                document.querySelectorAll('.food-checkbox[data-category="Carbs"]').forEach(cb => {
+                document.querySelectorAll('.food-checkbox[value="Pasta"]').forEach(cb => {
+                    if (cb.dataset.state === 'exclude') {
+                        cb.dataset.state = 'none';
+                        updateLabelDisplay(cb);
+                    }
+                });
+                document.querySelectorAll('.food-checkbox[value="Noodles"]').forEach(cb => {
                     if (cb.dataset.state === 'exclude') {
                         cb.dataset.state = 'none';
                         updateLabelDisplay(cb);
@@ -888,11 +895,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 cb.parentElement.style.cursor = 'pointer';
             });
         } else if (pref === 'Gluten-Free') {
-            document.querySelectorAll('.food-checkbox[data-category="Vegetables"]').forEach(cb => {
+            // Exclude Bread (wheat-based)
+            document.querySelectorAll('.food-checkbox[value="Bread"]').forEach(cb => {
                 cb.dataset.state = 'exclude';
                 updateLabelDisplay(cb);
             });
-            document.querySelectorAll('.food-checkbox[data-category="Carbs"]').forEach(cb => {
+            // Exclude Pasta (wheat-based)
+            document.querySelectorAll('.food-checkbox[value="Pasta"]').forEach(cb => {
+                cb.dataset.state = 'exclude';
+                updateLabelDisplay(cb);
+            });
+            // Exclude Noodles (wheat-based - note: rice noodles are fine, but we can't differentiate here)
+            document.querySelectorAll('.food-checkbox[value="Noodles"]').forEach(cb => {
                 cb.dataset.state = 'exclude';
                 updateLabelDisplay(cb);
             });

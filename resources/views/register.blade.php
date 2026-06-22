@@ -122,20 +122,6 @@
                 </label>
             </div>
 
-            {{-- Newsletter --}}
-            <div class="flex items-start gap-3 mb-5">
-                <div class="flex items-center h-5">
-                    <input type="checkbox" id="newsletter"
-                        class="w-4 h-4 rounded border-gray-300 text-orange-500 focus:ring-orange-400 cursor-pointer">
-                </div>
-                <label for="newsletter" class="text-sm text-gray-700 cursor-pointer leading-5">
-                    Send me a once-a-week email with meal ideas
-                    <span class="block text-xs text-gray-400 italic mt-0.5">
-                        Optional! You can opt-out at anytime.
-                    </span>
-                </label>
-            </div>
-
             {{-- Submit Button --}}
             <button type="submit"
                 class="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold py-2.5 rounded-xl hover:opacity-90 transition duration-300 flex items-center justify-center gap-2 shadow-md">
